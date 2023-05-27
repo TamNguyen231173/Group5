@@ -120,14 +120,14 @@ export const Button: React.FC<ButtonProps> = (props) => {
           {loading && (
             <Block marginRight={8}>
               <ActivityIndicator
-                color={type === 'primary' ? 'white' : colors.primary}
+                color={type === 'primary' ? 'white' : colors.greenDark}
                 size="small"
               />
             </Block>
           )}
           {title && (
             <Text
-              color={type === 'primary' ? 'white' : 'primary'}
+              color={type === 'primary' ? 'white' : 'greenDark'}
               size={14}
               {...titleProps}
             >
@@ -175,7 +175,7 @@ const getDefaultButtonStyles = ({
 }: IProps) => {
   let buttonDefaultStyle: any = {
     borderRadius: 8,
-    backgroundColor: pressed ? colors.focus : colors.primary,
+    backgroundColor: pressed ? colors.greenPrimary : colors.greenDark,
   }
   if (type === 'text' || type === 'outline') {
     buttonDefaultStyle.backgroundColor = 'transparent'

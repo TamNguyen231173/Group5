@@ -15,7 +15,7 @@ export const CategoryIcon = (props: SvgProps) => {
         cx={12}
         cy={12}
         r={3}
-        stroke={props.stroke === colors.primary ? '#fff' : props.stroke}
+        stroke={props.stroke === colors.greenDark ? '#fff' : props.stroke}
         strokeWidth={2}
       />
     </Svg>

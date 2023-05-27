@@ -85,7 +85,7 @@ export const BottomBar: FC<BottomTabBarProps> = (props) => {
               <Block alignCenter justifyCenter width={widthItemBottomMenu} flex>
                 <RenderIcon
                   index={index}
-                  color={isFocused ? colors.greenDark : colors.white}
+                  color={isFocused ? colors.greenDark : colors.transparent}
                   stroke={
                     isFocused ? colors.greenDark : colors.strokeBottomIcon
                   }

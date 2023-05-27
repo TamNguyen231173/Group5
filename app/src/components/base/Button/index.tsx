@@ -127,7 +127,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
           )}
           {title && (
             <Text
-              color={type === 'primary' ? 'white' : 'greenDark'}
+              color={type === 'primary' ? 'white' : colors.greenDark}
               size={14}
               {...titleProps}
             >

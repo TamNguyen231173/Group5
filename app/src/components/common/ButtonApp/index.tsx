@@ -13,12 +13,9 @@ export const ButtonApp: React.FC<Props> = ({ onClick, title, type }) => {
         type={type}
         title={title?.toUpperCase()}
         titleProps={{
-          color: type === 'primary' ? colors.white : colors.greenDark,
           size: 18,
           lineHeight: 18,
         }}
-        backgroundColor={type === 'primary' ? colors.greenDark : colors.white}
-        borderColor={type === 'primary' ? colors.white : colors.greenDark}
         radius={82}
         paddingHorizontal={75}
         onPress={onClick}

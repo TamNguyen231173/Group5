@@ -1,19 +1,27 @@
 import React, { FC } from 'react'
-import { HomeDappIcon } from '@assets'
+import {
+  HomeIcon,
+  CategoryIcon,
+  BookmarkIcon,
+  UserIcon,
+  SearchIcon,
+} from '@assets'
 import { RenderIconProps } from '@utils/types'
 
 // Render icon for the teacher role in the bottom bar
-export const RenderIcon: FC<RenderIconProps> = ({ index, color }) => {
+export const RenderIcon: FC<RenderIconProps> = ({ index, color, stroke }) => {
   switch (index) {
     case 0:
-      return <HomeDappIcon color={color} />
+      return <HomeIcon color={color} stroke={stroke} />
     case 1:
-      return <HomeDappIcon color={color} />
+      return <CategoryIcon color={color} stroke={stroke} />
     case 2:
-      return <HomeDappIcon color={color} />
+      return <SearchIcon color={color} stroke={stroke} />
     case 3:
-      return <HomeDappIcon color={color} />
+      return <BookmarkIcon color={color} stroke={stroke} />
+    case 4:
+      return <UserIcon color={color} stroke={stroke} />
     default:
-      return <HomeDappIcon color={color} />
+      return <HomeIcon color={color} stroke={stroke} />
   }
 }

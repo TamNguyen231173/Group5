@@ -5,7 +5,7 @@ export const colors = {
     secondaryText: '#898989',
     error: '#f02849',
     inputBG: '#edf4f4',
-    primary: '#1877f2',
+    primary: '#009E3A',
     focus: '#1850f2',
     background: '#FAFBFC',
     border: '#e4e6eb',
@@ -20,6 +20,7 @@ export const colors = {
     gray: '#8C8C8C',
     // add color below....
     black: '#000000',
+    strokeBottomIcon: '#33363F',
 
     TextActive: '#4169E1',
     TextInActive: '#a7b6e3',
@@ -28,7 +29,7 @@ export const colors = {
     shadow: '#e8e9e9',
 
     // bottom menu
-    bottomMenu: '#f4f5f2',
+    bottomMenu: '#F9F2F2',
   },
   light: {
     //default don't delete
@@ -36,7 +37,7 @@ export const colors = {
     secondaryText: '#898989',
     error: '#f02849',
     inputBG: '#edf4f4',
-    primary: '#1877f2',
+    primary: '#009E3A',
     focus: '#1850f2',
     background: '#FAFBFC',
     border: '#e4e6eb',
@@ -51,6 +52,7 @@ export const colors = {
     gray: '#8C8C8C',
     // add color below...
     black: '#000000',
+    strokeBottomIcon: '#33363F',
 
     // problem text
     TextActive: '#4169E1',
@@ -60,7 +62,7 @@ export const colors = {
     shadow: '#e8e9e9',
 
     // bottom menu
-    bottomMenu: '#f4f5f2',
+    bottomMenu: '#F9F2F2',
   },
 }
 
@@ -87,5 +89,6 @@ export type Color =
   | 'TextInActive'
   | 'bottomMenu'
   | 'gray'
+  | 'strokeBottomIcon'
 
 export type ThemeColor = typeof colors

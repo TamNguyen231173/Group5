@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { BottomBar } from './components'
 import { routes } from './utils'
-import { Home } from '@screens'
+import { Home, Bookmark, Category, Search, User } from '@screens'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {
   CardStyleInterpolators,
@@ -9,7 +9,7 @@ import {
 } from '@react-navigation/stack'
 
 const BottomTabs = createBottomTabNavigator()
-const User = createStackNavigator()
+const UserStack = createStackNavigator()
 
 const BottomTabsNavigation: FC<{}> = () => {
   return (
@@ -21,16 +21,18 @@ const BottomTabsNavigation: FC<{}> = () => {
       }}
       tabBar={(props) => <BottomBar {...props} />}
     >
-      <BottomTabs.Screen key={routes.home} name="Trang chủ" component={Home} />
-      <BottomTabs.Screen key={routes.home} name="Lịch sử" component={Home} />
-      <BottomTabs.Screen key={routes.home} name="Cài đặt" component={Home} />
+      <BottomTabs.Screen key={routes.home} name="Home" component={Home} />
+      <BottomTabs.Screen key={routes.home} name="Category" component={Category} />
+      <BottomTabs.Screen key={routes.home} name="Search" component={Search} />
+      <BottomTabs.Screen key={routes.home} name="Bookmark" component={Bookmark} />
+      <BottomTabs.Screen key={routes.home} name="User" component={User} />
     </BottomTabs.Navigator>
   )
 }
 
 export const UserNavigation = () => {
   return (
-    <User.Navigator
+    <UserStack.Navigator
       initialRouteName={routes.main}
       detachInactiveScreens={true}
       screenOptions={{
@@ -38,7 +40,7 @@ export const UserNavigation = () => {
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
       }}
     >
-      <User.Screen name={routes.main} component={BottomTabsNavigation} />
-    </User.Navigator>
+      <UserStack.Screen name={routes.main} component={BottomTabsNavigation} />
+    </UserStack.Navigator>
   )
 }

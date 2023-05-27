@@ -1,14 +1,23 @@
-import React, { FC } from 'react';
+import * as React from 'react'
+import Svg, { SvgProps, Path } from 'react-native-svg'
+import { useTheme } from '@themes'
 
-import Svg, { SvgProps, Path } from 'react-native-svg';
-
-export const HomeDappIcon: FC<SvgProps> = (props) => {
-    return (
-        <Svg width={30} height={30} fill="none" {...props}>
-            <Path
-                d="M13.188 3.165a2.813 2.813 0 0 1 3.624 0l8.438 7.115c.634.535 1 1.321 1 2.15v12.254a2.188 2.188 0 0 1-2.188 2.187h-4.375a2.188 2.188 0 0 1-2.187-2.187v-6.875a.313.313 0 0 0-.313-.313h-4.375a.313.313 0 0 0-.312.313v6.875a2.188 2.188 0 0 1-2.188 2.187H5.939a2.188 2.188 0 0 1-2.188-2.187V12.43c0-.829.366-1.615 1-2.15l8.438-7.115Zm2.416 1.434a.938.938 0 0 0-1.208 0L5.96 11.712a.938.938 0 0 0-.334.717v12.253c0 .173.14.313.313.313h4.375a.313.313 0 0 0 .312-.313v-6.875c0-1.208.98-2.187 2.188-2.187h4.374c1.208 0 2.188.979 2.188 2.187v6.875c0 .173.14.313.313.313h4.375a.313.313 0 0 0 .312-.313V12.43a.938.938 0 0 0-.334-.716l-8.437-7.115Z"
-                fill="#BABABA"
-            />
-        </Svg>
-    );
-};
+export const HomeIcon = (props: SvgProps) => {
+  const { colors } = useTheme()
+  return (
+    <Svg width={24} height={24} fill={props.color} {...props}>
+      <Path
+        stroke={props.stroke}
+        strokeWidth={2}
+        d="M5 12.76c0-1.358 0-2.037.274-2.634.275-.596.79-1.038 1.821-1.922l1-.857C9.96 5.75 10.89 4.951 12 4.951c1.11 0 2.041.799 3.905 2.396l1 .857c1.03.884 1.546 1.326 1.82 1.922.275.597.275 1.276.275 2.634V17c0 1.886 0 2.828-.586 3.414C17.828 21 16.886 21 15 21H9c-1.886 0-2.828 0-3.414-.586C5 19.828 5 18.886 5 17v-4.24Z"
+      />
+      <Path
+        stroke={props.stroke === colors.primary ? '#fff' : props.stroke}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M14.5 21v-5a1 1 0 0 0-1-1h-3a1 1 0 0 0-1 1v5"
+      />
+    </Svg>
+  )
+}

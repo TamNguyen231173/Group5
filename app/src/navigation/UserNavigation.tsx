@@ -21,15 +21,34 @@ const BottomTabsNavigation: FC<{}> = () => {
       }}
       tabBar={(props) => <BottomBar {...props} />}
     >
-      <BottomTabs.Screen key={routes.home} name="Home" component={Home} />
-      <BottomTabs.Screen key={routes.home} name="Category" component={Category} />
-      <BottomTabs.Screen key={routes.home} name="Search" component={Search} />
-      <BottomTabs.Screen key={routes.home} name="Bookmark" component={Bookmark} />
-      <BottomTabs.Screen key={routes.home} name="User" component={User} />
+      <BottomTabs.Screen
+        key={routes.home}
+        name={routes.home}
+        component={Home}
+      />
+      <BottomTabs.Screen
+        key={routes.category}
+        name={routes.category}
+        component={Category}
+      />
+      <BottomTabs.Screen
+        key={routes.search}
+        name={routes.search}
+        component={Search}
+      />
+      <BottomTabs.Screen
+        key={routes.bookmark}
+        name={routes.bookmark}
+        component={Bookmark}
+      />
+      <BottomTabs.Screen
+        key={routes.user}
+        name={routes.user}
+        component={User}
+      />
     </BottomTabs.Navigator>
   )
 }
-
 
 export const UserNavigation = () => {
   return (
@@ -39,8 +58,7 @@ export const UserNavigation = () => {
       screenOptions={{
         headerShown: false,
         gestureEnabled: true,
-        cardStyleInterpolator:
-          CardStyleInterpolators.forBottomSheetAndroid,
+        cardStyleInterpolator: CardStyleInterpolators.forBottomSheetAndroid,
       }}
     >
       <UserStack.Screen name={routes.main} component={BottomTabsNavigation} />

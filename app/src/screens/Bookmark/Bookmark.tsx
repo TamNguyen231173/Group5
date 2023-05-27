@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Container, Block } from '@components'
+import { Text, Container, Block, Button } from '@components'
 
 export const Bookmark = () => {
   return (
@@ -8,6 +8,7 @@ export const Bookmark = () => {
         <Text size={20} lineHeight={20}>
           BookmarkScreen
         </Text>
+        <Button title="Go to Home" type="outline" />
       </Block>
     </Container>
   )

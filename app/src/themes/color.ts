@@ -5,7 +5,7 @@ export const colors = {
     secondaryText: '#898989',
     error: '#f02849',
     inputBG: '#edf4f4',
-    primary: '#009E3A',
+    primary: '#1877f2',
     focus: '#1850f2',
     background: '#FAFBFC',
     border: '#e4e6eb',
@@ -16,9 +16,29 @@ export const colors = {
     lightBlue: '#96d3f2',
     trackColor: '#96d3f2',
     placeholder: '#bcbcbc',
-    transparent: 'transparent',
-    gray: '#8C8C8C',
+
     // add color below....
+    greenDark: '#009E3A',
+    greenPrimary: '#76C836',
+    greenLight: '#BDEF8E',
+    greenLigter: '#E8FED7',
+    greyDark: '#666C8E',
+    greyPrimary: '#7C82A1',
+    greyLight: '#ACAFC3',
+    greyLighter: '#F3F4F6',
+    blackDark: '#000000',
+    blackPrimary: '#2D2D2D',
+    blackLight: '#3D3D3D',
+    blackLighter: '#8F8F8F',
+    purpleDark: '#2536A7',
+    purplePrimary: '#475AD7',
+    purpleLight: '#8A96E5',
+    purpleLighter: '#EEF0FB',
+    redDark: '#8B0000',
+    redPrimary: '#CF2406',
+    redLight: '#EF5E5B',
+    redLighter: '#FFCCCB',
+    transparent: 'transparent',
     black: '#000000',
     strokeBottomIcon: '#33363F',
 
@@ -37,7 +57,7 @@ export const colors = {
     secondaryText: '#898989',
     error: '#f02849',
     inputBG: '#edf4f4',
-    primary: '#009E3A',
+    primary: '#1877f2',
     focus: '#1850f2',
     background: '#FAFBFC',
     border: '#e4e6eb',
@@ -48,9 +68,29 @@ export const colors = {
     lightBlue: '#96d3f2',
     trackColor: '#96d3f2',
     placeholder: '#bcbcbc',
-    transparent: 'transparent',
-    gray: '#8C8C8C',
+
     // add color below...
+    greenDark: '#009E3A',
+    greenPrimary: '#76C836',
+    greenLight: '#BDEF8E',
+    greenLigter: '#E8FED7',
+    greyDark: '#666C8E',
+    greyPrimary: '#7C82A1',
+    greyLight: '#ACAFC3',
+    greyLighter: '#F3F4F6',
+    blackDark: '#000000',
+    blackPrimary: '#2D2D2D',
+    blackLight: '#3D3D3D',
+    blackLighter: '#8F8F8F',
+    purpleDark: '#2536A7',
+    purplePrimary: '#475AD7',
+    purpleLight: '#8A96E5',
+    purpleLighter: '#EEF0FB',
+    redDark: '#8B0000',
+    redPrimary: '#CF2406',
+    redLight: '#EF5E5B',
+    redLighter: '#FFCCCB',
+    transparent: 'transparent',
     black: '#000000',
     strokeBottomIcon: '#33363F',
 
@@ -82,13 +122,32 @@ export type Color =
   | 'lightBlue'
   | 'trackColor'
   | 'placeholder'
-  | 'black'
+  | 'greenDark'
+  | 'greenPrimary'
+  | 'greenLight'
+  | 'greenLigter'
+  | 'greyDark'
+  | 'greyPrimary'
+  | 'greyLight'
+  | 'greyLighter'
+  | 'blackDark'
+  | 'blackPrimary'
+  | 'blackLight'
+  | 'blackLighter'
+  | 'purpleDark'
+  | 'purplePrimary'
+  | 'purpleLight'
+  | 'purpleLighter'
+  | 'redDark'
+  | 'redPrimary'
+  | 'redLight'
+  | 'redLighter'
   | 'transparent'
-  | 'shadow'
+  | 'black'
+  | 'strokeBottomIcon'
   | 'TextActive'
   | 'TextInActive'
+  | 'shadow'
   | 'bottomMenu'
-  | 'gray'
-  | 'strokeBottomIcon'
 
 export type ThemeColor = typeof colors

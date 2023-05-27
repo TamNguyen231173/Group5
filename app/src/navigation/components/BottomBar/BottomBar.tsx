@@ -10,7 +10,7 @@ import { RenderIcon } from './RenderIcon'
 export const BottomBar: FC<BottomTabBarProps> = (props) => {
   const { colors } = useTheme()
   const { bottom } = useSafeAreaInsets()
-  const [width, setWidth] = useState(Dimensions.get("window").width);
+  const [width, setWidth] = useState(Dimensions.get('window').width)
 
   const searchButton = (index: number) => {
     return (
@@ -25,7 +25,7 @@ export const BottomBar: FC<BottomTabBarProps> = (props) => {
         zIndex={10000}
       >
         <Block
-          backgroundColor={colors.primary}
+          backgroundColor={colors.greenDark}
           width={50}
           height={50}
           radius={25}
@@ -46,9 +46,8 @@ export const BottomBar: FC<BottomTabBarProps> = (props) => {
   }
 
   Dimensions.addEventListener('change', (e) => {
-    const { width } = e.window;
-    setWidth(width);
-
+    const { width } = e.window
+    setWidth(width)
   })
 
   return (
@@ -75,7 +74,9 @@ export const BottomBar: FC<BottomTabBarProps> = (props) => {
             underlayColor={colors.bottomMenu}
             key={index}
             onPress={() => {
-              props.navigation.navigate(item.name != "Search" ? item.name : "Search1")
+              props.navigation.navigate(
+                item.name != 'Search' ? item.name : 'Search1',
+              )
             }}
           >
             {index === 2 ? (
@@ -84,8 +85,10 @@ export const BottomBar: FC<BottomTabBarProps> = (props) => {
               <Block alignCenter justifyCenter width={widthItemBottomMenu} flex>
                 <RenderIcon
                   index={index}
-                  color={isFocused ? colors.primary : colors.white}
-                  stroke={isFocused ? colors.primary : colors.strokeBottomIcon}
+                  color={isFocused ? colors.greenDark : colors.white}
+                  stroke={
+                    isFocused ? colors.greenDark : colors.strokeBottomIcon
+                  }
                 ></RenderIcon>
               </Block>
             )}

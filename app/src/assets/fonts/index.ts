@@ -1,6 +1,9 @@
 export const fontFamily = {
-    bold: 'Inter-Bold',
-    medium: 'Inter-Medium',
-    regular: 'Inter-Light',
-    light: 'Inter-Regular',
-};
+  extraBold: 'Mulish-ExtraBold',
+  bold: 'Mulish-Bold',
+  semiBold: 'Mulish-SemiBold',
+  medium: 'Mulish-Medium',
+  regular: 'Mulish-Regular',
+  light: 'Mulish-Light',
+  extraLight: 'Mulish-ExtraLight',
+}

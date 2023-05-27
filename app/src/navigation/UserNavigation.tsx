@@ -30,6 +30,7 @@ const BottomTabsNavigation: FC<{}> = () => {
   )
 }
 
+
 export const UserNavigation = () => {
   return (
     <UserStack.Navigator
@@ -37,10 +38,13 @@ export const UserNavigation = () => {
       detachInactiveScreens={true}
       screenOptions={{
         headerShown: false,
-        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        gestureEnabled: true,
+        cardStyleInterpolator:
+          CardStyleInterpolators.forBottomSheetAndroid,
       }}
     >
       <UserStack.Screen name={routes.main} component={BottomTabsNavigation} />
+      <UserStack.Screen name="Search1" component={Search} />
     </UserStack.Navigator>
   )
 }

@@ -1,6 +1,6 @@
 import { Block } from '@components'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { TouchableHighlight } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTheme } from '@themes'
@@ -10,6 +10,7 @@ import { RenderIcon } from './RenderIcon'
 export const BottomBar: FC<BottomTabBarProps> = (props) => {
   const { colors } = useTheme()
   const { bottom } = useSafeAreaInsets()
+  const [width, setWidth] = useState(Dimensions.get("window").width);
 
   const searchButton = (index: number) => {
     return (
@@ -44,13 +45,19 @@ export const BottomBar: FC<BottomTabBarProps> = (props) => {
     )
   }
 
+  Dimensions.addEventListener('change', (e) => {
+    const { width } = e.window;
+    setWidth(width);
+
+  })
+
   return (
     <Block
       absolute
       bottom={20}
       backgroundColor={colors.bottomMenu}
       height={60}
-      width={Dimensions.get('window').width - 24}
+      width={width - 24}
       marginHorizontal={12}
       radius={8}
       row
@@ -61,14 +68,14 @@ export const BottomBar: FC<BottomTabBarProps> = (props) => {
       {props.state.routes.map((item, index) => {
         const isFocused = props.state.index === index
 
-        const widthItemBottomMenu = (Dimensions.get('window').width - 96) / 5 // chiều rộng mỗi block trong bottom menu
+        const widthItemBottomMenu = (width - 96) / 5 // chiều rộng mỗi block trong bottom menu
 
         return (
           <TouchableHighlight
             underlayColor={colors.bottomMenu}
             key={index}
             onPress={() => {
-              props.navigation.navigate(item.name)
+              props.navigation.navigate(item.name != "Search" ? item.name : "Search1")
             }}
           >
             {index === 2 ? (

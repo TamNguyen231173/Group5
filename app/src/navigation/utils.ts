@@ -8,4 +8,5 @@ export const routes = {
   search: 'SEARCH',
   user: 'USER',
   video: 'VIDEO',
+  detail: 'DETAIL',
 }

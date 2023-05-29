@@ -203,8 +203,8 @@ export const TextInput = forwardRef<any, InputProps>((props, ref) => {
             !hideFocus && error
               ? colors.error
               : isFocused
-              ? colors.primary
-              : colors.border
+              ? colors.greenDark
+              : colors.greyLight
           }
           style={inputContainerStyle}
         >

@@ -21,7 +21,7 @@ export const colors = {
     greenDark: '#009E3A',
     greenPrimary: '#76C836',
     greenLight: '#BDEF8E',
-    greenLigter: '#E8FED7',
+    greenLighter: '#E8FED7',
     greyDark: '#666C8E',
     greyPrimary: '#7C82A1',
     greyLight: '#ACAFC3',
@@ -73,7 +73,7 @@ export const colors = {
     greenDark: '#009E3A',
     greenPrimary: '#76C836',
     greenLight: '#BDEF8E',
-    greenLigter: '#E8FED7',
+    greenLighter: '#E8FED7',
     greyDark: '#666C8E',
     greyPrimary: '#7C82A1',
     greyLight: '#ACAFC3',
@@ -125,7 +125,7 @@ export type Color =
   | 'greenDark'
   | 'greenPrimary'
   | 'greenLight'
-  | 'greenLigter'
+  | 'greenLighter'
   | 'greyDark'
   | 'greyPrimary'
   | 'greyLight'

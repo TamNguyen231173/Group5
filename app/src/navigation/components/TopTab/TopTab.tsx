@@ -15,6 +15,7 @@ export const TopTab: FC<MaterialTopTabBarProps> = (props) => {
       backgroundColor={colors.white}
       borderTopLeftRadius={24}
       borderTopRightRadius={24}
+      style={{}}
     >
       {props.state.routes.map((item, index) => {
         const isFocused = props.state.index === index

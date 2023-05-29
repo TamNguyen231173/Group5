@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { BottomBar } from './components'
 import { routes } from './utils'
-import { Home, Bookmark, Category, Search, User, DetailScreen } from '@screens'
+import { Home, Bookmark, Category, Search, User, DetailScreen ,Login} from '@screens'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {
   CardStyleInterpolators,

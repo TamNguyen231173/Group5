@@ -14,7 +14,7 @@ const UserStack = createStackNavigator()
 const BottomTabsNavigation: FC<{}> = () => {
   return (
     <BottomTabs.Navigator
-      initialRouteName={routes.home}
+      initialRouteName={routes.user}
       detachInactiveScreens={true}
       screenOptions={{
         headerShown: false,

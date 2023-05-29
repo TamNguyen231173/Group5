@@ -9,6 +9,7 @@ import { HeaderCustom } from './component';
 export const Home = () => {
   const [email, setemail] = useState("");
   const { colors } = useTheme();
+
   return (
     <Container statusColor={colors.greenDark}>
       <HeaderCustom type='home' onPress={() => { }} />
@@ -19,6 +20,16 @@ export const Home = () => {
         }}
           value={email}
           type='password' />
+       
+        
+        <TextInputApp
+          placeholder="haha"
+          onChangeText={(text) => {
+            setemail(text)
+          }}
+          value={email}
+          type="password"
+        />
       </Block>
     </Container>
   )

@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { Block, Container, Text } from '@components'
+import { Block, Text } from '@components'
 import { BackIcon, BookmarkIcon } from '@assets/icons'
-import { Slider, VideoItem, PostItem } from './components'
+import { Slider, VideoItem } from './components'
+import { PostItem } from '@components'
 import {
   TouchableOpacity,
   ScrollView,

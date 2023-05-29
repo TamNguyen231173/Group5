@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-seoul/masonry-list": "^1.4.1",
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/material-top-tabs": "^6.6.2",
     "@react-navigation/native": "^6.1.6",

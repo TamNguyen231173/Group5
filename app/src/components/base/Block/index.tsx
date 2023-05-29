@@ -49,6 +49,8 @@ export const Block = ({
     zIndex,
     borderTopLeftRadius,
     borderTopRightRadius,
+    borderBottomLeftRadius,
+    borderBottomRightRadius,
     shadow,
     backgroundColor,
     padding,
@@ -135,6 +137,8 @@ export const Block = ({
         zIndex && { zIndex },
         borderTopLeftRadius && { borderTopLeftRadius },
         borderTopRightRadius && { borderTopRightRadius },
+        borderBottomLeftRadius && { borderBottomLeftRadius },
+        borderBottomRightRadius && { borderBottomRightRadius },
         { ...StyleSheet.flatten(style) },
     ];
 

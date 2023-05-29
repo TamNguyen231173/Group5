@@ -1,7 +1,10 @@
-import React from 'react'
-import { Text, Container, Block, ButtonApp } from '@components'
+import React, { useState } from 'react'
+import { Text, Container, Block, ButtonApp, TextInput } from '@components'
+import { TextInputApp } from '@components/common/TextInputApp'
 
 export const Home = () => {
+  const [email, setemail] = useState('')
+
   return (
     <Container>
       <Block flex backgroundColor="#fff" alignCenter justifyCenter>
@@ -14,6 +17,14 @@ export const Home = () => {
           onClick={() => {
             console.log('Check')
           }}
+        />
+        <TextInputApp
+          placeholder="haha"
+          onChangeText={(text) => {
+            setemail(text)
+          }}
+          value={email}
+          type="password"
         />
       </Block>
     </Container>

@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { BottomBar } from './components'
 import { routes } from './utils'
-import { Home, Bookmark, Category, Search, User } from '@screens'
+import { Home, Bookmark, Category, Search, User, DetailScreen } from '@screens'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {
   CardStyleInterpolators,
@@ -14,7 +14,7 @@ const UserStack = createStackNavigator()
 const BottomTabsNavigation: FC<{}> = () => {
   return (
     <BottomTabs.Navigator
-      initialRouteName={routes.home}
+      initialRouteName={routes.user}
       detachInactiveScreens={true}
       screenOptions={{
         headerShown: false,
@@ -63,7 +63,7 @@ export const UserNavigation = () => {
     >
       <UserStack.Screen name={routes.main} component={BottomTabsNavigation} />
       <UserStack.Screen name="Search1" component={Search} />
+      <UserStack.Screen name={routes.detail} component={DetailScreen} />
     </UserStack.Navigator>
   )
 }
-// nguyen tun anh

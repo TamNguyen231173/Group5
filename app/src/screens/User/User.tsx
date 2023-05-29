@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, Container, Block } from '@components'
 import ItemOption from './components/ItemOption'
-import { BellIcon, GarbageIcon } from '@assets'
+import { BellIcon, GarbageIcon, LogoutIcon } from '@assets'
 
 export const User: React.FC = () => {
   //init state lấy từ store
@@ -31,9 +31,10 @@ export const User: React.FC = () => {
         <Block marginTop={10}>
           <ItemOption title="Cài đặt thông báo" leftIcon={<BellIcon />} />
           <ItemOption title="Xóa tài khoản" leftIcon={<GarbageIcon />} />
+          <ItemOption title="Đăng xuất" leftIcon={<LogoutIcon />} />
         </Block>
       </Block>
-      <Block style={{ flex: 6 }}>
+      <Block style={{ flex: 7 }}>
         <Text fontFamily="bold" size={18} lineHeight={20}>
           Cài đặt ứng dụng
         </Text>

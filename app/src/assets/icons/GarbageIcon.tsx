@@ -1,13 +1,13 @@
 import * as React from 'react'
 import Svg, { SvgProps, Path } from 'react-native-svg'
 export const GarbageIcon = (props: SvgProps) => (
-  <Svg width={23} height={25} fill="none" {...props}>
+  <Svg width={24} height={25} fill="none" {...props}>
     <Path
-      stroke="#707B81"
+      stroke="#666C8E"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M4.776 8.448v9.731c0 2.15 1.71 3.893 3.821 3.893h5.731c2.11 0 3.821-1.743 3.821-3.893V8.448m-4.776 2.92v5.838m-3.82-5.839v5.839m5.73-11.678L13.94 3.476a1.901 1.901 0 0 0-1.59-.867h-1.775c-.64 0-1.236.325-1.59.867L7.642 5.528m7.642 0H7.642m7.642 0h4.776m-12.418 0H2.866"
+      d="M5 8.663v10a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-10m-5 3v6m-4-6v6m6-12-1.406-2.11a2 2 0 0 0-1.664-.89h-1.86a2 2 0 0 0-1.664.89L8 5.663m8 0H8m8 0h5m-13 0H3"
     />
   </Svg>
 )

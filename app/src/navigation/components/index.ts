@@ -1,1 +1,2 @@
-export * from './BottomBar';
+export * from './BottomBar'
+export * from './TopTab'

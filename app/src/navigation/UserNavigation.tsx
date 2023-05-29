@@ -1,8 +1,15 @@
 import React, { FC } from 'react'
 import { BottomBar } from './components'
 import { routes } from './utils'
-// import { Home, Bookmark, Category, Search, User, Video } from '@screens'
-import { Home, Bookmark, Category, Search, User, DetailScreen } from '@screens'
+import {
+  Home,
+  Bookmark,
+  Category,
+  Search,
+  User,
+  DetailScreen,
+  Video,
+} from '@screens'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {
   CardStyleInterpolators,
@@ -18,9 +25,10 @@ const BottomTabsNavigation: FC<{}> = () => {
       initialRouteName={routes.home}
       detachInactiveScreens={true}
       screenOptions={{
+        tabBarHideOnKeyboard: true,
         headerShown: false,
       }}
-      // tabBar={(props) => <BottomBar {...props} />}
+      tabBar={(props) => <BottomBar {...props} />}
     >
       <BottomTabs.Screen
         key={routes.home}

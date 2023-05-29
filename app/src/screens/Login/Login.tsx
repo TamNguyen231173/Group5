@@ -63,19 +63,20 @@ export const Login = () => {
 
       <Text size={16} marginTop={25} alignSelf='center' color='rgba(124, 130, 161, 1)' fontWeight='700' fontFamily='regular'>or</Text>
       <Block padding={20} marginTop={25} >
-        <Block  height={46} row backgroundColor={colors.white} borderColor={colors.greyLighter} borderWidth={1} alignCenter >
-          <FacebookIcon />
-          <Text size={16} fontFamily='regular' color={colors.greyDark}>Sign In with Google</Text>
+        <Block height={46} row backgroundColor={colors.white} borderColor={colors.greyLighter} borderWidth={1} alignCenter justifyCenter>
+          <Block absolute left={0}>
+            <FacebookIcon  />
+          </Block>
+          
+
+          <Text  size={16} fontFamily='regular' color={colors.greyDark}>Sign In with Google</Text>
         </Block>
-        <Block alignCenter  height={46} marginTop={10} row backgroundColor={colors.white} borderColor={colors.greyLighter}>
-          <Block >
-          <GoogleIcon />     
-         
-          </Block>
-          <Block >
-            <Text  size={16} fontFamily='regular' color={colors.greyDark}>Sign In with Facebook</Text>
+        <Block alignCenter height={46} marginTop={10} row backgroundColor={colors.white} borderColor={colors.greyLighter} justifyCenter>
+          <Block absolute left={0}>
+             <GoogleIcon />
           </Block>
          
+          <Text size={16} fontFamily='regular' color={colors.greyDark}>Sign In with Facebook</Text>
         </Block>
       </Block>
 

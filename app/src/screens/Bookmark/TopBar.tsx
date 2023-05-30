@@ -1,9 +1,7 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, } from 'react'
 import { Animated, View, TouchableOpacity, Dimensions } from 'react-native'
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs'
-import { Block } from '@components'
-import { colors, fontFamilySetup, useTheme } from '@themes'
-import { fontFamily } from '@assets/fonts'
+import {  fontFamilySetup, useTheme } from '@themes'
 
 const { width } = Dimensions.get('screen')
 const ITEM_WIDTH = width * 0.23

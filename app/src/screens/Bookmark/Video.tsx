@@ -1,4 +1,4 @@
-import { Block, Container, Text } from "@components"
+import { Block Text } from "@components"
 
 
 export const Video = () =>{

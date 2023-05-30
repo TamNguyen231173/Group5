@@ -1,9 +1,5 @@
-import { Block, Container, Text } from '@components'
 import { PostItemv2 } from '@components/common/PostItem/PostItemv2'
 import MasonryList from '@react-native-seoul/masonry-list'
-import { FC } from 'react'
-import { View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 interface AnimalData {
   id: string
   imgURL: string

@@ -14,14 +14,12 @@ export const Home = () => {
     <Container statusColor={colors.greenDark}>
       <HeaderCustom type='home' onPress={() => { }} />
       <Block flex backgroundColor="#fff" alignCenter justifyCenter>
-
         <TextInputApp placeholder='haha' onChangeText={(text) => {
           setemail(text);
         }}
           value={email}
           type='password' />
-       
-        
+   
         <TextInputApp
           placeholder="haha"
           onChangeText={(text) => {

@@ -8,12 +8,7 @@ import { fontFamilySetup, useTheme } from '@themes'
 import { Image } from '@components'
 import { FacebookIcon } from '@assets/icons/FacebookIcon'
 import { GoogleIcon } from '@assets/icons/GoogleIcon'
-
-
-
-
-
-
+import { images } from '@assets/images'
 export const Login = () => {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -65,7 +60,9 @@ export const Login = () => {
       <Block padding={20} marginTop={25} >
         <Block height={46} row backgroundColor={colors.white} borderColor={colors.greyLighter} borderWidth={1} alignCenter justifyCenter>
           <Block absolute left={0}>
-            <FacebookIcon  />
+            {/* <FacebookIcon  /> */}
+            <Image source={images.facebookIcon} width={40} height={40}></Image>
+
           </Block>
           
 
@@ -73,7 +70,8 @@ export const Login = () => {
         </Block>
         <Block alignCenter height={46} marginTop={10} row backgroundColor={colors.white} borderColor={colors.greyLighter} justifyCenter>
           <Block absolute left={0}>
-             <GoogleIcon />
+              {/* <GoogleIcon></GoogleIcon> */}
+             <Image source={images.googleIcon} width={40} height={40}></Image>
           </Block>
          
           <Text size={16} fontFamily='regular' color={colors.greyDark}>Sign In with Facebook</Text>

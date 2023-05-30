@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from 'react'
 import Svg, {
   SvgProps,
   Path,
@@ -6,15 +6,9 @@ import Svg, {
   Pattern,
   Use,
   Image,
-} from "react-native-svg"
+} from 'react-native-svg'
 export const FacebookIcon = (props: SvgProps) => (
-  <Svg
-   
-    width={24}
-    height={24}
-    fill="none"
-    {...props}
-  >
+  <Svg width={24} height={24} fill="none" {...props}>
     <Path fill="url(#a)" d="M0 0h24v24H0z" />
     <Defs>
       <Pattern
@@ -34,4 +28,3 @@ export const FacebookIcon = (props: SvgProps) => (
     </Defs>
   </Svg>
 )
-

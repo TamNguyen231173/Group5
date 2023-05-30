@@ -32,7 +32,7 @@ const TabBarIndicator = ({ state }) => {
     <Animated.View
       style={{
         position: 'absolute',
-        width: itemWidth * 0.5,
+        width: itemWidth * 0.3,
         borderBottomColor: colors.greenDark,
         borderBottomWidth: 2,
         bottom: 0,

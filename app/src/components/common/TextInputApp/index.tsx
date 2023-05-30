@@ -46,7 +46,7 @@ export const TextInputApp: React.FC<Props> = ({ onChangeText, value, type, place
                     type == "email" ? <EmailIcon fill={isFocused ? colors.greenDark : colors.greyLight} /> :
                         type == "password" ? <PadLock fill={isFocused ? colors.greenDark : colors.greyLight} /> :
                             type == "user" ? <UsernameIcon fill={isFocused ? colors.greenDark : colors.greyLight} /> : null}
-                secureTextEntry={true}
+                secureTextEntry={type == "password" ? true : false}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
                 placeholderTextColor={colors.greyLight}

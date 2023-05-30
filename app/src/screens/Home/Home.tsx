@@ -26,7 +26,7 @@ export const Home = () => {
             setemail(text)
           }}
           value={email}
-          type="password"
+          type="email"
         />
       </Block>
     </Container>

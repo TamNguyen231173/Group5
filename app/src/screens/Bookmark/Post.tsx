@@ -1,5 +1,8 @@
+import { Block } from '@components'
 import { PostItemv2 } from '@components/common/PostItem/PostItemv2'
 import MasonryList from '@react-native-seoul/masonry-list'
+import { MasonryFlashList } from '@shopify/flash-list'
+import { ScrollView } from 'react-native-gesture-handler'
 interface AnimalData {
   id: string
   imgURL: string
@@ -73,24 +76,27 @@ const data: AnimalData[] = [
     name: 'Mèo Anh lông dài',
   },
 ]
-
 export const Post = () => {
   return (
-
-      <MasonryList
-        keyExtractor={(item: AnimalData): string => item.id}
-        numColumns={2}
-        data={data}
-        renderItem={({ item }) => (
-            <PostItemv2 item={item}></PostItemv2>
-        )}
-        contentContainerStyle={{
-          paddingHorizontal: 24,
-          paddingStart:30,
-          alignSelf: 'stretch',
-          backgroundColor:'#ffffff'
-        }}
-      ></MasonryList>
-
+    <Block paddingBottom={90} backgroundColor={'white'}>
+      <ScrollView>
+        <Block row justifyCenter>
+          <Block marginRight={8}>
+            {data
+              .filter((_, i) => i % 2 !== 0)
+              .map((item) => (
+                <PostItemv2 item={item}></PostItemv2>
+              ))}
+          </Block>
+          <Block>
+            {data
+              .filter((_, i) => i % 2 === 0)
+              .map((item) => (
+                <PostItemv2 item={item}></PostItemv2>
+              ))}
+          </Block>
+        </Block>
+      </ScrollView>
+    </Block>
   )
 }

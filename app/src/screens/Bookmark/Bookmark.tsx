@@ -7,7 +7,7 @@ import { TopBar } from './TopBar'
 const TopTab = createMaterialTopTabNavigator()
 export const Bookmark = () => {
   return (
-    <Container>
+    <Container >
       <TopTab.Navigator
         initialRouteName="Video"
         tabBar={(props) => <TopBar {...props} />}

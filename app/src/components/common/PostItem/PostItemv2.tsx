@@ -1,7 +1,6 @@
 import { Text, Block, Image } from '@components'
-import { fontFamilySetup, useTheme } from '@themes'
+import {  useTheme } from '@themes'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { StyleProps } from 'react-native-reanimated'
 
 interface PostItemProps {
   onPress?: () => void
@@ -28,16 +27,16 @@ export const PostItemv2: React.FC<{ item: AnimalData }> = ({ item }) => {
     return colorArray[Math.floor(Math.random() * colorArray.length)]
   }
   const randomHeight = () => {
-    const heightArray = [190, 240, 173, 192, 186]
+    const heightArray = [190, 240, 173, 192, 186, 151, 165]
     return heightArray[Math.floor(Math.random() * heightArray.length)]
   }
   return (
     <TouchableOpacity
       activeOpacity={0.9}
       onPress={handleClick}
-      style={{ width: 151, height: randomHeight(), marginTop: 13 }}
+      style={{ width: 155, height: randomHeight(), marginTop: 13}}
     >
-      <Block radius={0.5}>
+      <Block radius={0.5} >
         <Image
           source={{
             uri: item.imgURL,

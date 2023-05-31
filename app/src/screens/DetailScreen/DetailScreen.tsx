@@ -172,6 +172,7 @@ export const DetailScreen = (props: DetailScreenProps) => {
                     />
                   )
                 }}
+                keyExtractor={(item) => item.id}
                 horizontal
                 snapToAlignment="center"
                 showsHorizontalScrollIndicator={false}

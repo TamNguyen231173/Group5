@@ -6,7 +6,8 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Provider} from 'react-redux';
 
 import {PersistGate} from 'redux-persist/lib/integration/react';
-import { Login } from '@screens';
+import { Login, Signup } from '@screens';
+
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           }}>
           {/* <RootNavigation /> */}
           <Login></Login>
+          {/* <Signup></Signup> */}
         </SafeAreaProvider>
       </PersistGate>
     </Provider>

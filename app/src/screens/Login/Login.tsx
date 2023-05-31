@@ -61,7 +61,7 @@ export const Login = () => {
         <Block height={46} row backgroundColor={colors.white} borderColor={colors.greyLighter} borderWidth={1} alignCenter justifyCenter>
           <Block absolute left={0}>
             {/* <FacebookIcon  /> */}
-            <Image source={images.facebookIcon} width={40} height={40}></Image>
+            <Image source={images.googleIcon} width={30} height={30}></Image>
 
           </Block>
           
@@ -71,7 +71,9 @@ export const Login = () => {
         <Block alignCenter height={46} marginTop={10} row backgroundColor={colors.white} borderColor={colors.greyLighter} justifyCenter>
           <Block absolute left={0}>
               {/* <GoogleIcon></GoogleIcon> */}
-             <Image source={images.googleIcon} width={40} height={40}></Image>
+            
+            <Image source={images.facebookIcon} width={30} height={30}></Image>
+
           </Block>
          
           <Text size={16} fontFamily='regular' color={colors.greyDark}>Sign In with Facebook</Text>

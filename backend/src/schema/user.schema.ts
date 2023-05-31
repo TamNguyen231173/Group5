@@ -1,5 +1,6 @@
 import { object, string, TypeOf } from "zod";
 
+// Create user schema
 export const createUserSchema = object({
   body: object({
     name: string({ required_error: "Name is required" }),
@@ -16,6 +17,7 @@ export const createUserSchema = object({
   }),
 });
 
+// Login user schema
 export const loginUserSchema = object({
   body: object({
     email: string({ required_error: "Email is required" }).email(
@@ -28,9 +30,19 @@ export const loginUserSchema = object({
   }),
 });
 
+// Verify email schema
 export const verifyEmailSchema = object({
   params: object({
     verificationCode: string(),
+  }),
+});
+
+// Resend verification code schema
+export const resendVerificationCodeSchema = object({
+  body: object({
+    email: string({ required_error: "Email is required" }).email(
+      "Invalid email"
+    ),
   }),
 });
 

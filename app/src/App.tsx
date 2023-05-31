@@ -19,8 +19,8 @@ const App = () => {
             insets: {top: 0, left: 0, right: 0, bottom: 0},
           }}>
           {/* <RootNavigation /> */}
-          <Login></Login>
-          {/* <Signup></Signup> */}
+          {/* <Login></Login> */}
+          <Signup></Signup>
         </SafeAreaProvider>
       </PersistGate>
     </Provider>

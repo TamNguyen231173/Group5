@@ -14,6 +14,9 @@ export const Signup = () => {
   const { colors } = useTheme()
   return (
     <Container backgroundColor="#fff">
+        <Block space='between'>
+
+        
       <Text padding={20} size={22} lineHeight={26} fontFamily="bold">
         Welcome to Animal App  👋
       </Text>
@@ -21,8 +24,8 @@ export const Signup = () => {
         paddingLeft={20}
         size={16}
         lineHeight={24}
-        fontFamily="regular"
-        fontWeight="600"
+        fontFamily="semiBold"
+       
       >
         Bạn muốn lưu lại các con vật yêu thích.{'\n'}Đăng nhập ngay!
       </Text>
@@ -81,13 +84,13 @@ export const Signup = () => {
           />
         </Block>
       </Block>
-
+      </Block>
     
      
 
       <Block alignCenter padding={20} marginTop={90}>
         <Block row>
-          <Text size={16} fontFamily="regular">
+          <Text size={16} fontFamily="bold" color={colors.greyDark}>
           Already have an account? {' '}
           </Text>
           <Text size={16} fontFamily="bold">

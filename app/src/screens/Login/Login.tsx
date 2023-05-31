@@ -15,11 +15,11 @@ export const Login = () => {
   const { colors } = useTheme();
   return (
     <Container backgroundColor="#fff">
-
+      <Block space='between'>
       <Text padding={20} size={22} lineHeight={26} fontFamily='bold'  >
         Welcome Back 👋
       </Text>
-      <Text paddingLeft={20} size={16} lineHeight={24} fontFamily='regular' fontWeight='600'>
+      <Text paddingLeft={20} size={16} lineHeight={24} fontFamily='semiBold' fontWeight='600'>
         Tìm hiểu động vật ngay thôi để tăng thêm kiến thức, tăng sự đồng cảm!
       </Text>
       <Block padding={20} marginTop={11}>
@@ -38,7 +38,7 @@ export const Login = () => {
             type='password' />
         </Block>
         <Block alignEnd marginTop={12}>
-          <Text size={14} lineHeight={17} color='rgba(124, 130, 161, 1)'>
+          <Text size={14} lineHeight={17} fontWeight='500' color='rgba(124, 130, 161, 1)'>
             Forgot Password?
           </Text>
         </Block>
@@ -66,7 +66,7 @@ export const Login = () => {
           </Block>
           
 
-          <Text  size={16} fontFamily='regular' color={colors.greyDark}>Sign In with Google</Text>
+          <Text  size={16} fontFamily='bold' color={colors.greyDark}>Sign In with Google</Text>
         </Block>
         <Block alignCenter height={46} marginTop={10} row backgroundColor={colors.white} borderColor={colors.greyLighter} justifyCenter>
           <Block absolute left={0}>
@@ -76,13 +76,13 @@ export const Login = () => {
 
           </Block>
          
-          <Text size={16} fontFamily='regular' color={colors.greyDark}>Sign In with Facebook</Text>
+          <Text size={16} fontFamily='bold' color={colors.greyDark}>Sign In with Facebook</Text>
         </Block>
       </Block>
-
-      <Block alignCenter padding={20} >
+      </Block>
+      <Block alignCenter padding={20}  >
         <Block row >
-          <Text size={16} fontFamily='regular'>Don't have an account? </Text>
+          <Text size={16} fontFamily='bold' color={'rgba(85, 90, 119, 1)'}>Don't have an account? </Text>
           <Text size={16} fontFamily='bold' >Sign up </Text>
         </Block>
       </Block>
@@ -91,7 +91,7 @@ export const Login = () => {
 
 
 
-
+      
     </Container>
 
   )

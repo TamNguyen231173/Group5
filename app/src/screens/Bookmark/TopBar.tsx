@@ -1,7 +1,8 @@
-import { useState, useEffect, } from 'react'
+import { useState, useEffect } from 'react'
 import { Animated, View, TouchableOpacity, Dimensions } from 'react-native'
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs'
-import {  fontFamilySetup, useTheme } from '@themes'
+import { fontFamilySetup, useTheme } from '@themes'
+import { Text } from '@components'
 
 const { width } = Dimensions.get('screen')
 const ITEM_WIDTH = width * 0.23
@@ -48,7 +49,13 @@ export const TopBar: React.FC<MaterialTopTabBarProps> = ({
   const { colors, font } = useTheme()
   return (
     <View>
-      <View style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: colors.white }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          backgroundColor: colors.white,
+        }}
+      >
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key]
           const label =
@@ -86,33 +93,36 @@ export const TopBar: React.FC<MaterialTopTabBarProps> = ({
           // })
           //  const [measure, setmeasure] = useState([])
           // const buttonRef = useRef();
-          return (
-            <TouchableOpacity
-              accessibilityRole="button"
-              accessibilityState={isFocused ? { selected: true } : {}}
-              accessibilityLabel={options.tabBarAccessibilityLabel}
-              testID={options.tabBarTestID}
-              onPress={onPress}
-              onLongPress={onLongPress}
-              style={{
-                width: ITEM_WIDTH,
-              }}
-            >
-              <Animated.Text
-                style={[
-                  {
-                    color: isFocused ? colors.greenDark : colors.greyLight,
-                    fontFamily: fontFamilySetup.bold,
-                    fontSize: 22,
-                    textAlign: 'center',
-                    paddingBottom: 5,
-                  },
-                ]}
+          const TabbarItem = () => {
+            return (
+              <TouchableOpacity
+                accessibilityRole="button"
+                accessibilityState={isFocused ? { selected: true } : {}}
+                accessibilityLabel={options.tabBarAccessibilityLabel}
+                testID={options.tabBarTestID}
+                onPress={onPress}
+                onLongPress={onLongPress}
+                style={{
+                  width: ITEM_WIDTH,
+                }}
               >
-                {label}
-              </Animated.Text>
-            </TouchableOpacity>
-          )
+                <Animated.Text
+                  style={[
+                    {
+                      color: isFocused ? colors.greenDark : colors.greyLight,
+                      fontFamily: fontFamilySetup.bold,
+                      fontSize: 22,
+                      textAlign: 'center',
+                      paddingBottom: 5,
+                    },
+                  ]}
+                >
+                  {label}
+                </Animated.Text>
+              </TouchableOpacity>
+            )
+          }
+          return <TabbarItem key={index}></TabbarItem>
         })}
 
         <TabBarIndicator state={state} />

@@ -1,7 +1,5 @@
 import { Block } from '@components'
 import { PostItemv2 } from '@components/common/PostItem/PostItemv2'
-import MasonryList from '@react-native-seoul/masonry-list'
-import { MasonryFlashList } from '@shopify/flash-list'
 import { ScrollView } from 'react-native-gesture-handler'
 interface AnimalData {
   id: string
@@ -85,14 +83,14 @@ export const Post = () => {
             {data
               .filter((_, i) => i % 2 !== 0)
               .map((item) => (
-                <PostItemv2 item={item}></PostItemv2>
+                <PostItemv2 item={item} key={item.id}></PostItemv2>
               ))}
           </Block>
           <Block>
             {data
               .filter((_, i) => i % 2 === 0)
               .map((item) => (
-                <PostItemv2 item={item}></PostItemv2>
+                <PostItemv2 item={item} key={item.id}></PostItemv2>
               ))}
           </Block>
         </Block>

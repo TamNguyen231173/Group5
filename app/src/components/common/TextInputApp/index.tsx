@@ -4,7 +4,10 @@ import { Block, TextInput } from "@components/base";
 import { Dimensions } from "react-native";
 
 import { font, fontFamilySetup, useTheme } from "@themes";
-import { UsernameIcon, PadLock, EmailIcon } from "@assets";
+import { EmailIcon } from "@assets/icons/EmailIcon";
+import { EyeOff, EyeOn } from "@assets";
+import { PadLock } from "@assets/icons/PadLock";
+import { UsernameIcon } from "@assets/icons/UsernameIcon";
 
 
 
@@ -17,6 +20,7 @@ interface Props {
 }
 export const TextInputApp: React.FC<Props> = ({ onChangeText, value, type, placeholder }) => {
     const { colors } = useTheme();
+    const [showPass, setshowPass] = useState(true);
     const [isFocused, setIsFocused] = useState(false);
     const handleFocus = () => {
         setIsFocused(true);
@@ -32,6 +36,11 @@ export const TextInputApp: React.FC<Props> = ({ onChangeText, value, type, place
                 placeholder={placeholder}
                 onChangeText={onChangeText}
                 value={value}
+                keyboardType={
+                    type === "password" ? "visible-password" :
+                        type === "user" ? "default" :
+                            type === "email" ? "email-address" : "default"
+                }
                 containerStyle={{
                     width: Dimensions.get("window").width - 40,
                     backgroundColor: colors.white,
@@ -46,7 +55,9 @@ export const TextInputApp: React.FC<Props> = ({ onChangeText, value, type, place
                     type == "email" ? <EmailIcon fill={isFocused ? colors.greenDark : colors.greyLight} /> :
                         type == "password" ? <PadLock fill={isFocused ? colors.greenDark : colors.greyLight} /> :
                             type == "user" ? <UsernameIcon fill={isFocused ? colors.greenDark : colors.greyLight} /> : null}
-                secureTextEntry={type == "password" ? true : false}
+                rightIcon={type == "password" ? showPass ? <EyeOn /> : <EyeOff /> : null}
+                onRightIconPress={() => { setshowPass(!showPass) }}
+                secureTextEntry={type == "password" ? ( showPass ? true : false) : false}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
                 placeholderTextColor={colors.greyLight}

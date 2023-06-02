@@ -1,12 +1,22 @@
 import React, { FC } from 'react'
 import { BottomBar } from './components'
 import { routes } from './utils'
-import { Home, Bookmark, Category, Search, User, DetailScreen ,Login} from '@screens'
+import {
+  Home,
+  Bookmark,
+  Category,
+  Search,
+  User,
+  DetailScreen,
+  Login,
+  Video,
+} from '@screens'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {
   CardStyleInterpolators,
   createStackNavigator,
 } from '@react-navigation/stack'
+//
 
 const BottomTabs = createBottomTabNavigator()
 const UserStack = createStackNavigator()
@@ -14,9 +24,10 @@ const UserStack = createStackNavigator()
 const BottomTabsNavigation: FC<{}> = () => {
   return (
     <BottomTabs.Navigator
-      initialRouteName={routes.user}
+      initialRouteName={routes.home}
       detachInactiveScreens={true}
       screenOptions={{
+        tabBarHideOnKeyboard: true,
         headerShown: false,
       }}
       tabBar={(props) => <BottomBar {...props} />}
@@ -64,6 +75,7 @@ export const UserNavigation = () => {
       <UserStack.Screen name={routes.main} component={BottomTabsNavigation} />
       <UserStack.Screen name="Search1" component={Search} />
       <UserStack.Screen name={routes.detail} component={DetailScreen} />
+      <UserStack.Screen name={routes.video} component={Video} />
     </UserStack.Navigator>
   )
 }

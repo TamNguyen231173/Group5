@@ -35,11 +35,8 @@ export class Category {
   @prop({ required: true })
   description: string;
 
-  @prop()
-  type: {
-    id: string;
-    name: string;
-  }[];
+  @prop({ required: true })
+  type: string;
 }
 
 const CategoryModel = getModelForClass(Category);

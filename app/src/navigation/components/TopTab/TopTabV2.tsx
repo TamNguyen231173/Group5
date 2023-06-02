@@ -85,9 +85,6 @@ export const TopTabV2: React.FC<MaterialTopTabBarProps> = (props) => {
     >
       <FlatList
         scrollEventThrottle={1}
-        onScroll={(e) => {
-          console.log(e.nativeEvent.contentSize)
-        }}
         ref={listRef}
         pagingEnabled
         horizontal

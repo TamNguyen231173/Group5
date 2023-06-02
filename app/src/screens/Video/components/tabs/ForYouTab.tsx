@@ -1,27 +1,91 @@
 import React from 'react'
 import { Block } from '@components'
-import { Player } from '../video_player'
-import { ToastAndroid } from 'react-native'
+import { MemoPlayer } from '../video_player'
+import { ToastAndroid, Dimensions } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler'
+import { heightOfTabBar, listVideo } from '@screens/Video/constant'
 
-export const ForYouTab: React.FC = () => {
+export const ForYouTab: React.FC = ({ navigation, route }: any) => {
+  const { width, height } = route.params
+  const [currentVideoIndex, setCurrentVideoIndex] = React.useState(0)
+  const [isUserDrag, setIsUserDrag] = React.useState(false)
+
+  const listVideoWithRef = React.useMemo(() => {
+    return listVideo.map((item) => {
+      return { ...item, ref: React.createRef<any>() }
+    })
+  }, [])
+
+  // console.log(listVideoWithRef)
+
+  const onViewableItemsChanged = ({ changed }: { changed: any }) => {
+    listVideoWithRef.forEach((item, index) => {
+      if (index === changed[0].index) {
+        console.log('play ' + index)
+        item.ref.current.play()
+      } else {
+        if (item.ref.current !== null) {
+          item.ref.current.stop()
+        }
+      }
+    })
+  }
+
+  const viewabilityConfigCallbackPairs = React.useRef([
+    { onViewableItemsChanged },
+  ])
+
+  const _renderItem = React.useCallback(
+    ({ index, item }: any) => {
+      return (
+        <MemoPlayer
+          ref={item.ref}
+          isPlay={currentVideoIndex === index && !isUserDrag}
+          dimensionParentLayout={{ width, height }}
+          videoStyle={{
+            width: Dimensions.get('window').width,
+            height: Dimensions.get('window').height - heightOfTabBar - height,
+          }}
+          onLoad={(data) => {}}
+          onEnd={() => {
+            // ToastAndroid.show('End video', ToastAndroid.SHORT)
+          }}
+          title={item.title}
+          description={item.description}
+          isBookmark={false}
+          isLike={false}
+          totalLike={item.likes}
+          source={item.url}
+          thumbnail={item.thumbnail}
+        />
+      )
+    },
+    [listVideo],
+  )
+
   return (
     <Block flex alignCenter justifyCenter>
-      <Player
-        onLoad={(data) => {
-          console.log(data)
-
-          ToastAndroid.show('Load video', ToastAndroid.SHORT)
+      <FlatList
+        style={{
+          flex: 1,
         }}
-        onEnd={() => {
-          ToastAndroid.show('End video', ToastAndroid.SHORT)
+        showsVerticalScrollIndicator={false}
+        data={listVideoWithRef}
+        initialNumToRender={4}
+        keyExtractor={(item) => 'Item_'.concat(item._id)}
+        renderItem={_renderItem}
+        snapToAlignment="start"
+        viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
+        onScrollEndDrag={() => {
+          setIsUserDrag(false)
         }}
-        title="Mèo hoang đường "
-        description="Con mèo này là con mèo"
-        isBookmark={false}
-        isLike={false}
-        totalLike={10}
-        source="https://player.vimeo.com/external/342571552.sd.mp4?s=e0df43853c25598dfd0ec4d3f413bce1e002deef&profile_id=165&oauth2_token_id=57447761"
-        thumbnail="https://images.pexels.com/videos/2499611/free-video-2499611.jpg?fit=crop&w=1200&h=630&auto=compress&cs=tinysrgb"
+        onScrollBeginDrag={() => {
+          setIsUserDrag(true)
+        }}
+        decelerationRate={'fast'}
+        snapToInterval={
+          Dimensions.get('window').height - heightOfTabBar - height
+        }
       />
     </Block>
   )

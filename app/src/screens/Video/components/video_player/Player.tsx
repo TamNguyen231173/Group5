@@ -1,36 +1,71 @@
 import React from 'react'
 import Video, { OnLoadData } from 'react-native-video'
-import { StyleSheet, Dimensions, Pressable, Animated } from 'react-native'
+import {
+  StyleSheet,
+  Dimensions,
+  Pressable,
+  Animated,
+  Easing,
+  View,
+} from 'react-native'
 import {
   NativeSyntheticEvent,
   TextLayoutEventData,
 } from 'react-native/Libraries/Types/CoreEventTypes'
-import { Block, Text } from '@components'
-import { PlayIcon } from '@assets'
+import { Block, Image, Text } from '@components'
+import { HeartFillIcon, HeartIcon, PlayIcon } from '@assets'
 import PauseIcon from '@assets/icons/PauseIcon'
-import { IPlayerProps, VideoNaturalSize } from './type'
 import { ScrollView } from 'react-native-gesture-handler'
+import LargeBookmarkIcon from '@assets/icons/LargeBookmarkIcon'
+import { IPlayerProps, VideoNaturalSize } from './type'
+import { heightOfTabBar } from '@screens/Video/constant'
+import LargeBookmarkIconFill from '@assets/icons/LargeBookmarkIconFill'
 
-export const Player: React.FC<IPlayerProps> = (props) => {
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
+
+const Player = React.forwardRef((props: IPlayerProps, ref) => {
+  const [showMoreInfo, setShowMoreInfo] = React.useState(false)
+  const [isPlay, setIsPlay] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(true)
+  const [isHeart, setIsHeart] = React.useState(props.isLike)
+  const [isBookmark, setIsBookmark] = React.useState(props.isBookmark)
+
+  const opacityButtonBookmark = React.useRef(
+    new Animated.Value(props.isBookmark ? 1 : 0),
+  ).current
+  const scaleButtonBookmark = React.useRef(new Animated.Value(1)).current
   const opacityButtonControlAnim = React.useRef(new Animated.Value(0)).current
   const scaleButtonControlAnim = React.useRef(new Animated.Value(0)).current
+  const heartScaleAnimated = React.useRef(new Animated.Value(1)).current
+  const heartRotateAnimated = React.useRef(new Animated.Value(0)).current
+  const heartOpacityAnimated = React.useRef(
+    new Animated.Value(isHeart ? 1 : 0),
+  ).current
 
   const [numberLineTitle, setNumberLineTitle] = React.useState(1)
   const [numberLineDescription, setNumberLineDescription] = React.useState(1)
-  const [showMoreInfo, setShowMoreInfo] = React.useState(false)
 
   const [videoNaturalSize, setVideoNaturalSize] =
     React.useState<VideoNaturalSize>()
 
-  const [isPlay, setIsPlay] = React.useState<boolean>(true)
-
   const handleLoadVideo = (data: OnLoadData) => {
     setVideoNaturalSize(data.naturalSize)
+    setIsLoading(false)
 
     if (!!props.onLoad) {
       props.onLoad(data)
     }
   }
+
+  //export method for parent
+  React.useImperativeHandle(ref, () => ({
+    play: () => {
+      setIsPlay(true)
+    },
+    stop: () => {
+      setIsPlay(false)
+    },
+  }))
 
   const fadeAnim = () => {
     Animated.sequence([
@@ -46,7 +81,7 @@ export const Player: React.FC<IPlayerProps> = (props) => {
       ]),
       Animated.parallel([
         Animated.spring(scaleButtonControlAnim, {
-          delay: 500,
+          delay: 450,
           toValue: 0.6,
           useNativeDriver: false,
         }),
@@ -69,6 +104,45 @@ export const Player: React.FC<IPlayerProps> = (props) => {
     }
   }
 
+  const enableBookmarkAnim = () => {
+    Animated.parallel([
+      Animated.spring(opacityButtonBookmark, {
+        toValue: 1,
+        useNativeDriver: true,
+      }),
+      Animated.sequence([
+        Animated.spring(scaleButtonBookmark, {
+          toValue: 1.4,
+          useNativeDriver: true,
+          speed: 230,
+        }),
+        Animated.spring(scaleButtonBookmark, {
+          toValue: 1,
+          useNativeDriver: true,
+        }),
+      ]),
+    ]).start()
+  }
+
+  const disableBookmarkAnim = () => {
+    Animated.parallel([
+      Animated.spring(opacityButtonBookmark, {
+        toValue: 0,
+        useNativeDriver: true,
+      }),
+      Animated.parallel([
+        Animated.spring(scaleButtonBookmark, {
+          toValue: 2,
+          useNativeDriver: true,
+        }),
+        Animated.spring(scaleButtonBookmark, {
+          toValue: 0.6,
+          useNativeDriver: true,
+        }),
+      ]),
+    ]).start()
+  }
+
   const handleTitleLayout = (
     event: NativeSyntheticEvent<TextLayoutEventData>,
   ) => {
@@ -81,7 +155,79 @@ export const Player: React.FC<IPlayerProps> = (props) => {
     setNumberLineDescription(event.nativeEvent.lines.length)
   }
 
-  const _renderButtonControl = () => {
+  const heartEnableAnim = () => {
+    Animated.sequence([
+      Animated.parallel([
+        Animated.spring(heartScaleAnimated, {
+          toValue: 1.4,
+          useNativeDriver: true,
+          bounciness: 2,
+        }),
+        Animated.spring(heartOpacityAnimated, {
+          toValue: 1,
+          useNativeDriver: true,
+          bounciness: 2,
+        }),
+      ]),
+      Animated.spring(heartScaleAnimated, {
+        toValue: 1,
+        useNativeDriver: true,
+        bounciness: 2,
+      }),
+    ]).start()
+  }
+
+  const heartDisableAnim = () => {
+    Animated.sequence([
+      Animated.spring(heartScaleAnimated, {
+        toValue: 1.4,
+        useNativeDriver: true,
+        bounciness: 2,
+      }),
+      Animated.parallel([
+        Animated.spring(heartScaleAnimated, {
+          toValue: 1,
+          useNativeDriver: true,
+          speed: 230,
+        }),
+        Animated.spring(heartOpacityAnimated, {
+          toValue: 0,
+          useNativeDriver: true,
+        }),
+      ]),
+    ]).start()
+  }
+
+  const heartShakeAnim = () => {
+    Animated.sequence([
+      Animated.timing(heartRotateAnimated, {
+        toValue: -1,
+        duration: 150,
+        easing: Easing.ease,
+        useNativeDriver: true,
+      }),
+      Animated.timing(heartRotateAnimated, {
+        toValue: 1,
+        useNativeDriver: true,
+        duration: 150,
+        easing: Easing.ease,
+      }),
+      Animated.timing(heartRotateAnimated, {
+        toValue: -1,
+        duration: 150,
+        easing: Easing.ease,
+        useNativeDriver: true,
+      }),
+      Animated.timing(heartRotateAnimated, {
+        toValue: 0,
+        duration: 150,
+        easing: Easing.ease,
+        useNativeDriver: true,
+      }),
+    ]).start()
+  }
+
+  const _renderVideoControl = () => {
     return (
       <Pressable
         style={{
@@ -110,51 +256,109 @@ export const Player: React.FC<IPlayerProps> = (props) => {
     )
   }
 
-  return (
-    <Block
-      alignCenter
-      justifyCenter
-      absolute
-      top={0}
-      left={0}
-      right={0}
-      bottom={0}
-    >
-      <Video
-        playWhenInactive
-        onEnd={() => {
-          console.log('video end')
-
-          if (!!props.onEnd) {
-            props.onEnd()
-          }
+  const _renderReactControl = () => {
+    return (
+      <Block
+        absolute
+        right={0}
+        bottom={0}
+        top={0}
+        padding={10}
+        column
+        alignEnd
+        justifyCenter
+        zIndex={1}
+        style={{
+          gap: 15,
         }}
-        onLoad={handleLoadVideo}
-        source={{ uri: props.source }}
-        poster={props.thumbnail}
-        style={[
-          styles.videoStyle,
-          {
-            width:
-              !!videoNaturalSize?.width &&
-              videoNaturalSize?.width > Dimensions.get('window').width
-                ? videoNaturalSize?.width
-                : Dimensions.get('window').width,
-            alignSelf: 'center',
-            justifyContent: 'center',
-            alignItems: 'center',
-            aspectRatio:
-              videoNaturalSize?.orientation === 'landscape' ? 16 / 9 : 9 / 16,
-          },
-          { ...props.videoStyle },
-        ]}
-        paused={!isPlay}
-        resizeMode="contain"
-        posterResizeMode="contain"
-      />
-      {_renderButtonControl()}
+      >
+        <Pressable
+          onPress={() => {
+            if (isBookmark) {
+              disableBookmarkAnim()
+            } else {
+              enableBookmarkAnim()
+            }
 
-      {/* text render */}
+            setIsBookmark(!isBookmark)
+          }}
+        >
+          <Animated.View
+            style={{
+              position: 'absolute',
+            }}
+          >
+            <LargeBookmarkIcon />
+          </Animated.View>
+          <Animated.View
+            style={{
+              opacity: opacityButtonBookmark,
+              transform: [
+                {
+                  scale: scaleButtonBookmark,
+                },
+              ],
+            }}
+          >
+            <LargeBookmarkIconFill />
+          </Animated.View>
+        </Pressable>
+        <Block>
+          <AnimatedPressable
+            style={{
+              transform: [
+                {
+                  rotate: heartRotateAnimated.interpolate({
+                    inputRange: [-1, 0, 1],
+                    outputRange: ['-20deg', '0deg', '20deg'],
+                  }),
+                },
+              ],
+            }}
+            onPress={() => {
+              // console.log('Heart Press')
+              if (isHeart) {
+                // handle disable heart
+                heartDisableAnim()
+              } else {
+                //handle enable heart
+                heartEnableAnim()
+                heartShakeAnim()
+              }
+
+              //handle toggle isHeart
+              setIsHeart((prev) => {
+                return !prev
+              })
+            }}
+          >
+            <Animated.View
+              style={{
+                position: 'absolute',
+                transform: [{ scale: heartScaleAnimated }],
+              }}
+            >
+              <HeartIcon />
+            </Animated.View>
+            <Animated.View
+              style={{
+                opacity: heartOpacityAnimated,
+                transform: [{ scale: heartScaleAnimated }],
+              }}
+            >
+              <HeartFillIcon />
+            </Animated.View>
+          </AnimatedPressable>
+        </Block>
+        <Text fontFamily="bold" size={22} lineHeight={32} color="white">
+          12M
+        </Text>
+      </Block>
+    )
+  }
+
+  const _renderText = () => {
+    return (
       <Block
         absolute
         left={0}
@@ -176,7 +380,6 @@ export const Player: React.FC<IPlayerProps> = (props) => {
           {props.title}
         </Text>
         <ScrollView
-          showsVerticalScrollIndicator
           style={{
             maxHeight: 180,
           }}
@@ -207,12 +410,72 @@ export const Player: React.FC<IPlayerProps> = (props) => {
             </Text>
           ))}
       </Block>
+    )
+  }
+
+  return (
+    <Block
+      alignCenter
+      justifyCenter
+      width={Dimensions.get('window').width}
+      height={
+        Dimensions.get('window').height -
+        heightOfTabBar -
+        props.dimensionParentLayout.height
+      }
+    >
+      <Video
+        playWhenInactive
+        onEnd={() => {
+          console.log('video end')
+
+          if (!!props.onEnd) {
+            props.onEnd()
+          }
+        }}
+        onLoadStart={() => {
+          setIsLoading(true)
+        }}
+        onProgress={({ currentTime }) => {
+          // console.log(currentTime)
+        }}
+        onLoad={handleLoadVideo}
+        source={{ uri: props.source }}
+        poster={props.thumbnail}
+        style={[
+          styles.videoStyle,
+          {
+            width: Dimensions.get('window').width,
+            height:
+              Dimensions.get('window').height -
+              heightOfTabBar -
+              props.dimensionParentLayout.height,
+          },
+          { ...props.videoStyle },
+        ]}
+        repeat={true}
+        paused={!isPlay}
+        resizeMode="contain"
+        posterResizeMode="contain"
+      />
+      {/* button video player */}
+      {_renderVideoControl()}
+
+      {/* text render */}
+      {_renderText()}
+
+      {/*react control */}
+      {_renderReactControl()}
     </Block>
   )
-}
+})
 
 const styles = StyleSheet.create({
   videoStyle: {
-    borderRadius: 10,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })
+
+export const MemoPlayer = React.memo(Player)

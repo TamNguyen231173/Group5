@@ -1,8 +1,13 @@
-export interface IPlayerProps {
+import { DimensionLayout } from '@screens/Video/Video'
+import { Ref } from 'react'
+import { ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes'
+
+interface IPlayerProps {
   title: string
   description: string
   source: string
   thumbnail: string
+  isPlay?: boolean
   isBookmark: boolean
   isLike: boolean
   totalLike: number
@@ -10,9 +15,10 @@ export interface IPlayerProps {
   onEnd?: () => void
   onLoad?: (data: OnLoadData) => void
   onButtonControlClick?: (isPlay: boolean) => void
+  dimensionParentLayout: DimensionLayout
 }
 
-export interface VideoNaturalSize {
+interface VideoNaturalSize {
   height: number
   width: number
   orientation: 'portrait' | 'landscape'

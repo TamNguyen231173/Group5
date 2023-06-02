@@ -16,7 +16,7 @@ export const findPostById = async (id: string) => {
 };
 
 export const findAllPosts = async () => {
-  return postModel.find().populate("user");
+  return postModel.find().populate("author");
 };
 
 export const findPost = async (
@@ -33,7 +33,7 @@ export const findAndUpdatePost = async (
 ) => {
   return await postModel
     .findOneAndUpdate(query, update, options)
-    .populate("user");
+    .populate("author");
 };
 
 export const findOneAndDelete = async (

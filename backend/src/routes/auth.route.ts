@@ -7,6 +7,7 @@ import {
   registerHandler,
   resetPasswordHandler,
   verifyEmailHandler,
+  resendVerificationCodeHandler,
 } from "../controllers/auth.controller";
 import { deserializeUser } from "../middleware/deserializeUser";
 import { requireUser } from "../middleware/requireUser";
@@ -15,6 +16,7 @@ import {
   createUserSchema,
   loginUserSchema,
   verifyEmailSchema,
+  resendVerificationCodeSchema,
 } from "../schema/user.schema";
 
 const router = express.Router();
@@ -36,6 +38,12 @@ router.get(
   validate(verifyEmailSchema),
   verifyEmailHandler
 );
+
+router.post(
+  "/resendVerificationCode",
+  validate(resendVerificationCodeSchema),
+  resendVerificationCodeHandler
+);  
 
 router.post("/forgotpassword", forgotPasswordHandler);
 router.patch("/resetpassword/:resetToken", resetPasswordHandler);

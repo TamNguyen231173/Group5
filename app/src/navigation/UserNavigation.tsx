@@ -1,16 +1,14 @@
 import React, { FC } from 'react'
 import { BottomBar } from './components'
 import { routes } from './utils'
-import { Home, Bookmark, Category, Search, User, DetailScreen} from '@screens'
+import { Home, Bookmark, Category, Search, User, DetailScreen, Video} from '@screens'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {
   CardStyleInterpolators,
   createStackNavigator,
 } from '@react-navigation/stack'
 //
-import { ForgotpasswordScreen } from '@screens/Forgotpassword'
-import VerificationScreen from '@screens/Verification/VerificationScreen'
-import NewpasswordScreen from '@screens/Createnewpassword/NewpasswordScreen'
+
 
 const BottomTabs = createBottomTabNavigator()
 const UserStack = createStackNavigator()
@@ -21,6 +19,7 @@ const BottomTabsNavigation: FC<{}> = () => {
       initialRouteName={routes.home}
       detachInactiveScreens={true}
       screenOptions={{
+        tabBarHideOnKeyboard: true,
         headerShown: false,
       }}
       tabBar={(props) => <BottomBar {...props} />}
@@ -57,7 +56,7 @@ const BottomTabsNavigation: FC<{}> = () => {
 export const UserNavigation = () => {
   return (
     <UserStack.Navigator
-      initialRouteName={routes.main}
+      initialRouteName={routes.video}
       detachInactiveScreens={true}
       screenOptions={{
         headerShown: false,
@@ -65,12 +64,10 @@ export const UserNavigation = () => {
         cardStyleInterpolator: CardStyleInterpolators.forBottomSheetAndroid,
       }}
     >
-      {/* <UserStack.Screen name={routes.main} component={BottomTabsNavigation} />
+      <UserStack.Screen name={routes.main} component={BottomTabsNavigation} />
       <UserStack.Screen name="Search1" component={Search} />
-      <UserStack.Screen name={routes.detail} component={DetailScreen} /> */}
-      
-      <UserStack.Screen name={routes.main} component={ForgotpasswordScreen}/>
-
+      <UserStack.Screen name={routes.detail} component={DetailScreen} />
+      <UserStack.Screen name={routes.detail} component={Video} />
     </UserStack.Navigator>
   )
 }

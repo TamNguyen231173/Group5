@@ -19,6 +19,7 @@ export * from './LargeBookmarkIcon'
 export * from './LargeBookmarkIconFill'
 export * from './PadLock'
 export * from './UsernameIcon'
+
 export * from './KeyIcon'
 export * from './EmailIcon'
 export * from './FilterIcon'

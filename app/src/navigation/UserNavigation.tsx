@@ -1,14 +1,22 @@
 import React, { FC } from 'react'
 import { BottomBar } from './components'
 import { routes } from './utils'
-import { Home, Bookmark, Category, Search, User, DetailScreen, Video} from '@screens'
+import {
+  Home,
+  Bookmark,
+  Category,
+  Search,
+  User,
+  DetailScreen,
+  Login,
+  Video,
+} from '@screens'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {
   CardStyleInterpolators,
   createStackNavigator,
 } from '@react-navigation/stack'
 //
-
 
 const BottomTabs = createBottomTabNavigator()
 const UserStack = createStackNavigator()

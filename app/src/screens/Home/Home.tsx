@@ -1,10 +1,10 @@
-import React, { useState} from 'react'
-import { Text, Container, Block, ButtonApp } from '@components'
+import React, { useState } from 'react'
+import { Text, Container, Block, ButtonApp, TextInput } from '@components'
 import { TextInputApp } from '@components/common/TextInputApp'
 
 export const Home = () => {
-  const [email, setemail] = useState("");
-  
+  const [email, setemail] = useState('')
+
   return (
     <Container>
       <Block flex backgroundColor="#fff" alignCenter justifyCenter>
@@ -18,11 +18,14 @@ export const Home = () => {
             console.log('Check')
           }}
         />
-        <TextInputApp placeholder='haha' onChangeText={(text)=>{
-          setemail(text);
-        }}
-        value={email}
-        type='password'/>
+        <TextInputApp
+          placeholder="haha"
+          onChangeText={(text) => {
+            setemail(text)
+          }}
+          value={email}
+          type="email"
+        />
       </Block>
     </Container>
   )

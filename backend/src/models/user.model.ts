@@ -62,8 +62,11 @@ export class User {
   @prop({ select: false })
   passwordResetAt: Date | null;
 
-  @prop({ default: "local" })
-  provider: string;
+  @prop()
+  posts_saved: string[];
+
+  @prop()
+  video_saved: string[];
 
   // Instance method to check if passwords match
   async comparePasswords(hashedPassword: string, candidatePassword: string) {
@@ -71,7 +74,8 @@ export class User {
   }
 
   createVerificationCode() {
-    const verificationCode = crypto.randomBytes(32).toString("hex");
+    // Generate 4 digit number and convert it to string
+    const verificationCode = Math.floor(1000 + Math.random() * 9000).toString();
 
     this.verificationCode = crypto
       .createHash("sha256")

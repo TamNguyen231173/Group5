@@ -32,9 +32,6 @@ router.use(deserializeUser, requireUser);
 router
   .route("/")
   .post(
-    uploadPostImage,
-    resizePostImage,
-    parsePostFormData,
     validate(createPostSchema),
     createPostHandler
   )
@@ -44,9 +41,6 @@ router
   .route("/:postId")
   .get(validate(getPostSchema), getPostHandler)
   .patch(
-    uploadPostImage,
-    resizePostImage,
-    parsePostFormData,
     validate(updatePostSchema),
     updatePostHandler
   )

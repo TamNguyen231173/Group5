@@ -10,11 +10,13 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-seoul/masonry-list": "^1.4.1",
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/material-top-tabs": "^6.6.2",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
     "@reduxjs/toolkit": "^1.9.5",
+    "@shopify/flash-list": "^1.4.3",
     "async-mutex": "^0.4.0",
     "lodash": "^4.17.21",
     "lodash.keys": "^4.2.0",
@@ -25,6 +27,7 @@
     "react-native-encrypted-storage": "^4.0.3",
     "react-native-fast-image": "^8.6.3",
     "react-native-gesture-handler": "^2.10.1",
+    "react-native-linear-gradient": "^2.6.2",
     "react-native-modalize": "^2.1.1",
     "react-native-pager-view": "^6.2.0",
     "react-native-portalize": "^1.0.7",

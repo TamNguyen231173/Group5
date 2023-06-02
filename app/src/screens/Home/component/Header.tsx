@@ -49,7 +49,7 @@ export const HeaderCustom = ({ type, onPress }: Props) => {
                     : null
             }
 
-            <StatusBar barStyle={"light-content"} />
+            <StatusBar barStyle={"light-content"} backgroundColor={colors.greenDark} />
         </Block>
     );
 };

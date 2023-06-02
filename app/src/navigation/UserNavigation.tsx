@@ -56,7 +56,7 @@ const BottomTabsNavigation: FC<{}> = () => {
 export const UserNavigation = () => {
   return (
     <UserStack.Navigator
-      initialRouteName={routes.video}
+      initialRouteName={routes.main}
       detachInactiveScreens={true}
       screenOptions={{
         headerShown: false,
@@ -67,7 +67,7 @@ export const UserNavigation = () => {
       <UserStack.Screen name={routes.main} component={BottomTabsNavigation} />
       <UserStack.Screen name="Search1" component={Search} />
       <UserStack.Screen name={routes.detail} component={DetailScreen} />
-      <UserStack.Screen name={routes.detail} component={Video} />
+      <UserStack.Screen name={routes.video} component={Video} />
     </UserStack.Navigator>
   )
 }

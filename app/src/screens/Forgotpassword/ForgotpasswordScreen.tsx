@@ -31,8 +31,7 @@ export const ForgotpasswordScreen = () => {
                 </Block>
                 <Block alignCenter justifyCenter>
                     <ButtonApp
-
-                        type='outline'
+                        type = {/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) ? 'primary' : 'outline'}
                         title={'Next'}
                         onClick={() => {
                             console.log('Check')

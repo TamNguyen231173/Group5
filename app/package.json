@@ -39,6 +39,7 @@
     "react-native-size-matters": "^0.4.0",
     "react-native-svg": "^13.9.0",
     "react-native-tab-view": "^3.5.1",
+    "react-native-video": "^5.2.1",
     "react-redux": "^8.0.5",
     "redux-persist": "^6.0.0"
   },
@@ -52,6 +53,7 @@
     "@types/lodash": "^4.14.194",
     "@types/lodash.keys": "^4.2.7",
     "@types/react": "^18.0.24",
+    "@types/react-native-video": "^5.0.14",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.2.1",
     "babel-plugin-module-resolver": "^5.0.0",

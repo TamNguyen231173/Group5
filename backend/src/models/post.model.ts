@@ -39,20 +39,20 @@ export class Post {
   @prop({ default: "default.png" })
   image: string;
 
-  @prop()
+  @prop({ required: true })
   images: string[];
 
   @prop({ ref: () => User })
   likes: Ref<User>[];
 
-  @prop()
-  habitat: string[];
+  @prop({ required: true })
+  habitat: string;
 
-  @prop()
+  @prop({ required: true })
   region: string[];
 
   @prop({ required: true })
-  familyName: string[];
+  familyName: string;
 
   @prop()
   keywords: string[];
@@ -60,8 +60,11 @@ export class Post {
   @prop({ default: false })
   rare: boolean;
 
-  @prop({ ref: () => User })
+  @prop({ required: true, ref: () => User })
   author: Ref<User>;
+
+  @prop({ default: 0 })
+  views: number;
 }
 
 const postModel = getModelForClass(Post);

@@ -28,9 +28,6 @@ export const createPostSchema = object({
     familyName: string({
       required_error: "Family name is required",
     }),
-    rare: boolean({
-      required_error: "Rare is required",
-    }),
   }),
 });
 

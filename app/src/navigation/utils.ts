@@ -7,5 +7,6 @@ export const routes = {
   bookmark: 'BOOKMARK',
   search: 'SEARCH',
   user: 'USER',
+  video: 'VIDEO',
   detail: 'DETAIL',
 }

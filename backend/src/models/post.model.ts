@@ -34,19 +34,37 @@ export class Post {
   title: string;
 
   @prop({ required: true })
-  content: string;
-
-  @prop()
-  category: string;
+  description: string;
 
   @prop({ default: "default.png" })
   image: string;
 
-  @prop()
+  @prop({ required: true })
   images: string[];
 
+  @prop({ ref: () => User })
+  likes: Ref<User>[];
+
+  @prop({ required: true })
+  habitat: string;
+
+  @prop({ required: true })
+  region: string[];
+
+  @prop({ required: true })
+  familyName: string;
+
+  @prop()
+  keywords: string[];
+
+  @prop({ default: false })
+  rare: boolean;
+
   @prop({ required: true, ref: () => User })
-  user: Ref<User>;
+  author: Ref<User>;
+
+  @prop({ default: 0 })
+  views: number;
 }
 
 const postModel = getModelForClass(Post);

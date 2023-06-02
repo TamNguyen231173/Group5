@@ -71,7 +71,11 @@ export const registerHandler = async (
     )}/verifyemail/${verificationCode}`;
 
     try {
-      await new Email(user, redirectUrl).sendVerificationCode();
+      await new Email(
+        user,
+        redirectUrl,
+        verificationCode
+      ).sendVerificationCode();
 
       res.status(201).json({
         status: "success",
@@ -145,6 +149,7 @@ export const loginHandler = async (
   }
 };
 
+// Verify email handler
 export const verifyEmailHandler = async (
   req: Request<VerifyEmailInput>,
   res: Response,
@@ -170,6 +175,52 @@ export const verifyEmailHandler = async (
       status: "success",
       message: "Email verified successfully",
     });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
+// Resend verification code handler
+export const resendVerificationCodeHandler = async (
+  req: Request<{}, {}, { email: string }>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = await findUser({ email: req.body.email });
+
+    if (!user) {
+      return next(new AppError("Could not verify email", 401));
+    }
+
+    const verificationCode = user.createVerificationCode();
+    await user.save({ validateBeforeSave: false });
+
+    // Send Verification Email
+    const redirectUrl = `${config.get<string>(
+      "origin"
+    )}/api/verifyEmail/${verificationCode}`;
+
+    try {
+      await new Email(
+        user,
+        redirectUrl,
+        verificationCode
+      ).sendVerificationCode();
+      res.status(201).json({
+        status: "success",
+        message:
+          "An email with a verification code has been sent to your email",
+      });
+    } catch (error) {
+      user.verificationCode = null;
+      await user.save({ validateBeforeSave: false });
+
+      return res.status(500).json({
+        status: "error",
+        message: "There was an error sending email, please try again",
+      });
+    }
   } catch (err: any) {
     next(err);
   }

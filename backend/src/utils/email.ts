@@ -1,29 +1,29 @@
-import nodemailer from 'nodemailer';
-import config from 'config';
-import pug from 'pug';
-import { convert } from 'html-to-text';
-import { User } from '../models/user.model';
+import nodemailer from "nodemailer";
+import config from "config";
+import pug from "pug";
+import { convert } from "html-to-text";
+import { User } from "../models/user.model";
 
 const smtp = config.get<{
   host: string;
   port: number;
   user: string;
   pass: string;
-}>('smtp');
+}>("smtp");
 
 export default class Email {
   firstName: string;
   to: string;
   from: string;
-  constructor(public user: User, public url: string) {
-    this.firstName = user.name.split(' ')[0];
+  constructor(public user: User, public url: string, public code?: string) {
+    this.firstName = user.name.split(" ")[0];
     this.to = user.email;
-    this.from = `Codevo ${config.get<string>('emailFrom')}`;
+    this.from = `AnimalInfo ${config.get<string>("emailFrom")}`;
   }
 
   private newTransport() {
-    // if (process.env.NODE_ENV === 'production') {
-    //   console.log('Hello')
+    // if (process.env.NODE_ENV === "production") {
+    //   console.log("Hello");
     // }
 
     return nodemailer.createTransport({
@@ -41,6 +41,7 @@ export default class Email {
       firstName: this.firstName,
       subject,
       url: this.url,
+      code: this.code,
     });
     // Create mailOptions
     const mailOptions = {
@@ -51,19 +52,22 @@ export default class Email {
       html,
     };
 
+    console.log(html);
+    console.log("mail Options", mailOptions);
+
     // Send email
     const info = await this.newTransport().sendMail(mailOptions);
     console.log(nodemailer.getTestMessageUrl(info));
   }
 
   async sendVerificationCode() {
-    await this.send('verificationCode', 'Your account verification code');
+    await this.send("verificationCode", "Your account verification code");
   }
 
   async sendPasswordResetToken() {
     await this.send(
-      'resetPassword',
-      'Your password reset token (valid for only 10 minutes)'
+      "resetPassword",
+      "Your password reset token (valid for only 10 minutes)"
     );
   }
 }

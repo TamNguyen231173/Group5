@@ -8,7 +8,7 @@ const alphabet = 'ABCDEFGHIJKLMNOPQRSUVWXYZ'
 const data = []
 for (let i = 0; i < alphabet.length; i++) {
   const categoryObject = {
-    isExpanded: 'false',
+    isExpanded: false,
     category_name: alphabet.substring(i, i + 1),
     subcategory: [
       { id: i, val: `sub category ${i}` },

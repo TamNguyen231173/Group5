@@ -9,6 +9,7 @@ import {
   Severity,
 } from "@typegoose/typegoose";
 import { User } from "./user.model";
+import { Category } from "./category.model";
 
 @pre<Post>("save", function (next) {
   this.id = this._id;
@@ -45,14 +46,14 @@ export class Post {
   @prop({ ref: () => User })
   likes: Ref<User>[];
 
-  @prop({ required: true })
-  habitat: string;
+  @prop({ required: true, ref: () => Category })
+  habitat: Ref<Category>;
 
-  @prop({ required: true })
-  region: string[];
+  @prop({ required: true, ref: () => Category })
+  region: Ref<Category>;
 
-  @prop({ required: true })
-  familyName: string;
+  @prop({ required: true, ref: () => Category })
+  familyName: Ref<Category>;
 
   @prop()
   keywords: string[];

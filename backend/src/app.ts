@@ -9,6 +9,7 @@ import connectDB from "./utils/connectDB";
 import userRouter from "./routes/user.route";
 import authRouter from "./routes/auth.route";
 import postRouter from "./routes/post.route";
+import categoryRouter from "./routes/category.route";
 import sessionRouter from "./routes/session.route";
 
 // import nodemailer from 'nodemailer';
@@ -35,6 +36,7 @@ app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/sessions", sessionRouter);
 app.use("/api/posts", postRouter);
+app.use("/api/categories", categoryRouter);
 
 app.get(
   "/api/healthChecker",

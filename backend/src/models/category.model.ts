@@ -32,7 +32,7 @@ export class Category {
   @prop({ unique: true, required: true })
   name: string;
 
-  @prop({ required: true })
+  @prop()
   description: string;
 
   @prop({ required: true })

@@ -11,14 +11,8 @@ export const createVideoSchema = object({
     thumbnail: string({
       required_error: "Image is required",
     }),
-    familyName: string({
-      required_error: "Family name is required",
-    }),
     url: string({
       required_error: "Url is required",
-    }),
-    habitat: string({
-      required_error: "Habitat is required",
     }),
   }),
 });
@@ -39,9 +33,7 @@ export const updateVideoSchema = object({
     title: string(),
     description: string(),
     thumbnail: string(),
-    familyName: string(),
     url: string(),
-    habitat: string(),
   }).partial(),
 });
 

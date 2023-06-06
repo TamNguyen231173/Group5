@@ -15,3 +15,143 @@ import {
 } from "../services/video.service";
 import { findUserById } from "../services/user.service";
 import AppError from "../utils/appError";
+
+export const createVideoHandler = async (
+  req: Request<{}, {}, CreateVideoInput>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user_id = res.locals.user._id;
+
+    const Video = await createVideo({ input: req.body, user_id });
+
+    res.status(201).json({
+      status: "success",
+      data: {
+        Video,
+      },
+    });
+  } catch (err: any) {
+    if (err.code === "23505") {
+      return res.status(409).json({
+        status: "fail",
+        message: "Video with that title already exist",
+      });
+    }
+    next(err);
+  }
+};
+
+export const getVideoHandler = async (
+  req: Request<GetVideoInput>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const Video = await findVideoById(req.params.VideoId);
+
+    if (!Video) {
+      return next(new AppError("Video with that ID not found", 404));
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        Video,
+      },
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
+export const getVideosHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const Videos = await findAllVideos();
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        Videos,
+      },
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
+export const updateVideoHandler = async (
+  req: Request<UpdateVideoInput["params"], {}, UpdateVideoInput["body"]>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const updatedVideo = await findAndUpdateVideo(
+      { _id: req.params.VideoId },
+      req.body,
+      {}
+    );
+
+    if (!updatedVideo) {
+      return next(new AppError("Video with that ID not found", 404));
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        Video: updatedVideo,
+      },
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
+export const deleteVideoHandler = async (
+  req: Request<DeleteVideoInput>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const Video = await findOneAndDelete({ _id: req.params.VideoId });
+
+    if (!Video) {
+      return next(new AppError("Video with that ID not found", 404));
+    }
+
+    res.status(204).json({
+      status: "success",
+      data: "Video deleted successfully",
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
+export const parseVideoFormData = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (!req.body.data) return next();
+    const parsedBody = { ...JSON.parse(req.body.data) };
+    if (req.body.image) {
+      parsedBody["image"] = req.body.image;
+    }
+
+    if (req.body.images) {
+      parsedBody["images"] = req.body.images;
+    }
+
+    req.body = parsedBody;
+    next();
+  } catch (err: any) {
+    next(err);
+  }
+};

@@ -16,7 +16,7 @@ export const findVideoById = async (id: string) => {
 };
 
 export const findAllVideos = async () => {
-  return videoModel.find().populate("user");
+  return videoModel.find().populate("author");
 };
 
 export const findVideo = async (
@@ -33,7 +33,7 @@ export const findAndUpdateVideo = async (
 ) => {
   return await videoModel
     .findOneAndUpdate(query, update, options)
-    .populate("user");
+    .populate("author");
 };
 
 export const findOneAndDelete = async (

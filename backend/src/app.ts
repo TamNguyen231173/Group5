@@ -11,6 +11,7 @@ import authRouter from "./routes/auth.route";
 import postRouter from "./routes/post.route";
 import categoryRouter from "./routes/category.route";
 import sessionRouter from "./routes/session.route";
+import videoRouter from "./routes/video.route";
 
 // import nodemailer from 'nodemailer';
 // (async function () {
@@ -37,6 +38,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/sessions", sessionRouter);
 app.use("/api/posts", postRouter);
 app.use("/api/categories", categoryRouter);
+app.use("/api/videos", videoRouter);
 
 app.get(
   "/api/healthChecker",

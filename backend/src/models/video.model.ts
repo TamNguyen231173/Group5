@@ -9,6 +9,7 @@ import {
   Severity,
 } from "@typegoose/typegoose";
 import { User } from "./user.model";
+import { Category } from "./category.model";
 
 @pre<Video>("save", function (next) {
   this.id = this._id;
@@ -36,23 +37,26 @@ export class Video {
   @prop()
   description: string;
 
-  @prop({ required: true })
-  category: string;
-
   @prop({ default: "default.png" })
   thumbnail: string;
 
   @prop({ required: true })
   url: string;
 
-  @prop({ ref: () => User })
-  likes: Ref<User>[];
-
-  @prop({ required: true })
-  familyName: string[];
+  @prop({ default: 0 })
+  likes: number;
 
   @prop()
   keywords: string[];
+
+  @prop({ required: true, ref: () => Category })
+  familyName: Ref<Category>;
+
+  @prop({ required: true, ref: () => Category })
+  habitat: Ref<Category>;
+
+  @prop({ required: true, ref: () => User })
+  author: Ref<User>;
 }
 
 const VideoModel = getModelForClass(Video);

@@ -1,5 +1,6 @@
 import { bool } from "sharp";
 import { array, boolean, object, string, TypeOf } from "zod";
+import { User } from "../models/user.model";
 
 export const createPostSchema = object({
   body: object({
@@ -17,16 +18,8 @@ export const createPostSchema = object({
         required_error: "Images is required",
       })
     ),
-    habitat: string({
-      required_error: "Habitat is required",
-    }),
-    region: array(
-      string({
-        required_error: "Region is required",
-      })
-    ),
-    familyName: string({
-      required_error: "Family name is required",
+    rare: boolean({
+      required_error: "Rare is required",
     }),
   }),
 });
@@ -47,10 +40,7 @@ export const updatePostSchema = object({
     title: string(),
     description: string(),
     images: array(string()),
-    habitat: string(),
     image: string(),
-    region: array(string()),
-    familyName: string(),
     rare: boolean(),
   }).partial(),
 });

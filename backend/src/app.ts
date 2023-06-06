@@ -40,15 +40,12 @@ app.use("/api/posts", postRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/videos", videoRouter);
 
-app.get(
-  "/api/healthChecker",
-  (req: Request, res: Response, next: NextFunction) => {
-    res.status(200).json({
-      status: "success",
-      message: "Welcome to Group5😂😂👈👈",
-    });
-  }
-);
+app.get("/", (req: Request, res: Response, next: NextFunction) => {
+  res.status(200).json({
+    status: "success",
+    message: "Welcome to Group5😂😂👈👈",
+  });
+});
 
 // UnKnown Routes
 app.all("*", (req: Request, res: Response, next: NextFunction) => {

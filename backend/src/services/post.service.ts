@@ -12,18 +12,37 @@ export const createPost = async ({
 };
 
 export const findPostById = async (id: string) => {
-  return postModel.findById(id).lean();
+  return postModel
+    .findById(id)
+    .populate("author")
+    .populate("familyName")
+    .populate("habitat")
+    .populate("region")
+    .lean()
+    .lean();
 };
 
 export const findAllPosts = async () => {
-  return postModel.find().populate("author").populate("familyName");
+  return postModel
+    .find()
+    .populate("author")
+    .populate("familyName")
+    .populate("habitat")
+    .populate("region")
+    .lean();
 };
 
 export const findPost = async (
   query: FilterQuery<Post>,
   options: QueryOptions = {}
 ) => {
-  return await postModel.findOne(query, {}, options);
+  return await postModel
+    .findOne(query, {}, options)
+    .populate("author")
+    .populate("familyName")
+    .populate("habitat")
+    .populate("region")
+    .lean();
 };
 
 export const findAndUpdatePost = async (
@@ -34,7 +53,10 @@ export const findAndUpdatePost = async (
   return await postModel
     .findOneAndUpdate(query, update, options)
     .populate("author")
-    .populate("familyName");
+    .populate("familyName")
+    .populate("habitat")
+    .populate("region")
+    .lean();
 };
 
 export const findOneAndDelete = async (

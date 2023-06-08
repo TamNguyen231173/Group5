@@ -77,6 +77,9 @@ export const TopTabV2: React.FC<MaterialTopTabBarProps> = (props) => {
 
   return (
     <Block
+      onLayout={(e) => {
+        console.log(e.nativeEvent.layout)
+      }}
       height={45}
       backgroundColor={colors.white}
       alignCenter

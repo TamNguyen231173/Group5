@@ -17,9 +17,3 @@ interface IPlayerProps {
   onButtonControlClick?: (isPlay: boolean) => void
   dimensionParentLayout: DimensionLayout
 }
-
-interface VideoNaturalSize {
-  height: number
-  width: number
-  orientation: 'portrait' | 'landscape'
-}

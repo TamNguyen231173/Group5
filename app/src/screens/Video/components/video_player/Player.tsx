@@ -1,12 +1,11 @@
 import React from 'react'
-import Video, { OnLoadData } from 'react-native-video'
+import Video from 'react-native-video'
 import {
   StyleSheet,
   Dimensions,
   Pressable,
   Animated,
   Easing,
-  View,
 } from 'react-native'
 import {
   NativeSyntheticEvent,
@@ -17,13 +16,18 @@ import { HeartFillIcon, HeartIcon, PlayIcon } from '@assets'
 import PauseIcon from '@assets/icons/PauseIcon'
 import { ScrollView } from 'react-native-gesture-handler'
 import LargeBookmarkIcon from '@assets/icons/LargeBookmarkIcon'
-import { IPlayerProps, VideoNaturalSize } from './type'
+import { IPlayerProps } from './type'
 import { heightOfTabBar } from '@screens/Video/constant'
 import LargeBookmarkIconFill from '@assets/icons/LargeBookmarkIconFill'
+import AnimatedLottieView from 'lottie-react-native'
+import { normalize, useTheme } from '@themes'
+import { heightScreen, widthScreen } from '@utils/helper'
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
 
 const Player = React.forwardRef((props: IPlayerProps, ref) => {
+  const { colors } = useTheme()
+
   const [showMoreInfo, setShowMoreInfo] = React.useState(false)
   const [isPlay, setIsPlay] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(true)
@@ -44,18 +48,6 @@ const Player = React.forwardRef((props: IPlayerProps, ref) => {
 
   const [numberLineTitle, setNumberLineTitle] = React.useState(1)
   const [numberLineDescription, setNumberLineDescription] = React.useState(1)
-
-  const [videoNaturalSize, setVideoNaturalSize] =
-    React.useState<VideoNaturalSize>()
-
-  const handleLoadVideo = (data: OnLoadData) => {
-    setVideoNaturalSize(data.naturalSize)
-    setIsLoading(false)
-
-    if (!!props.onLoad) {
-      props.onLoad(data)
-    }
-  }
 
   //export method for parent
   React.useImperativeHandle(ref, () => ({
@@ -237,6 +229,7 @@ const Player = React.forwardRef((props: IPlayerProps, ref) => {
           right: 0,
           bottom: 0,
           backgroundColor: '#00000030',
+          zIndex: 5,
         }}
         onPress={handleIsPlay}
       >
@@ -267,7 +260,7 @@ const Player = React.forwardRef((props: IPlayerProps, ref) => {
         column
         alignEnd
         justifyCenter
-        zIndex={1}
+        zIndex={6}
         style={{
           gap: 15,
         }}
@@ -368,6 +361,7 @@ const Player = React.forwardRef((props: IPlayerProps, ref) => {
         flex
         padding={10}
         alignStart
+        zIndex={6}
       >
         <Text
           onTextLayout={handleTitleLayout}
@@ -413,6 +407,49 @@ const Player = React.forwardRef((props: IPlayerProps, ref) => {
     )
   }
 
+  const _renderThumbnail = (url: string) => {
+    return (
+      <Block
+        absolute
+        backgroundColor={colors.transparent}
+        width={widthScreen}
+        height={
+          Dimensions.get('window').height -
+          heightOfTabBar -
+          props.dimensionParentLayout.height
+        }
+        zIndex={4}
+      >
+        <Image source={{ uri: url }} width={'100%'} height={'100%'} />
+      </Block>
+    )
+  }
+
+  const _renderLoadingIndicator = () => {
+    return (
+      <Block
+        absolute
+        zIndex={4}
+        flex
+        width={widthScreen}
+        height={
+          Dimensions.get('window').height -
+          heightOfTabBar -
+          props.dimensionParentLayout.height
+        }
+        backgroundColor={colors.transparent}
+        justifyCenter
+        alignCenter
+      >
+        <AnimatedLottieView
+          source={require('./animal_loading.json')}
+          autoPlay
+          style={{ width: normalize.h(120), height: normalize.v(120) }}
+        />
+      </Block>
+    )
+  }
+
   return (
     <Block
       alignCenter
@@ -434,14 +471,17 @@ const Player = React.forwardRef((props: IPlayerProps, ref) => {
           }
         }}
         onLoadStart={() => {
+          // console.log('Start load')
           setIsLoading(true)
+        }}
+        onReadyForDisplay={() => {
+          // console.log('End load')
+          setIsLoading(false)
         }}
         onProgress={({ currentTime }) => {
           // console.log(currentTime)
         }}
-        onLoad={handleLoadVideo}
         source={{ uri: props.source }}
-        poster={props.thumbnail}
         style={[
           styles.videoStyle,
           {
@@ -455,8 +495,7 @@ const Player = React.forwardRef((props: IPlayerProps, ref) => {
         ]}
         repeat={true}
         paused={!isPlay}
-        resizeMode="contain"
-        posterResizeMode="contain"
+        resizeMode="cover"
       />
       {/* button video player */}
       {_renderVideoControl()}
@@ -466,6 +505,13 @@ const Player = React.forwardRef((props: IPlayerProps, ref) => {
 
       {/*react control */}
       {_renderReactControl()}
+
+      {/* render video thumbnail */}
+      {((isLoading && !isPlay) || isLoading) &&
+        _renderThumbnail(props.thumbnail)}
+
+      {/* render loading indicator */}
+      {isLoading && _renderLoadingIndicator()}
     </Block>
   )
 })

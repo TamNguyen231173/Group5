@@ -16,13 +16,14 @@ export const ForYouTab: React.FC = ({ navigation, route }: any) => {
     })
   }, [])
 
-  // console.log(listVideoWithRef)
-
   const onViewableItemsChanged = ({ changed }: { changed: any }) => {
     listVideoWithRef.forEach((item, index) => {
       if (index === changed[0].index) {
         console.log('play ' + index)
         item.ref.current.play()
+
+        //get current video index
+        setCurrentVideoIndex(index)
       } else {
         if (item.ref.current !== null) {
           item.ref.current.stop()
@@ -40,7 +41,6 @@ export const ForYouTab: React.FC = ({ navigation, route }: any) => {
       return (
         <MemoPlayer
           ref={item.ref}
-          isPlay={currentVideoIndex === index && !isUserDrag}
           dimensionParentLayout={{ width, height }}
           videoStyle={{
             width: Dimensions.get('window').width,
@@ -71,10 +71,12 @@ export const ForYouTab: React.FC = ({ navigation, route }: any) => {
         }}
         showsVerticalScrollIndicator={false}
         data={listVideoWithRef}
-        initialNumToRender={4}
+        initialNumToRender={3}
         keyExtractor={(item) => 'Item_'.concat(item._id)}
         renderItem={_renderItem}
         snapToAlignment="start"
+        removeClippedSubviews={true}
+        maxToRenderPerBatch={3}
         viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
         onScrollEndDrag={() => {
           setIsUserDrag(false)

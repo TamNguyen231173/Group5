@@ -12,20 +12,17 @@ import { useTheme } from '@themes'
 import { postDetail, PostItemRelated, VideoData } from './contants'
 import { goBack } from '@navigation/NavigationServices'
 import { StatusBar } from 'react-native'
+import { useGetPostByIdQuery } from '@reduxs'
 
 interface DetailScreenProps {
-  id?: string
+  id: string
 }
 
 export const DetailScreen = (props: DetailScreenProps) => {
   const [showMore, setShowMore] = useState(false)
   const { colors } = useTheme()
   // const { data } = props.id
-  const data = postDetail
-
-  if (!data) {
-    // return null
-  }
+  const { data } = useGetPostByIdQuery(props.id)
 
   const toggleShow = () => {
     setShowMore(!showMore)

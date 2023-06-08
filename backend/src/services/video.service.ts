@@ -16,7 +16,11 @@ export const findVideoById = async (id: string) => {
 };
 
 export const findAllVideos = async () => {
-  return videoModel.find().populate("author");
+  return videoModel
+    .find()
+    .populate("familyName")
+    .populate("habitat")
+    .populate("author", "_id name");
 };
 
 export const findVideo = async (

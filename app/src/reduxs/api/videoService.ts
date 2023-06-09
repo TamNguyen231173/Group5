@@ -2,18 +2,26 @@ import { apiService } from './apiService'
 import { EndPoint } from './endPoint'
 import { Video } from './type'
 
-export interface GetAllVideoResponse {}
+export type GetAllVideoResponse = {
+  status: string
+  data: Array<Video>
+}
+
+export type GetVideoResponse = {
+  status: string
+  data: Video
+}
 
 export const videoService = apiService.injectEndpoints({
   endpoints: (builder) => ({
-    getAllVideo: builder.query<Video[], any>({
+    getAllVideo: builder.query<GetAllVideoResponse, void>({
       query: () => EndPoint.getAllVideo,
-      keepUnusedDataFor: 5,
+      keepUnusedDataFor: 10,
     }),
 
-    getVideo: builder.query<Video, any>({
-      query: (id: string) => EndPoint.getVideoById(id),
-      keepUnusedDataFor: 5,
+    getVideo: builder.query<GetVideoResponse, string>({
+      query: (id) => EndPoint.getVideoById(id),
+      keepUnusedDataFor: 10,
     }),
   }),
 })

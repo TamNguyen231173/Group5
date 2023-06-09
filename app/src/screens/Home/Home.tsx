@@ -16,8 +16,6 @@ import { Data, VideoData } from './contanst'
 import { AddVideoIcon } from '@assets'
 import { TopSearchItem } from './component/TopSearchItem'
 import { useGetAllVideoQuery } from '@reduxs/api/videoService'
-import { useDispatch } from 'react-redux'
-import { incrementByAmount } from '@reduxs'
 
 interface Props {
   avatar: string
@@ -78,10 +76,10 @@ const CreateVideo = ({ avatar }: Props) => {
 }
 
 export const Home = () => {
-  const { isError, data, isLoading, isSuccess } = useGetAllVideoQuery()
+  const { isError, data, isLoading, isSuccess, refetch } = useGetAllVideoQuery()
 
   React.useEffect(() => {
-    console.log({ isError, data, isLoading, isSuccess })
+    console.log({ isError, data, isLoading, isSuccess, refetch })
   })
 
   const { colors } = useTheme()

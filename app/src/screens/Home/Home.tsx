@@ -1,20 +1,30 @@
-import React, { } from 'react'
-import { FlatList, View } from 'react-native';
-import { Container, Block, PostItem, Image, Text, BottomSheet } from '@components'
+import React from 'react'
+import { FlatList, View } from 'react-native'
+import {
+  Container,
+  Block,
+  PostItem,
+  Image,
+  Text,
+  BottomSheet,
+} from '@components'
 
-import { useTheme } from '@themes';
-import { HeaderCustom, VideoItem } from './component';
-import { TouchableOpacity, ScrollView } from 'react-native';
-import { Data, VideoData } from './contanst';
-import { AddVideoIcon } from '@assets';
-import { TopSearchItem } from './component/TopSearchItem';
+import { useTheme } from '@themes'
+import { HeaderCustom, VideoItem } from './component'
+import { TouchableOpacity, ScrollView } from 'react-native'
+import { Data, VideoData } from './contanst'
+import { AddVideoIcon } from '@assets'
+import { TopSearchItem } from './component/TopSearchItem'
+import { useGetAllVideoQuery } from '@reduxs/api/videoService'
+import { useDispatch } from 'react-redux'
+import { incrementByAmount } from '@reduxs'
 
 interface Props {
-  avatar: string;
+  avatar: string
 }
 
 const CreateVideo = ({ avatar }: Props) => {
-  const { colors } = useTheme();
+  const { colors } = useTheme()
   return (
     <TouchableOpacity
       activeOpacity={0.8}
@@ -22,8 +32,9 @@ const CreateVideo = ({ avatar }: Props) => {
         backgroundColor: colors.blackLight,
         marginRight: 16,
         borderRadius: 8,
-        marginLeft: 20
-      }}>
+        marginLeft: 20,
+      }}
+    >
       <Block width={96} height={141} radius={8}>
         <Image
           source={{
@@ -31,7 +42,7 @@ const CreateVideo = ({ avatar }: Props) => {
           }}
           width={'100%'}
           height={100}
-          resizeMode='cover'
+          resizeMode="cover"
           style={{
             borderTopLeftRadius: 8,
             borderTopRightRadius: 8,
@@ -44,7 +55,8 @@ const CreateVideo = ({ avatar }: Props) => {
             borderBottomLeftRadius: 8,
             borderBottomRightRadius: 8,
           }}
-          alignCenter>
+          alignCenter
+        >
           <Block style={{ transform: [{ translateY: -9 }] }}>
             <AddVideoIcon />
           </Block>
@@ -54,7 +66,8 @@ const CreateVideo = ({ avatar }: Props) => {
               fontFamily="bold"
               size={16}
               lineHeight={17}
-              color="#fff">
+              color="#fff"
+            >
               Tạo tin
             </Text>
           </Block>
@@ -64,84 +77,103 @@ const CreateVideo = ({ avatar }: Props) => {
   )
 }
 
-
-
 export const Home = () => {
-  const { colors } = useTheme();
+  const { isError, data, isLoading, isSuccess } = useGetAllVideoQuery()
+
+  React.useEffect(() => {
+    console.log({ isError, data, isLoading, isSuccess })
+  })
+
+  const { colors } = useTheme()
   return (
     <Container
       statusColor={colors.greenDark}
       backgroundColor={colors.white}
-      style={{paddingBottom: 80}}>
-      <HeaderCustom type='home' onPress={() => { }} />
-      <ScrollView
-        showsVerticalScrollIndicator={false}>
+      style={{ paddingBottom: 80 }}
+    >
+      <HeaderCustom type="home" onPress={() => {}} />
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Block flex>
           <Block paddingTop={20}>
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
-              snapToAlignment='center'
-              pagingEnabled>
-              <CreateVideo avatar='https://plus.unsplash.com/premium_photo-1684952848654-1171ca8988ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=627&q=80' />
-              {
-                VideoData.map((item) => {
-                  return (
-                    <VideoItem
-                      thumbnail={item.thumbnail}
-                      avatar={item.avatar}
-                      name={item.name}
-                      key={item.id}
-                    />
-                  )
-                })
-              }
+              snapToAlignment="center"
+              pagingEnabled
+            >
+              <CreateVideo avatar="https://plus.unsplash.com/premium_photo-1684952848654-1171ca8988ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=627&q=80" />
+              {VideoData.map((item) => {
+                return (
+                  <VideoItem
+                    thumbnail={item.thumbnail}
+                    avatar={item.avatar}
+                    name={item.name}
+                    key={item.id}
+                  />
+                )
+              })}
             </ScrollView>
           </Block>
           <Text
             marginTop={20}
             marginBottom={20}
-            fontFamily='bold'
+            fontFamily="bold"
             size={16}
             lineHeight={18}
             paddingLeft={20}
-          >Các động vật tại Việt Nam</Text>
+          >
+            Các động vật tại Việt Nam
+          </Text>
           <Block>
             <FlatList
               data={Data}
               renderItem={(item) => {
                 return (
                   <View>
-                    {
-                      item.index == 0 ?
-                        <Block marginLeft={20}>
-                          <PostItem name={item.item.name} familyName={item.item.familyName} image={item.item.image} />
-                        </Block>
-                        :
-                        <PostItem name={item.item.name} familyName={item.item.familyName} image={item.item.image} />
-                    }
+                    {item.index == 0 ? (
+                      <Block marginLeft={20}>
+                        <PostItem
+                          name={item.item.name}
+                          familyName={item.item.familyName}
+                          image={item.item.image}
+                        />
+                      </Block>
+                    ) : (
+                      <PostItem
+                        name={item.item.name}
+                        familyName={item.item.familyName}
+                        image={item.item.image}
+                      />
+                    )}
                   </View>
                 )
               }}
-              keyExtractor={item => item._id}
+              keyExtractor={(item) => item._id}
               horizontal={true}
               showsHorizontalScrollIndicator={false}
               pagingEnabled={true}
-              snapToAlignment='center'
+              snapToAlignment="center"
             />
           </Block>
           <Text
             marginTop={20}
             marginBottom={20}
-            fontFamily='bold'
+            fontFamily="bold"
             size={16}
             lineHeight={18}
             paddingLeft={20}
-          >Được xem nhiều nhất</Text>
+          >
+            Được xem nhiều nhất
+          </Text>
           <Block paddingLeft={20} paddingRight={20}>
-            {
-              Data.map(item => <TopSearchItem image={item.image} familiName={item.familyName} name={item.name} key={item._id} />)
-            }
+            {Data.map((item) => (
+              <TopSearchItem
+                image={item.image}
+                familiName={item.familyName}
+                name={item.name}
+                key={item._id}
+              />
+            ))}
           </Block>
         </Block>
       </ScrollView>
@@ -149,5 +181,3 @@ export const Home = () => {
     </Container>
   )
 }
-
-

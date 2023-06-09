@@ -28,9 +28,7 @@ export const createVideoHandler = async (
 
     res.status(201).json({
       status: "success",
-      data: {
-        Video,
-      },
+      data: Video,
     });
   } catch (err: any) {
     if (err.code === "23505") {
@@ -57,9 +55,7 @@ export const getVideoHandler = async (
 
     res.status(200).json({
       status: "success",
-      data: {
-        Video,
-      },
+      data: Video,
     });
   } catch (err: any) {
     next(err);
@@ -76,9 +72,7 @@ export const getVideosHandler = async (
 
     res.status(200).json({
       status: "success",
-      data: {
-        Videos,
-      },
+      data: Videos,
     });
   } catch (err: any) {
     next(err);
@@ -103,9 +97,7 @@ export const updateVideoHandler = async (
 
     res.status(200).json({
       status: "success",
-      data: {
-        Video: updatedVideo,
-      },
+      data: updatedVideo,
     });
   } catch (err: any) {
     next(err);

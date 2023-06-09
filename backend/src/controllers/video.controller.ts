@@ -94,7 +94,7 @@ export const updateVideoHandler = async (
     const updatedVideo = await findAndUpdateVideo(
       { _id: req.params.VideoId },
       req.body,
-      {}
+      { returnDocument: "after" }
     );
 
     if (!updatedVideo) {

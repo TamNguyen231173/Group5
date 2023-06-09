@@ -4,19 +4,6 @@ import { Platform, UIManager, LayoutAnimation, View } from 'react-native'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import { useTheme } from '@themes'
 import { ArrowRightIcon } from '@assets'
-const alphabet = 'ABCDEFGHIJKLMNOPQRSUVWXYZ'
-const data = []
-for (let i = 0; i < alphabet.length; i++) {
-  const categoryObject = {
-    isExpanded: false,
-    category_name: alphabet.substring(i, i + 1),
-    subcategory: [
-      { id: i, val: `sub category ${i}` },
-      { id: i + 1, val: `sub category ${i + 1}` },
-    ],
-  }
-  data.push(categoryObject)
-}
 interface Category {
   isExpanded: boolean
   category_name: string
@@ -143,3 +130,59 @@ export const Category = () => {
     </Container>
   )
 }
+const data = [
+  {
+    isExpanded: false,
+    category_name: 'Lưỡng cư',
+    subcategory: [
+      { id: 1, val: 'Ếch thủy tinh Centrolene sabini' },
+      { id: 2, val: 'Ếch Hyloscirtus princecharlesi' },
+      { id: 3, val: 'Kỳ giông Bolitoglossa splendida' },
+    ],
+  },
+  {
+    isExpanded: false,
+    category_name: 'Cá',
+    subcategory: [
+      { id: 4, val: 'Cá hắc kỳ' },
+      { id: 5, val: 'Cá neon đen' },
+      { id: 6, val: 'Cá tetra đuôi đỏ' },
+    ],
+  },
+  {
+    isExpanded: false,
+    category_name: 'Bò sát',
+    subcategory: [
+      { id: 7, val: 'Thằn lằn Agama đầu đỏ' },
+      { id: 8, val: 'Rùa Iguana' },
+      { id: 9, val: 'Rắn độc Viper' },
+    ],
+  },
+  {
+    isExpanded: false,
+    category_name: 'Chim',
+    subcategory: [
+      { id: 10, val: 'Chim Sáo' },
+      { id: 11, val: 'Chim Vẹt' },
+      { id: 12, val: 'Chim Vàng Anh' },
+    ],
+  },
+  {
+    isExpanded: false,
+    category_name: 'Động vật có vú',
+    subcategory: [
+      { id: 13, val: 'Hươu sao Việt Nam' },
+      { id: 14, val: 'Khỉ đuôi dài' },
+      { id: 15, val: 'Trâu rừng' },
+    ],
+  },
+  {
+    isExpanded: false,
+    category_name: 'Không xương sống',
+    subcategory: [
+      { id: 16, val: 'Mực' },
+      { id: 17, val: 'Giun' },
+      { id: 18, val: 'Bạch tuộc' },
+    ],
+  },
+]

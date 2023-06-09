@@ -1,13 +1,14 @@
-import { apiService } from './apiService';
-import { Pokemon } from './type';
+import { apiService } from './apiService'
+import { EndPoint } from './endPoint'
+import { PostDetail } from './type'
 
-export const demoApiSlice = apiService.injectEndpoints({
-    endpoints: (builder) => ({
-        getPokemon: builder.query<Pokemon[], void>({
-            query: () => '/pokemon',
-            keepUnusedDataFor: 5,
-        }),
+export const postService = apiService.injectEndpoints({
+  endpoints: (builder) => ({
+    getDetailPost: builder.query<PostDetail, any>({
+      query: (id: string) => EndPoint.getPostById(id),
+      keepUnusedDataFor: 5,
     }),
-});
+  }),
+})
 
-export const { useGetPokemonQuery } = demoApiSlice;
+export const { useGetDetailPostQuery } = postService

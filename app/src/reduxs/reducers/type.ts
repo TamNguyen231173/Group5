@@ -1,4 +1,4 @@
-export enum   RootReducerName {
+export enum RootReducerName {
   auth = 'auth',
   loading = 'loading',
   common = 'common',

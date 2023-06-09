@@ -2,12 +2,10 @@ import { BackIcon, BlackSearchIcon } from '@assets'
 import { Block, Container, Text, TextInput } from '@components'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import React from 'react'
-import { Dimensions, FlatList } from 'react-native'
 import { FollowingTab, ForYouTab } from './components'
 import { TopTabV2 } from '@navigation/components/TopTab'
 import { fontFamilySetup, normalize, useTheme } from '@themes'
 import { goBack } from '@navigation/NavigationServices'
-import { listVideo } from './constant'
 
 export interface DimensionLayout {
   width: number
@@ -70,24 +68,23 @@ export const Video: React.FC = () => {
         </Block>
 
         {/* tab navigator */}
-        {dimensionsTopLayout?.height != null &&
-          dimensionsTopLayout.width != null && (
-            <Tab.Navigator
-              screenOptions={{}}
-              tabBar={(props) => <TopTabV2 {...props} />}
-            >
-              <Tab.Screen
-                name="For You"
-                component={ForYouTab}
-                initialParams={dimensionsTopLayout}
-              />
-              <Tab.Screen
-                name="Following"
-                component={FollowingTab}
-                initialParams={dimensionsTopLayout}
-              />
-            </Tab.Navigator>
-          )}
+        {!!dimensionsTopLayout?.height && !!dimensionsTopLayout?.width && (
+          <Tab.Navigator
+            screenOptions={{}}
+            tabBar={(props) => <TopTabV2 {...props} />}
+          >
+            <Tab.Screen
+              name="For You"
+              component={ForYouTab}
+              initialParams={dimensionsTopLayout}
+            />
+            <Tab.Screen
+              name="Following"
+              component={FollowingTab}
+              initialParams={dimensionsTopLayout}
+            />
+          </Tab.Navigator>
+        )}
       </Block>
     </Container>
   )

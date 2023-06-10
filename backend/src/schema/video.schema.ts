@@ -1,4 +1,4 @@
-import { array, object, string, TypeOf } from "zod";
+import { array, number, object, string, TypeOf } from "zod";
 
 export const createVideoSchema = object({
   body: object({
@@ -23,8 +23,16 @@ const params = {
   }),
 };
 
+const query = {
+  query: object({
+    per_page: number(),
+    page: number(),
+  }).partial(),
+};
+
 export const getVideoSchema = object({
   ...params,
+  ...query,
 });
 
 export const updateVideoSchema = object({
@@ -43,5 +51,6 @@ export const deleteVideoSchema = object({
 
 export type CreateVideoInput = TypeOf<typeof createVideoSchema>["body"];
 export type GetVideoInput = TypeOf<typeof getVideoSchema>["params"];
+export type GetVideoPaginationInput = TypeOf<typeof getVideoSchema>["query"];
 export type UpdateVideoInput = TypeOf<typeof updateVideoSchema>;
 export type DeleteVideoInput = TypeOf<typeof deleteVideoSchema>["params"];

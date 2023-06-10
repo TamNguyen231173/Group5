@@ -3,6 +3,7 @@ import {
   CreateVideoInput,
   DeleteVideoInput,
   GetVideoInput,
+  GetVideoPaginationInput,
   UpdateVideoInput,
 } from "../schema/video.schema";
 import {
@@ -12,6 +13,7 @@ import {
   findOneAndDelete,
   findVideo,
   findVideoById,
+  getAmountOfRecord,
 } from "../services/video.service";
 import { findUserById } from "../services/user.service";
 import AppError from "../utils/appError";
@@ -63,16 +65,28 @@ export const getVideoHandler = async (
 };
 
 export const getVideosHandler = async (
-  req: Request,
+  req: Request<{}, {}, {}, GetVideoPaginationInput>,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const Videos = await findAllVideos();
+    const perPage = req.query["per_page"] ?? 10;
+    const page = req.query["page"] ?? 1;
+
+    const amountOfRecord = await getAmountOfRecord();
+    const amountOfPage = Math.floor(amountOfRecord / perPage);
+
+    const Videos = await findAllVideos({
+      skip: perPage * (page - 1),
+      limit: perPage,
+    });
 
     res.status(200).json({
       status: "success",
       data: Videos,
+      records: amountOfRecord,
+      pages: amountOfPage,
+      current_page: Number(page),
     });
   } catch (err: any) {
     next(err);

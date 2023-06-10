@@ -265,4 +265,4 @@ export const listVideo = [
   //   },
 ]
 
-export const heightOfTabBar = 60
+export const heightOfTabBar = 45

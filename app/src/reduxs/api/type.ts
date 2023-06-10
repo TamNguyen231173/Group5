@@ -8,13 +8,6 @@ export interface User {
   name: string
 }
 
-export interface Category {
-  id: string
-  name: string
-  description: string
-  type: string
-}
-
 export interface Post {
   id: string
   title: string
@@ -28,4 +21,35 @@ export interface Post {
   author: User
   views: number
   keywords: string[]
+}
+
+export interface Video {
+  _id: string
+  title: string
+  description: string
+  thumbnail: string
+  url: string
+  like: number
+  keywords: Array<string>
+  familyName: Category
+  habitat: Category
+  author: Author
+  created_at: Date
+  updated_at: Date
+  id: string
+}
+
+export interface Category {
+  _id: string
+  name: string
+  description: string
+  type: string
+  created_at: Date
+  updated_at: Date
+  id: string
+}
+
+export interface Author {
+  _id: string
+  name: string
 }

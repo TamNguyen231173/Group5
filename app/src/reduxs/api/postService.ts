@@ -15,3 +15,4 @@ export const postService = apiService.injectEndpoints({
 })
 
 export const { useGetAllPostQuery, useGetPostByIdQuery } = postService
+

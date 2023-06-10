@@ -70,7 +70,7 @@ export const getVideosHandler = async (
   next: NextFunction
 ) => {
   try {
-    const perPage = req.query["per_page"] ?? 10;
+    const perPage = req.query["per_page"] ?? 0;
     const page = req.query["page"] ?? 1;
 
     const amountOfRecord = await getAmountOfRecord();
@@ -85,7 +85,8 @@ export const getVideosHandler = async (
       status: "success",
       data: Videos,
       records: amountOfRecord,
-      pages: amountOfPage,
+      //for case (amountOfRecord / perPage = 0)
+      pages: !isFinite(amountOfPage) ? 1 : amountOfPage,
       current_page: Number(page),
     });
   } catch (err: any) {

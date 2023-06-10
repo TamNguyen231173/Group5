@@ -76,12 +76,6 @@ const CreateVideo = ({ avatar }: Props) => {
 }
 
 export const Home = () => {
-  const { isError, data, isLoading, isSuccess, refetch } = useGetAllVideoQuery()
-
-  React.useEffect(() => {
-    console.log({ isError, data, isLoading, isSuccess, refetch })
-  })
-
   const { colors } = useTheme()
   return (
     <Container

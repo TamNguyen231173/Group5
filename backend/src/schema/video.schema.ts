@@ -1,4 +1,4 @@
-import { array, number, object, string, TypeOf } from "zod";
+import { array, number, object, string, TypeOf, z } from "zod";
 
 export const createVideoSchema = object({
   body: object({
@@ -24,14 +24,29 @@ const params = {
 };
 
 const query = {
-  query: object({
-    per_page: number(),
-    page: number(),
-  }).partial(),
+  query: z
+    .object({
+      per_page: z.preprocess(
+        (value) => parseInt(z.string().parse(value)),
+        z
+          .number({ invalid_type_error: "PerPage must be a number" })
+          .positive({ message: "PerPage must be a positive number" })
+      ),
+      page: z.preprocess(
+        (value) => parseInt(z.string().parse(value)),
+        z
+          .number({ invalid_type_error: "Page must be a number" })
+          .positive({ message: "Page must be a positive number" })
+      ),
+    })
+    .partial(),
 };
 
 export const getVideoSchema = object({
   ...params,
+});
+
+export const getPaginationVideoSchema = object({
   ...query,
 });
 
@@ -51,6 +66,8 @@ export const deleteVideoSchema = object({
 
 export type CreateVideoInput = TypeOf<typeof createVideoSchema>["body"];
 export type GetVideoInput = TypeOf<typeof getVideoSchema>["params"];
-export type GetVideoPaginationInput = TypeOf<typeof getVideoSchema>["query"];
+export type GetVideoPaginationInput = TypeOf<
+  typeof getPaginationVideoSchema
+>["query"];
 export type UpdateVideoInput = TypeOf<typeof updateVideoSchema>;
 export type DeleteVideoInput = TypeOf<typeof deleteVideoSchema>["params"];

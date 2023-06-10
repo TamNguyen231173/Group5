@@ -15,9 +15,9 @@ export const findVideoById = async (id: string) => {
   return videoModel.findById(id).lean();
 };
 
-export const findAllVideos = async () => {
+export const findAllVideos = async (options: QueryOptions = {}) => {
   return videoModel
-    .find()
+    .find({}, {}, options)
     .populate("familyName")
     .populate("habitat")
     .populate("author", "_id name");
@@ -45,4 +45,8 @@ export const findOneAndDelete = async (
   options: QueryOptions = {}
 ) => {
   return await videoModel.findOneAndDelete(query, options);
+};
+
+export const getAmountOfRecord = async () => {
+  return await videoModel.count();
 };

@@ -16,4 +16,12 @@ export class EndPoint {
   // video
   static getAllVideo = '/api/videos'
   static getVideoById = (id: string) => `/api/videos/${id}`
+  static getVideoPagination = (page?: number, perPage?: number) => {
+    let buildEndPointString = '/api/videos?'
+
+    if (!!page) buildEndPointString.concat(`&page${page}`)
+    if (!!perPage) buildEndPointString.concat(`&per_page${perPage}`)
+
+    return buildEndPointString
+  }
 }

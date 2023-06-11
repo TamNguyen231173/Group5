@@ -3,8 +3,8 @@ import {
   CreateVideoInput,
   DeleteVideoInput,
   GetVideoInput,
-  UpdateVideoInput,
   GetVideoPaginationInput,
+  UpdateVideoInput,
   GetRelatedVideosInput,
 } from "../schema/video.schema";
 import {

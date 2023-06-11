@@ -1,4 +1,4 @@
-import { array, object, string, TypeOf, z } from "zod";
+import { array, number, object, string, TypeOf, z } from "zod";
 
 export const createVideoSchema = object({
   body: object({

@@ -4,7 +4,6 @@ import {
   deleteVideoHandler,
   getVideoHandler,
   getVideosHandler,
-  parseVideoFormData,
   updateVideoHandler,
 } from "../controllers/video.controller";
 import { deserializeUser } from "../middleware/deserializeUser";
@@ -13,6 +12,7 @@ import { validate } from "../middleware/validate";
 import {
   createVideoSchema,
   deleteVideoSchema,
+  getPaginationVideoSchema,
   getVideoSchema,
   updateVideoSchema,
 } from "../schema/video.schema";
@@ -20,7 +20,7 @@ import {
 const router = express.Router();
 
 // route for public
-router.route("/").get(getVideosHandler);
+router.route("/").get(validate(getPaginationVideoSchema), getVideosHandler);
 
 router.route("/:VideoId").get(validate(getVideoSchema), getVideoHandler);
 

@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { StatusBar } from 'react-native'
 import { Block, Text } from '@components'
 import { BackIcon, BookmarkIcon } from '@assets/icons'
 import { Slider, VideoItem } from './components'
@@ -9,20 +10,28 @@ import {
   FlatList,
 } from 'react-native-gesture-handler'
 import { useTheme } from '@themes'
-import { postDetail, PostItemRelated, VideoData } from './contants'
+import { PostItemRelated, VideoData } from './contants'
 import { goBack } from '@navigation/NavigationServices'
-import { StatusBar } from 'react-native'
-import { useGetPostByIdQuery } from '@reduxs'
-
+import { useLazyGetPostByIdQuery, Post, useGetPostByIdQuery } from '@reduxs'
 interface DetailScreenProps {
-  id: string
+  id?: string
 }
 
 export const DetailScreen = (props: DetailScreenProps) => {
   const [showMore, setShowMore] = useState(false)
   const { colors } = useTheme()
-  // const { data } = props.id
-  const { data } = useGetPostByIdQuery(props.id)
+  const [data, setData] = useState<Post>()
+  const [getPostById] = useLazyGetPostByIdQuery()
+
+  // Fetch data from API
+  const getAPI = async () => {
+    const { data: responseData } = await getPostById(props.id)
+    setData(responseData)
+  }
+
+  useEffect(() => {
+    getAPI()
+  }, [])
 
   const toggleShow = () => {
     setShowMore(!showMore)
@@ -100,7 +109,7 @@ export const DetailScreen = (props: DetailScreenProps) => {
           lineHeight={27}
           marginVertical={20}
         >
-          {data.title}
+          {data?.title}
         </Text>
         <Text
           fontFamily="regular"
@@ -109,15 +118,15 @@ export const DetailScreen = (props: DetailScreenProps) => {
           numberOfLines={showMore ? 0 : 3}
           ellipsizeMode="tail"
         >
-          {data.description}
+          {data?.description}
         </Text>
         {/* Show more text button */}
         {showMoreText()}
 
         {/* Category */}
-        {Category('Ngành/họ', data.familyName)}
-        {Category('Môi trường sống', data.habitat)}
-        {Category('Khu vực sống', data.area)}
+        {Category('Ngành/họ', data?.familyName.name!)}
+        {Category('Môi trường sống', data?.habitat.name!)}
+        {Category('Khu vực sống', data?.region.name!)}
       </Block>
     )
   }
@@ -150,7 +159,7 @@ export const DetailScreen = (props: DetailScreenProps) => {
             <Header />
 
             {/* Slider section */}
-            <Slider imagesSlider={data.image} />
+            <Slider imagesSlider={data?.images!} />
 
             {/* Content section */}
             <Content />

@@ -4,3 +4,4 @@ export interface RenderIconProps {
   color: string
   stroke: string
 }
+

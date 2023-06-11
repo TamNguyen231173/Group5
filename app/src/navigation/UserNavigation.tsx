@@ -35,7 +35,7 @@ const BottomTabsNavigation: FC<{}> = () => {
       <BottomTabs.Screen
         key={routes.home}
         name={routes.home}
-        component={Home}
+        component={DetailScreen}
       />
       <BottomTabs.Screen
         key={routes.category}

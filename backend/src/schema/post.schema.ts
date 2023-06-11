@@ -1,5 +1,5 @@
 import { bool } from "sharp";
-import { array, boolean, object, string, TypeOf } from "zod";
+import { array, boolean, object, string, TypeOf, z } from "zod";
 import { User } from "../models/user.model";
 
 export const createPostSchema = object({
@@ -30,8 +30,40 @@ const params = {
   }),
 };
 
+const query = {
+  query: z
+    .object({
+      per_page: z.preprocess(
+        (value) => parseInt(z.string().parse(value)),
+        z
+          .number({ invalid_type_error: "PerPage must be a number" })
+          .positive({ message: "PerPage must be a positive number" })
+      ),
+      page: z.preprocess(
+        (value) => parseInt(z.string().parse(value)),
+        z
+          .number({ invalid_type_error: "Page must be a number" })
+          .positive({ message: "Page must be a positive number" })
+      ),
+    })
+    .partial(),
+};
+
 export const getPostSchema = object({
   ...params,
+});
+
+export const getPaginationPostSchema = object({
+  ...query,
+});
+
+export const getRelatedPostsSchema = object({
+  body: object({
+    familyName: string(),
+    habitat: string(),
+    region: string(),
+    keywords: array(string()),
+  }).partial(),
 });
 
 export const updatePostSchema = object({
@@ -51,5 +83,9 @@ export const deletePostSchema = object({
 
 export type CreatePostInput = TypeOf<typeof createPostSchema>["body"];
 export type GetPostInput = TypeOf<typeof getPostSchema>["params"];
+export type GetPostPaginationInput = TypeOf<
+  typeof getPaginationPostSchema
+>["query"];
+export type GetRelatedPostsInput = TypeOf<typeof getRelatedPostsSchema>["body"];
 export type UpdatePostInput = TypeOf<typeof updatePostSchema>;
 export type DeletePostInput = TypeOf<typeof deletePostSchema>["params"];

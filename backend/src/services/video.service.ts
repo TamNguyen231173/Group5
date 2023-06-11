@@ -8,16 +8,33 @@ export const createVideo = async ({
   input: Partial<Video>;
   user_id: string;
 }) => {
-  return videoModel.create({ ...input, user: user_id });
+  return videoModel.create({ ...input, author: user_id });
 };
 
 export const findVideoById = async (id: string) => {
   return videoModel.findById(id).lean();
 };
 
-export const findAllVideos = async () => {
+export const findAllVideos = async (
+  input: {
+    familyName?: string;
+    habitat?: string;
+    keywords?: string[];
+  },
+  options: QueryOptions = {}
+) => {
   return videoModel
-    .find()
+    .find(
+      {
+        $or: [
+          input.familyName ? { familyName: input.familyName } : {},
+          input.habitat ? { habitat: input.habitat } : {},
+          input.keywords ? { keywords: { $in: input.keywords } } : {},
+        ],
+      },
+      {},
+      options
+    )
     .populate("familyName")
     .populate("habitat")
     .populate("author", "_id name");
@@ -45,4 +62,8 @@ export const findOneAndDelete = async (
   options: QueryOptions = {}
 ) => {
   return await videoModel.findOneAndDelete(query, options);
+};
+
+export const getAmountOfRecord = async () => {
+  return await videoModel.count();
 };

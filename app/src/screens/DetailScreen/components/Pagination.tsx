@@ -13,7 +13,7 @@ interface PaginationProps {
 export const Pagination = (props: PaginationProps) => {
   return (
     <Block row alignCenter absolute bottom={10}>
-      {props.data.map((_, idx) => {
+      {props.data?.map((_, idx) => {
         const inputRange = [(idx - 1) * width, idx * width, (idx + 1) * width]
 
         const scale = props.scrollX.interpolate({

@@ -16,7 +16,8 @@ export interface Post {
   images: string[]
   like: number
   familyName: Category
-  category: Category
+  region: Category
+  habitat: Category
   rare: boolean
   author: User
   views: number

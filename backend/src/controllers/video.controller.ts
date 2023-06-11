@@ -4,6 +4,8 @@ import {
   DeleteVideoInput,
   GetVideoInput,
   UpdateVideoInput,
+  GetVideoPaginationInput,
+  GetRelatedVideosInput,
 } from "../schema/video.schema";
 import {
   createVideo,
@@ -12,6 +14,7 @@ import {
   findOneAndDelete,
   findVideo,
   findVideoById,
+  getAmountOfRecord,
 } from "../services/video.service";
 import { findUserById } from "../services/user.service";
 import AppError from "../utils/appError";
@@ -63,16 +66,39 @@ export const getVideoHandler = async (
 };
 
 export const getVideosHandler = async (
-  req: Request,
+  req: Request<{}, {}, GetRelatedVideosInput, GetVideoPaginationInput>,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const Videos = await findAllVideos();
+    const perPage = req.query["per_page"] ?? 0;
+    const page = req.query["page"] ?? 1;
+
+    const familyName = req.body.familyName as string;
+    const habitat = req.body.habitat as string;
+    const keywords = req.body.keywords as string[];
+
+    const amountOfRecord = await getAmountOfRecord();
+
+    //for case (amountOfRecord / perPage = 0)
+    const amountOfPage = !isFinite(Math.floor(amountOfRecord / perPage))
+      ? 1
+      : Math.floor(amountOfRecord / perPage);
+
+    const Videos = await findAllVideos(
+      { familyName, habitat, keywords },
+      {
+        skip: perPage * (page - 1),
+        limit: perPage,
+      }
+    );
 
     res.status(200).json({
       status: "success",
       data: Videos,
+      records: amountOfRecord,
+      pages: amountOfPage,
+      current_page: Number(page) > amountOfPage ? amountOfPage : Number(page),
     });
   } catch (err: any) {
     next(err);

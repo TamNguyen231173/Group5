@@ -3,6 +3,8 @@ import {
   CreatePostInput,
   DeletePostInput,
   GetPostInput,
+  GetPostPaginationInput,
+  GetRelatedPostsInput,
   UpdatePostInput,
 } from "../schema/post.schema";
 import {
@@ -10,8 +12,8 @@ import {
   findAllPosts,
   findAndUpdatePost,
   findOneAndDelete,
-  findPost,
   findPostById,
+  getAmountOfPosts,
 } from "../services/post.service";
 import { findUserById } from "../services/user.service";
 import AppError from "../utils/appError";
@@ -67,12 +69,33 @@ export const getPostHandler = async (
 };
 
 export const getPostsHandler = async (
-  req: Request,
+  req: Request<{}, {}, GetRelatedPostsInput, GetPostPaginationInput>,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const posts = await findAllPosts();
+    const perPage = req.query["per_page"] ?? 0;
+    const page = req.query["page"] ?? 1;
+
+    const familyName = req.body.familyName as string;
+    const habitat = req.body.habitat as string;
+    const region = req.body.region as string;
+    const keywords = req.body.keywords as string[];
+
+    const amountOfRecord = await getAmountOfPosts();
+
+    //for case (amountOfRecord / perPage = 0)
+    const amountOfPage = !isFinite(Math.floor(amountOfRecord / perPage))
+      ? 1
+      : Math.floor(amountOfRecord / perPage);
+
+    const posts = await findAllPosts(
+      { familyName, habitat, region, keywords },
+      {
+        skip: (page - 1) * perPage,
+        limit: perPage,
+      }
+    );
 
     res.status(200).json({
       status: "success",

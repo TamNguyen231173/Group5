@@ -8,7 +8,7 @@ export const createPost = async ({
   input: Partial<Post>;
   user_id: string;
 }) => {
-  return postModel.create({ ...input, user: user_id });
+  return postModel.create({ ...input, author: user_id });
 };
 
 export const findPostById = async (id: string) => {
@@ -22,9 +22,28 @@ export const findPostById = async (id: string) => {
     .lean();
 };
 
-export const findAllPosts = async () => {
+export const findAllPosts = async (
+  input: {
+    familyName?: string;
+    habitat?: string;
+    region?: string;
+    keywords?: string[];
+  },
+  options: QueryOptions = {}
+) => {
   return postModel
-    .find()
+    .find(
+      {
+        $or: [
+          input.familyName ? { familyName: input.familyName } : {},
+          input.habitat ? { habitat: input.habitat } : {},
+          input.region ? { region: input.region } : {},
+          input.keywords ? { keywords: { $in: input.keywords } } : {},
+        ],
+      },
+      {},
+      options
+    )
     .populate("author")
     .populate("familyName")
     .populate("habitat")
@@ -64,4 +83,8 @@ export const findOneAndDelete = async (
   options: QueryOptions = {}
 ) => {
   return await postModel.findOneAndDelete(query, options);
+};
+
+export const getAmountOfPosts = async () => {
+  return await postModel.count();
 };

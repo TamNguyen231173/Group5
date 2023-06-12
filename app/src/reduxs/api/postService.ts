@@ -19,7 +19,6 @@ export const postService = apiService.injectEndpoints({
         return {
           url: EndPoint.getAllPost,
           params: input,
-          body: input,
         }
       },
       keepUnusedDataFor: 10,

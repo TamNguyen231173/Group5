@@ -3,12 +3,15 @@ import { Block, Text, Image } from '@components'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { BookmarkIcon } from '@assets'
 import { useTheme } from '@themes'
+import { navigate } from '@navigation/NavigationServices'
+import { routes } from '@navigation'
 
 interface PostItemProps {
   onPress?: () => void
   image: string
   familyName: string
   name: string
+  id: string
   saveToBookmark?: () => void
 }
 
@@ -29,7 +32,12 @@ export const PostItem = (props: PostItemProps) => {
   }
 
   return (
-    <TouchableOpacity activeOpacity={0.8}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={() => {
+        navigate(routes.detail, { id: props.id })
+      }}
+    >
       <Block width={194} height={197} radius={8} marginRight={16}>
         <Image
           source={{

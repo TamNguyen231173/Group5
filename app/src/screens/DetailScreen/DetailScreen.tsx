@@ -26,8 +26,8 @@ export const DetailScreen = (props: DetailScreenProps) => {
   const [showMore, setShowMore] = useState(false)
   const { colors } = useTheme()
   const [data, setData] = useState<Post>()
-  const [relatedPosts, setRelatedPosts] = useState<Post[]>()
-  const [relatedVideos, setRelatedVideos] = useState<Video[]>()
+  const [relatedPosts, setRelatedPosts] = useState<Post[]>([])
+  const [relatedVideos, setRelatedVideos] = useState<Video[]>([])
   const [getPostById] = useLazyGetPostByIdQuery()
   const [getRelatedPosts] = useLazyGetRelatedPostsQuery()
   const [getRelatedVideos] = useLazyGetRelatedVideosQuery()
@@ -54,7 +54,8 @@ export const DetailScreen = (props: DetailScreenProps) => {
       page: pagePost,
       per_page: 6,
     })
-    setRelatedPosts(responseData)
+
+    setRelatedPosts([...relatedPosts, ...responseData!])
   }
 
   const callRelatedVideos = async () => {
@@ -66,18 +67,22 @@ export const DetailScreen = (props: DetailScreenProps) => {
       per_page: 6,
     })
 
-    if (responseData) {
-      setRelatedVideos(responseData)
-    }
+    setRelatedVideos([...relatedVideos, ...responseData!])
   }
 
   useEffect(() => {
     getAPI()
-    if (data) {
-      callRelatedPosts()
-      callRelatedVideos()
-    }
-  }, [data])
+
+    callRelatedVideos()
+  }, [])
+
+  useEffect(() => {
+    callRelatedPosts()
+  }, [pagePost])
+
+  useEffect(() => {
+    callRelatedVideos()
+  }, [pageVideo])
 
   const toggleShow = () => {
     setShowMore(!showMore)
@@ -225,10 +230,9 @@ export const DetailScreen = (props: DetailScreenProps) => {
                   )
                 }}
                 onEndReached={() => {
-                  setPagePost(pagePost + 1)
-                  callRelatedVideos()
+                  setPageVideo(pageVideo + 1)
                 }}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item, index) => String(index)}
                 horizontal
                 snapToAlignment="center"
                 showsHorizontalScrollIndicator={false}
@@ -243,6 +247,7 @@ export const DetailScreen = (props: DetailScreenProps) => {
                 renderItem={({ item }) => {
                   return (
                     <PostItem
+                      id={item.id}
                       image={item.image}
                       familyName={item.familyName.name}
                       name={item.title}
@@ -251,12 +256,12 @@ export const DetailScreen = (props: DetailScreenProps) => {
                   )
                 }}
                 onEndReached={() => {
-                  setPageVideo(pageVideo + 1)
-                  callRelatedPosts()
+                  setPagePost(pagePost + 1)
                 }}
                 horizontal
                 snapToAlignment="center"
                 showsHorizontalScrollIndicator={false}
+                keyExtractor={(item, index) => String(index)}
               />,
             )}
           </Block>

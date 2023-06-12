@@ -28,7 +28,7 @@ export const VideoItem = (props: VideoItemProps) => {
           left={0}
           right={0}
           bottom={0}
-          backgroundColor="rgba(52, 52, 52, 0.35)"
+          backgroundColor="rgba(52, 52, 52, 0.25)"
           radius={8}
         />
         <Block
@@ -48,17 +48,19 @@ export const VideoItem = (props: VideoItemProps) => {
             height={20}
             radius={10}
           />
-          <Text
-            marginLeft={4}
-            fontFamily="medium"
-            size={14}
-            lineHeight={17}
-            color="#fff"
-            numberOfLines={1}
-            ellipsizeMode="tail"
-          >
-            {props.name}
-          </Text>
+          <Block width={75}>
+            <Text
+              marginLeft={4}
+              fontFamily="medium"
+              size={14}
+              lineHeight={17}
+              color="#fff"
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {props.name}
+            </Text>
+          </Block>
         </Block>
       </Block>
     </TouchableOpacity>

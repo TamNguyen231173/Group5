@@ -10,9 +10,14 @@ import {
   FlatList,
 } from 'react-native-gesture-handler'
 import { useTheme } from '@themes'
-import { PostItemRelated, VideoData } from './contants'
 import { goBack } from '@navigation/NavigationServices'
-import { useLazyGetPostByIdQuery, Post, useGetPostByIdQuery } from '@reduxs'
+import {
+  useLazyGetPostByIdQuery,
+  Post,
+  useLazyGetRelatedPostsQuery,
+  useLazyGetRelatedVideosQuery,
+  Video,
+} from '@reduxs'
 interface DetailScreenProps {
   id?: string
 }
@@ -21,17 +26,58 @@ export const DetailScreen = (props: DetailScreenProps) => {
   const [showMore, setShowMore] = useState(false)
   const { colors } = useTheme()
   const [data, setData] = useState<Post>()
+  const [relatedPosts, setRelatedPosts] = useState<Post[]>()
+  const [relatedVideos, setRelatedVideos] = useState<Video[]>()
   const [getPostById] = useLazyGetPostByIdQuery()
+  const [getRelatedPosts] = useLazyGetRelatedPostsQuery()
+  const [getRelatedVideos] = useLazyGetRelatedVideosQuery()
+  const [pagePost, setPagePost] = useState(1)
+  const [pageVideo, setPageVideo] = useState(1)
+
+  // Save to bookmark
+  const saveToBookmark = () => {
+    console.log('save')
+  }
 
   // Fetch data from API
   const getAPI = async () => {
-    const { data: responseData } = await getPostById(props.id)
+    const { data: responseData } = await getPostById('64818d852c98691b5e9257ea')
     setData(responseData)
+  }
+
+  const callRelatedPosts = async () => {
+    const { data: responseData } = await getRelatedPosts({
+      familyName: data?.familyName.id,
+      habitat: data?.habitat.id,
+      region: data?.region.id,
+      keywords: data?.keywords,
+      page: pagePost,
+      per_page: 6,
+    })
+    setRelatedPosts(responseData)
+  }
+
+  const callRelatedVideos = async () => {
+    const { data: responseData } = await getRelatedVideos({
+      familyName: data?.familyName.id,
+      habitat: data?.habitat.id,
+      keywords: data?.keywords,
+      page: pageVideo,
+      per_page: 6,
+    })
+
+    if (responseData) {
+      setRelatedVideos(responseData)
+    }
   }
 
   useEffect(() => {
     getAPI()
-  }, [])
+    if (data) {
+      callRelatedPosts()
+      callRelatedVideos()
+    }
+  }, [data])
 
   const toggleShow = () => {
     setShowMore(!showMore)
@@ -168,15 +214,19 @@ export const DetailScreen = (props: DetailScreenProps) => {
             {Related(
               'Video liên quan',
               <FlatList
-                data={VideoData}
+                data={relatedVideos}
                 renderItem={({ item }) => {
                   return (
                     <VideoItem
                       thumbnail={item.thumbnail}
-                      avatar={item.avatar}
-                      name={item.name}
+                      avatar={item.author.avatar}
+                      name={item.author.name}
                     />
                   )
+                }}
+                onEndReached={() => {
+                  setPagePost(pagePost + 1)
+                  callRelatedVideos()
                 }}
                 keyExtractor={(item) => item.id}
                 horizontal
@@ -189,15 +239,20 @@ export const DetailScreen = (props: DetailScreenProps) => {
             {Related(
               'Bài viết liên quan',
               <FlatList
-                data={PostItemRelated}
+                data={relatedPosts}
                 renderItem={({ item }) => {
                   return (
                     <PostItem
                       image={item.image}
-                      familyName={item.familyName}
-                      name={item.name}
+                      familyName={item.familyName.name}
+                      name={item.title}
+                      saveToBookmark={saveToBookmark}
                     />
                   )
+                }}
+                onEndReached={() => {
+                  setPageVideo(pageVideo + 1)
+                  callRelatedPosts()
                 }}
                 horizontal
                 snapToAlignment="center"

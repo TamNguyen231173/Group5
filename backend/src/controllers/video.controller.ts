@@ -5,7 +5,6 @@ import {
   GetVideoInput,
   GetVideoPaginationInput,
   UpdateVideoInput,
-  GetRelatedVideosInput,
 } from "../schema/video.schema";
 import {
   createVideo,
@@ -66,7 +65,7 @@ export const getVideoHandler = async (
 };
 
 export const getVideosHandler = async (
-  req: Request<{}, {}, GetRelatedVideosInput, GetVideoPaginationInput>,
+  req: Request<{}, {}, {}, GetVideoPaginationInput>,
   res: Response,
   next: NextFunction
 ) => {
@@ -74,9 +73,11 @@ export const getVideosHandler = async (
     const perPage = req.query["per_page"] ?? 0;
     const page = req.query["page"] ?? 1;
 
-    const familyName = req.body.familyName as string;
-    const habitat = req.body.habitat as string;
-    const keywords = req.body.keywords as string[];
+    const familyName = req.query.familyName as string;
+    const habitat = req.query.habitat as string;
+    const keywords = req.query.keywords as string[];
+
+    console.log("familyName", familyName);
 
     const amountOfRecord = await getAmountOfRecord();
 

@@ -1,6 +1,12 @@
 import { apiService } from './apiService'
 import { EndPoint } from './endPoint'
-import { GetAllVideoResponse, GetVideoResponse, QueryArgs, Video } from './type'
+import {
+  GetAllVideoResponse,
+  GetVideoResponse,
+  QueryArgs,
+  Video,
+  RelatedVideosRequest,
+} from './type'
 
 export const videoService = apiService.injectEndpoints({
   endpoints: (builder) => ({
@@ -8,7 +14,16 @@ export const videoService = apiService.injectEndpoints({
       query: () => EndPoint.getAllVideo,
       keepUnusedDataFor: 10,
     }),
-
+    getRelatedVideos: builder.query<Video[], RelatedVideosRequest>({
+      query: (input) => {
+        return {
+          url: EndPoint.getAllVideo,
+          params: input,
+        }
+      },
+      keepUnusedDataFor: 10,
+      transformResponse: (response: any) => response.data,
+    }),
     getVideo: builder.query<GetVideoResponse, string>({
       query: (id) => EndPoint.getVideoById(id),
       keepUnusedDataFor: 10,
@@ -21,4 +36,8 @@ export const videoService = apiService.injectEndpoints({
   }),
 })
 
-export const { useGetAllVideoQuery, useGetVideoQuery } = videoService
+export const {
+  useGetAllVideoQuery,
+  useGetVideoQuery,
+  useLazyGetRelatedVideosQuery,
+} = videoService

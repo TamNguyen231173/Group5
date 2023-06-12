@@ -4,7 +4,6 @@ import {
   DeletePostInput,
   GetPostInput,
   GetPostPaginationInput,
-  GetRelatedPostsInput,
   UpdatePostInput,
 } from "../schema/post.schema";
 import {
@@ -69,7 +68,7 @@ export const getPostHandler = async (
 };
 
 export const getPostsHandler = async (
-  req: Request<{}, {}, GetRelatedPostsInput, GetPostPaginationInput>,
+  req: Request<{}, {}, {}, GetPostPaginationInput>,
   res: Response,
   next: NextFunction
 ) => {
@@ -77,10 +76,10 @@ export const getPostsHandler = async (
     const perPage = req.query["per_page"] ?? 0;
     const page = req.query["page"] ?? 1;
 
-    const familyName = req.body.familyName as string;
-    const habitat = req.body.habitat as string;
-    const region = req.body.region as string;
-    const keywords = req.body.keywords as string[];
+    const familyName = req.query.familyName as string;
+    const habitat = req.query.habitat as string;
+    const region = req.query.region as string;
+    const keywords = req.query.keywords as string[];
 
     const amountOfRecord = await getAmountOfPosts();
 

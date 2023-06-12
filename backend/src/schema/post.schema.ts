@@ -45,6 +45,22 @@ const query = {
           .number({ invalid_type_error: "Page must be a number" })
           .positive({ message: "Page must be a positive number" })
       ),
+      familyName: z.preprocess(
+        (value) => z.string().parse(value),
+        z.string({ invalid_type_error: "FamilyName must be a string" })
+      ),
+      habitat: z.preprocess(
+        (value) => z.string().parse(value),
+        z.string({ invalid_type_error: "Habitat must be a string" })
+      ),
+      region: z.preprocess(
+        (value) => z.string().parse(value),
+        z.string({ invalid_type_error: "Region must be a string" })
+      ),
+      keywords: z.preprocess(
+        (value) => z.array(z.string()).parse(value),
+        z.array(z.string({ invalid_type_error: "Keywords must be a string" }))
+      ),
     })
     .partial(),
 };
@@ -55,15 +71,6 @@ export const getPostSchema = object({
 
 export const getPaginationPostSchema = object({
   ...query,
-});
-
-export const getRelatedPostsSchema = object({
-  body: object({
-    familyName: string(),
-    habitat: string(),
-    region: string(),
-    keywords: array(string()),
-  }).partial(),
 });
 
 export const updatePostSchema = object({
@@ -86,6 +93,5 @@ export type GetPostInput = TypeOf<typeof getPostSchema>["params"];
 export type GetPostPaginationInput = TypeOf<
   typeof getPaginationPostSchema
 >["query"];
-export type GetRelatedPostsInput = TypeOf<typeof getRelatedPostsSchema>["body"];
 export type UpdatePostInput = TypeOf<typeof updatePostSchema>;
 export type DeletePostInput = TypeOf<typeof deletePostSchema>["params"];

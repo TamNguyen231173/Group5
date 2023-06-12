@@ -53,6 +53,24 @@ export interface Category {
 export interface Author {
   _id: string
   name: string
+  avatar: string
+}
+
+export interface RelatedPostsRequest {
+  familyName?: string
+  habitat?: string
+  region?: string
+  keywords?: string[]
+  page: number
+  per_page: number
+}
+
+export interface RelatedVideosRequest {
+  familyName?: string
+  habitat?: string
+  keywords?: string[]
+  per_page: number
+  page: number
 }
 
 export type GetAllVideoResponse = {

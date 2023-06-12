@@ -38,6 +38,18 @@ const query = {
           .number({ invalid_type_error: "Page must be a number" })
           .positive({ message: "Page must be a positive number" })
       ),
+      familyName: z.preprocess(
+        (value) => z.string().parse(value),
+        z.string({ invalid_type_error: "FamilyName must be a string" })
+      ),
+      habitat: z.preprocess(
+        (value) => z.string().parse(value),
+        z.string({ invalid_type_error: "Habitat must be a string" })
+      ),
+      keywords: z.preprocess(
+        (value) => z.array(z.string()).parse(value),
+        z.array(z.string({ invalid_type_error: "Keywords must be a string" }))
+      ),
     })
     .partial(),
 };
@@ -48,14 +60,6 @@ export const getVideoSchema = object({
 
 export const getPaginationVideoSchema = object({
   ...query,
-});
-
-export const getRelatedVideosSchema = object({
-  body: object({
-    familyName: string(),
-    habitat: string(),
-    keywords: array(string()),
-  }).partial(),
 });
 
 export const updateVideoSchema = object({
@@ -77,8 +81,5 @@ export type GetVideoInput = TypeOf<typeof getVideoSchema>["params"];
 export type GetVideoPaginationInput = TypeOf<
   typeof getPaginationVideoSchema
 >["query"];
-export type GetRelatedVideosInput = TypeOf<
-  typeof getRelatedVideosSchema
->["body"];
 export type UpdateVideoInput = TypeOf<typeof updateVideoSchema>;
 export type DeleteVideoInput = TypeOf<typeof deleteVideoSchema>["params"];

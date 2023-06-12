@@ -9,10 +9,12 @@ interface PostItemProps {
   image: string
   familyName: string
   name: string
+  saveToBookmark?: () => void
 }
 
 export const PostItem = (props: PostItemProps) => {
   const { colors } = useTheme()
+  const [bookmark, setBookmark] = React.useState(false)
 
   // Random color for background of post item
   const randomColor = () => {
@@ -47,8 +49,16 @@ export const PostItem = (props: PostItemProps) => {
           backgroundColor="rgba(52, 52, 52, 0.2)"
         />
         <Block absolute top={10} right={10}>
-          <TouchableOpacity>
-            <BookmarkIcon stroke={'#fff'} />
+          <TouchableOpacity
+            onPress={() => {
+              setBookmark(!bookmark)
+              props.saveToBookmark && props.saveToBookmark()
+            }}
+          >
+            <BookmarkIcon
+              stroke={'#fff'}
+              color={bookmark ? colors.oceanBlue : 'transparent'}
+            />
           </TouchableOpacity>
         </Block>
 
@@ -70,9 +80,18 @@ export const PostItem = (props: PostItemProps) => {
           <Text fontFamily="extraBold" size={16} lineHeight={24} color="#fff">
             {props.familyName}
           </Text>
-          <Text fontFamily="bold" size={16} lineHeight={18} color="#fff">
-            {props.name}
-          </Text>
+          <Block width={170}>
+            <Text
+              fontFamily="bold"
+              size={16}
+              lineHeight={18}
+              color="#fff"
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {props.name}
+            </Text>
+          </Block>
         </Block>
       </Block>
     </TouchableOpacity>

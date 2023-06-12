@@ -15,6 +15,7 @@ import {
   deletePostSchema,
   getPostSchema,
   updatePostSchema,
+  getPaginationPostSchema,
 } from "../schema/post.schema";
 
 const router = express.Router();

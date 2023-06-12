@@ -1,16 +1,6 @@
 import { apiService } from './apiService'
 import { EndPoint } from './endPoint'
-import { Video } from './type'
-
-export type GetAllVideoResponse = {
-  status: string
-  data: Array<Video>
-}
-
-export type GetVideoResponse = {
-  status: string
-  data: Video
-}
+import { GetAllVideoResponse, GetVideoResponse, QueryArgs, Video } from './type'
 
 export const videoService = apiService.injectEndpoints({
   endpoints: (builder) => ({
@@ -21,6 +11,11 @@ export const videoService = apiService.injectEndpoints({
 
     getVideo: builder.query<GetVideoResponse, string>({
       query: (id) => EndPoint.getVideoById(id),
+      keepUnusedDataFor: 10,
+    }),
+
+    geVideoPagination: builder.query<GetAllVideoResponse, QueryArgs>({
+      query: (args) => EndPoint.getVideoPagination(args.page, args.per_page),
       keepUnusedDataFor: 10,
     }),
   }),

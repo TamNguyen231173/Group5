@@ -54,3 +54,21 @@ export interface Author {
   _id: string
   name: string
 }
+
+export type GetAllVideoResponse = {
+  status: string
+  data: Array<Video>
+  records?: number
+  pages?: number
+  current_page?: number
+}
+
+export type GetVideoResponse = {
+  status: string
+  data: Video
+}
+
+export type QueryArgs = {
+  page?: number
+  per_page?: number
+}

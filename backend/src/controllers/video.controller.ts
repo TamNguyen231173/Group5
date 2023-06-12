@@ -97,7 +97,7 @@ export const getVideosHandler = async (
     res.status(200).json({
       status: "success",
       data: Videos,
-      records: amountOfRecord,
+      records: Videos.length,
       pages: amountOfPage,
       current_page: Number(page) > amountOfPage ? amountOfPage : Number(page),
     });

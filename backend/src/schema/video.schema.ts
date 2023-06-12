@@ -47,8 +47,8 @@ const query = {
         z.string({ invalid_type_error: "Habitat must be a string" })
       ),
       keywords: z.preprocess(
-        (value) => z.array(z.string()).parse(value),
-        z.array(z.string({ invalid_type_error: "Keywords must be a string" }))
+        (value) => z.string().parse(value).split(","),
+        z.array(z.string({ invalid_type_error: "Keyword must be a string" }))
       ),
     })
     .partial(),

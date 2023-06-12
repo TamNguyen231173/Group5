@@ -21,7 +21,7 @@ import {
 const router = express.Router();
 
 // route for public
-router.route("/").get(getPostsHandler);
+router.route("/").get(validate(getPaginationPostSchema), getPostsHandler);
 
 router.route("/:postId").get(validate(getPostSchema), getPostHandler);
 

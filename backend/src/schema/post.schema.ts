@@ -58,7 +58,7 @@ const query = {
         z.string({ invalid_type_error: "Region must be a string" })
       ),
       keywords: z.preprocess(
-        (value) => z.array(z.string()).parse(value),
+        (value) => z.string().parse(value).split(","),
         z.array(z.string({ invalid_type_error: "Keywords must be a string" }))
       ),
     })

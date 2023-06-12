@@ -15,21 +15,13 @@ import {
   deletePostSchema,
   getPostSchema,
   updatePostSchema,
+  getPaginationPostSchema,
 } from "../schema/post.schema";
-import { uploadPostImageDisk } from "../upload/single-upload-disk";
-import {
-  resizePostImage,
-  uploadPostImage,
-} from "../upload/single-upload-sharp";
-import {
-  resizePostImages,
-  uploadPostImages,
-} from "../upload/multi-upload-sharp";
 
 const router = express.Router();
 
 // route for public
-router.route("/").get(getPostsHandler);
+router.route("/").get(validate(getPaginationPostSchema), getPostsHandler);
 
 router.route("/:postId").get(validate(getPostSchema), getPostHandler);
 

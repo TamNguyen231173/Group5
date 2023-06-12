@@ -10,6 +10,7 @@ interface SliderProps {
 
 export const Slider = (props: SliderProps) => {
   const data = props.imagesSlider
+
   const [index, setIndex] = useState(0)
   const scrollX = useRef(new Animated.Value(0)).current
 
@@ -21,7 +22,7 @@ export const Slider = (props: SliderProps) => {
   useEffect(() => {
     const autoScroll = setInterval(() => {
       let newIndex = index + 1
-      if (newIndex === data.length) {
+      if (newIndex === data?.length) {
         newIndex = 0
       }
       flatListRef.current?.scrollToOffset({

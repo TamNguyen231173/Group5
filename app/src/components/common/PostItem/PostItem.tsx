@@ -3,16 +3,21 @@ import { Block, Text, Image } from '@components'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { BookmarkIcon } from '@assets'
 import { useTheme } from '@themes'
+import { navigate } from '@navigation/NavigationServices'
+import { routes } from '@navigation'
 
 interface PostItemProps {
   onPress?: () => void
   image: string
   familyName: string
   name: string
+  id: string
+  saveToBookmark?: () => void
 }
 
 export const PostItem = (props: PostItemProps) => {
   const { colors } = useTheme()
+  const [bookmark, setBookmark] = React.useState(false)
 
   // Random color for background of post item
   const randomColor = () => {
@@ -27,7 +32,12 @@ export const PostItem = (props: PostItemProps) => {
   }
 
   return (
-    <TouchableOpacity activeOpacity={0.8}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={() => {
+        navigate(routes.detail, { id: props.id })
+      }}
+    >
       <Block width={194} height={197} radius={8} marginRight={16}>
         <Image
           source={{
@@ -47,8 +57,16 @@ export const PostItem = (props: PostItemProps) => {
           backgroundColor="rgba(52, 52, 52, 0.2)"
         />
         <Block absolute top={10} right={10}>
-          <TouchableOpacity>
-            <BookmarkIcon stroke={'#fff'} />
+          <TouchableOpacity
+            onPress={() => {
+              setBookmark(!bookmark)
+              props.saveToBookmark && props.saveToBookmark()
+            }}
+          >
+            <BookmarkIcon
+              stroke={'#fff'}
+              color={bookmark ? colors.oceanBlue : 'transparent'}
+            />
           </TouchableOpacity>
         </Block>
 
@@ -70,9 +88,18 @@ export const PostItem = (props: PostItemProps) => {
           <Text fontFamily="extraBold" size={16} lineHeight={24} color="#fff">
             {props.familyName}
           </Text>
-          <Text fontFamily="bold" size={16} lineHeight={18} color="#fff">
-            {props.name}
-          </Text>
+          <Block width={170}>
+            <Text
+              fontFamily="bold"
+              size={16}
+              lineHeight={18}
+              color="#fff"
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {props.name}
+            </Text>
+          </Block>
         </Block>
       </Block>
     </TouchableOpacity>

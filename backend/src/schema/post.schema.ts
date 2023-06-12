@@ -1,5 +1,5 @@
 import { bool } from "sharp";
-import { array, boolean, object, string, TypeOf } from "zod";
+import { array, boolean, object, string, TypeOf, z } from "zod";
 import { User } from "../models/user.model";
 
 export const createPostSchema = object({
@@ -30,8 +30,47 @@ const params = {
   }),
 };
 
+const query = {
+  query: z
+    .object({
+      per_page: z.preprocess(
+        (value) => parseInt(z.string().parse(value)),
+        z
+          .number({ invalid_type_error: "PerPage must be a number" })
+          .positive({ message: "PerPage must be a positive number" })
+      ),
+      page: z.preprocess(
+        (value) => parseInt(z.string().parse(value)),
+        z
+          .number({ invalid_type_error: "Page must be a number" })
+          .positive({ message: "Page must be a positive number" })
+      ),
+      familyName: z.preprocess(
+        (value) => z.string().parse(value),
+        z.string({ invalid_type_error: "FamilyName must be a string" })
+      ),
+      habitat: z.preprocess(
+        (value) => z.string().parse(value),
+        z.string({ invalid_type_error: "Habitat must be a string" })
+      ),
+      region: z.preprocess(
+        (value) => z.string().parse(value),
+        z.string({ invalid_type_error: "Region must be a string" })
+      ),
+      keywords: z.preprocess(
+        (value) => z.string().parse(value).split(","),
+        z.array(z.string({ invalid_type_error: "Keywords must be a string" }))
+      ),
+    })
+    .partial(),
+};
+
 export const getPostSchema = object({
   ...params,
+});
+
+export const getPaginationPostSchema = object({
+  ...query,
 });
 
 export const updatePostSchema = object({
@@ -51,5 +90,8 @@ export const deletePostSchema = object({
 
 export type CreatePostInput = TypeOf<typeof createPostSchema>["body"];
 export type GetPostInput = TypeOf<typeof getPostSchema>["params"];
+export type GetPostPaginationInput = TypeOf<
+  typeof getPaginationPostSchema
+>["query"];
 export type UpdatePostInput = TypeOf<typeof updatePostSchema>;
 export type DeletePostInput = TypeOf<typeof deletePostSchema>["params"];

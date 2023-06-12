@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { StatusBar } from 'react-native'
 import { Block, Text } from '@components'
 import { BackIcon, BookmarkIcon } from '@assets/icons'
 import { Slider, VideoItem } from './components'
@@ -9,10 +10,14 @@ import {
   FlatList,
 } from 'react-native-gesture-handler'
 import { useTheme } from '@themes'
-import { postDetail, PostItemRelated, VideoData } from './contants'
 import { goBack } from '@navigation/NavigationServices'
-import { StatusBar } from 'react-native'
-
+import {
+  useLazyGetPostByIdQuery,
+  Post,
+  useLazyGetRelatedPostsQuery,
+  useLazyGetRelatedVideosQuery,
+  Video,
+} from '@reduxs'
 interface DetailScreenProps {
   id?: string
 }
@@ -20,12 +25,64 @@ interface DetailScreenProps {
 export const DetailScreen = (props: DetailScreenProps) => {
   const [showMore, setShowMore] = useState(false)
   const { colors } = useTheme()
-  // const { data } = props.id
-  const data = postDetail
+  const [data, setData] = useState<Post>()
+  const [relatedPosts, setRelatedPosts] = useState<Post[]>([])
+  const [relatedVideos, setRelatedVideos] = useState<Video[]>([])
+  const [getPostById] = useLazyGetPostByIdQuery()
+  const [getRelatedPosts] = useLazyGetRelatedPostsQuery()
+  const [getRelatedVideos] = useLazyGetRelatedVideosQuery()
+  const [pagePost, setPagePost] = useState(1)
+  const [pageVideo, setPageVideo] = useState(1)
 
-  if (!data) {
-    // return null
+  // Save to bookmark
+  const saveToBookmark = () => {
+    console.log('save')
   }
+
+  // Fetch data from API
+  const getAPI = async () => {
+    const { data: responseData } = await getPostById(props.id!)
+    setData(responseData)
+  }
+
+  const callRelatedPosts = async () => {
+    const { data: responseData } = await getRelatedPosts({
+      familyName: data?.familyName.id,
+      habitat: data?.habitat.id,
+      region: data?.region.id,
+      keywords: data?.keywords,
+      page: pagePost,
+      per_page: 6,
+    })
+
+    setRelatedPosts([...relatedPosts, ...responseData!])
+  }
+
+  const callRelatedVideos = async () => {
+    const { data: responseData } = await getRelatedVideos({
+      familyName: data?.familyName.id,
+      habitat: data?.habitat.id,
+      keywords: data?.keywords,
+      page: pageVideo,
+      per_page: 6,
+    })
+
+    setRelatedVideos([...relatedVideos, ...responseData!])
+  }
+
+  useEffect(() => {
+    getAPI()
+
+    callRelatedVideos()
+  }, [])
+
+  useEffect(() => {
+    callRelatedPosts()
+  }, [pagePost])
+
+  useEffect(() => {
+    callRelatedVideos()
+  }, [pageVideo])
 
   const toggleShow = () => {
     setShowMore(!showMore)
@@ -103,7 +160,7 @@ export const DetailScreen = (props: DetailScreenProps) => {
           lineHeight={27}
           marginVertical={20}
         >
-          {data.title}
+          {data?.title}
         </Text>
         <Text
           fontFamily="regular"
@@ -112,15 +169,15 @@ export const DetailScreen = (props: DetailScreenProps) => {
           numberOfLines={showMore ? 0 : 3}
           ellipsizeMode="tail"
         >
-          {data.description}
+          {data?.description}
         </Text>
         {/* Show more text button */}
         {showMoreText()}
 
         {/* Category */}
-        {Category('Ngành/họ', data.familyName)}
-        {Category('Môi trường sống', data.habitat)}
-        {Category('Khu vực sống', data.area)}
+        {Category('Ngành/họ', data?.familyName.name!)}
+        {Category('Môi trường sống', data?.habitat.name!)}
+        {Category('Khu vực sống', data?.region.name!)}
       </Block>
     )
   }
@@ -153,7 +210,7 @@ export const DetailScreen = (props: DetailScreenProps) => {
             <Header />
 
             {/* Slider section */}
-            <Slider imagesSlider={data.image} />
+            <Slider imagesSlider={data?.images!} />
 
             {/* Content section */}
             <Content />
@@ -162,17 +219,20 @@ export const DetailScreen = (props: DetailScreenProps) => {
             {Related(
               'Video liên quan',
               <FlatList
-                data={VideoData}
+                data={relatedVideos}
                 renderItem={({ item }) => {
                   return (
                     <VideoItem
                       thumbnail={item.thumbnail}
-                      avatar={item.avatar}
-                      name={item.name}
+                      avatar={item.author.avatar}
+                      name={item.author.name}
                     />
                   )
                 }}
-                keyExtractor={(item) => item.id}
+                onEndReached={() => {
+                  setPageVideo(pageVideo + 1)
+                }}
+                keyExtractor={(item, index) => String(index)}
                 horizontal
                 snapToAlignment="center"
                 showsHorizontalScrollIndicator={false}
@@ -183,19 +243,25 @@ export const DetailScreen = (props: DetailScreenProps) => {
             {Related(
               'Bài viết liên quan',
               <FlatList
-                data={PostItemRelated}
+                data={relatedPosts}
                 renderItem={({ item }) => {
                   return (
                     <PostItem
+                      id={item.id}
                       image={item.image}
-                      familyName={item.familyName}
-                      name={item.name}
+                      familyName={item.familyName.name}
+                      name={item.title}
+                      saveToBookmark={saveToBookmark}
                     />
                   )
+                }}
+                onEndReached={() => {
+                  setPagePost(pagePost + 1)
                 }}
                 horizontal
                 snapToAlignment="center"
                 showsHorizontalScrollIndicator={false}
+                keyExtractor={(item, index) => String(index)}
               />,
             )}
           </Block>

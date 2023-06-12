@@ -38,6 +38,18 @@ const query = {
           .number({ invalid_type_error: "Page must be a number" })
           .positive({ message: "Page must be a positive number" })
       ),
+      familyName: z.preprocess(
+        (value) => z.string().parse(value),
+        z.string({ invalid_type_error: "FamilyName must be a string" })
+      ),
+      habitat: z.preprocess(
+        (value) => z.string().parse(value),
+        z.string({ invalid_type_error: "Habitat must be a string" })
+      ),
+      keywords: z.preprocess(
+        (value) => z.string().parse(value).split(","),
+        z.array(z.string({ invalid_type_error: "Keyword must be a string" }))
+      ),
     })
     .partial(),
 };

@@ -73,6 +73,12 @@ export const getVideosHandler = async (
     const perPage = req.query["per_page"] ?? 0;
     const page = req.query["page"] ?? 1;
 
+    const familyName = req.query.familyName as string;
+    const habitat = req.query.habitat as string;
+    const keywords = req.query.keywords as string[];
+
+    console.log("familyName", familyName);
+
     const amountOfRecord = await getAmountOfRecord();
 
     //for case (amountOfRecord / perPage = 0)
@@ -80,10 +86,13 @@ export const getVideosHandler = async (
       ? 1
       : Math.floor(amountOfRecord / perPage);
 
-    const Videos = await findAllVideos({
-      skip: perPage * (page - 1),
-      limit: perPage,
-    });
+    const Videos = await findAllVideos(
+      { familyName, habitat, keywords },
+      {
+        skip: perPage * (page - 1),
+        limit: perPage,
+      }
+    );
 
     res.status(200).json({
       status: "success",

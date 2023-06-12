@@ -3,10 +3,25 @@ export interface Pokemon {
   url: string
 }
 
-export interface PostDetail {
-  id: number
+export interface User {
+  id: string
+  name: string
+}
+
+export interface Post {
+  id: string
   title: string
-  body: string
+  description: string
+  image: string
+  images: string[]
+  like: number
+  familyName: Category
+  region: Category
+  habitat: Category
+  rare: boolean
+  author: User
+  views: number
+  keywords: string[]
 }
 
 export interface Video {
@@ -38,6 +53,24 @@ export interface Category {
 export interface Author {
   _id: string
   name: string
+  avatar: string
+}
+
+export interface RelatedPostsRequest {
+  familyName?: string
+  habitat?: string
+  region?: string
+  keywords?: string[]
+  page: number
+  per_page: number
+}
+
+export interface RelatedVideosRequest {
+  familyName?: string
+  habitat?: string
+  keywords?: string[]
+  per_page: number
+  page: number
 }
 
 export type GetAllVideoResponse = {

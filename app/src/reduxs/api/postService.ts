@@ -1,14 +1,39 @@
 import { apiService } from './apiService'
+import { Post, RelatedPostsRequest } from './type'
 import { EndPoint } from './endPoint'
-import { PostDetail } from './type'
 
 export const postService = apiService.injectEndpoints({
   endpoints: (builder) => ({
-    getDetailPost: builder.query<PostDetail, any>({
+    getAllPost: builder.query<Post[], void>({
+      query: () => {
+        return {
+          url: EndPoint.getAllPost,
+          method: 'GET',
+        }
+      },
+      keepUnusedDataFor: 10,
+      transformResponse: (response: any) => response.data.posts,
+    }),
+    getRelatedPosts: builder.query<Post[], RelatedPostsRequest>({
+      query: (input) => {
+        return {
+          url: EndPoint.getAllPost,
+          params: input,
+        }
+      },
+      keepUnusedDataFor: 10,
+      transformResponse: (response: any) => response.data.posts,
+    }),
+    getPostById: builder.query<Post, string>({
       query: (id: string) => EndPoint.getPostById(id),
-      keepUnusedDataFor: 5,
+      keepUnusedDataFor: 10,
+      transformResponse: (response: any) => response.data.post,
     }),
   }),
 })
 
-export const { useGetDetailPostQuery } = postService
+export const {
+  useGetAllPostQuery,
+  useLazyGetPostByIdQuery,
+  useLazyGetRelatedPostsQuery,
+} = postService

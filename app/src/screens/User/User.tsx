@@ -1,10 +1,18 @@
 import React from 'react'
-import { Text, Container, Block, Image } from '@components'
+import { Text, Container, Block, Image, Switch } from '@components'
 import ItemOption from './components/ItemOption'
-import { BellIcon, GarbageIcon, KeyIcon, LogoutIcon } from '@assets'
+import { BellIcon, GarbageIcon, KeyIcon, LoginIcon, LogoutIcon } from '@assets'
 import { normalize } from '@themes'
+import { ToastAndroid } from 'react-native'
+import { useSelector } from 'react-redux'
+import { navigate } from '@navigation/NavigationServices'
+import { routes } from '@navigation'
+import { listTempAvatar } from '@utils/helper'
 
 export const User: React.FC = () => {
+  //get current user
+  const currentUser = useSelector((state: any) => state.root.auth.user)
+
   //init state lấy từ store
   const [isNotify, setIsNotify] = React.useState<boolean>(false)
   const [isLocationOn, setIsLocationOn] = React.useState<boolean>(false)
@@ -16,6 +24,10 @@ export const User: React.FC = () => {
   const handleIsLocationOnChange = (value: boolean) => {
     setIsLocationOn(value)
   }
+
+  const getTempAvatar = React.useCallback(() => {
+    return listTempAvatar[Math.floor(Math.random()) * listTempAvatar.length]
+  }, [])
 
   return (
     <Container
@@ -32,44 +44,55 @@ export const User: React.FC = () => {
           height={66}
           radius={33}
           source={{
-            uri: 'https://static.wikia.nocookie.net/violet-evergarden/images/a/ae/Violet_Evergarden.png/revision/latest?cb=20180209195829',
+            uri: !!currentUser ? currentUser.photo : getTempAvatar(),
           }}
         />
         <Block marginLeft={7}>
           <Text fontFamily="bold" size={16} lineHeight={18}>
-            Lê Viết Tình
+            {!!currentUser ? currentUser.name : '@User'}
           </Text>
-          <Text
-            fontFamily="regular"
-            size={14}
-            lineHeight={17}
-            color="#8A96E5"
-            onPress={() => {
-              console.log('Change avatar press')
-            }}
-          >
-            Thay đổi avatar
-          </Text>
+          {!!currentUser && (
+            <Text
+              fontFamily="regular"
+              size={14}
+              lineHeight={17}
+              color="#8A96E5"
+              onPress={() => {
+                ToastAndroid.show(
+                  'Chức năng hiện đang phát triển!!\nXin lỗi bạn vì sự bất tiện này',
+                  ToastAndroid.LONG,
+                )
+              }}
+            >
+              Thay đổi avatar
+            </Text>
+          )}
         </Block>
       </Block>
-      <Block
-        // flex={3}
-        style={{ flex: 3 }}
-      >
+      <Block marginBottom={20}>
         <Text fontFamily="bold" size={18} lineHeight={20}>
           Tài khoản
         </Text>
         <Block marginTop={10}>
           <ItemOption title="Cài đặt thông báo" leftIcon={<BellIcon />} />
-          <ItemOption title="Xóa tài khoản" leftIcon={<GarbageIcon />} />
-          <ItemOption title="Thay đổi mật khẩu" leftIcon={<KeyIcon />} />
-          <ItemOption title="Đăng xuất" leftIcon={<LogoutIcon />} />
+          {!!currentUser ? (
+            <>
+              <ItemOption title="Xóa tài khoản" leftIcon={<GarbageIcon />} />
+              <ItemOption title="Thay đổi mật khẩu" leftIcon={<KeyIcon />} />
+              <ItemOption title="Đăng xuất" leftIcon={<LogoutIcon />} />
+            </>
+          ) : (
+            <ItemOption
+              title="Đăng nhập"
+              leftIcon={<LoginIcon />}
+              onPress={() => {
+                navigate(routes.login)
+              }}
+            />
+          )}
         </Block>
       </Block>
-      <Block
-        // flex={4}
-        style={{ flex: 4 }}
-      >
+      <Block>
         <Text fontFamily="bold" size={18} lineHeight={20}>
           Cài đặt ứng dụng
         </Text>

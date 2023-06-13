@@ -10,6 +10,7 @@ import {
   DetailScreen,
   Login,
   Video,
+  Signup,
 } from '@screens'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {
@@ -64,7 +65,7 @@ const BottomTabsNavigation: FC<{}> = () => {
 export const UserNavigation = () => {
   return (
     <UserStack.Navigator
-      initialRouteName={routes.main}
+      initialRouteName={routes.register}
       detachInactiveScreens={true}
       screenOptions={{
         headerShown: false,
@@ -76,6 +77,8 @@ export const UserNavigation = () => {
       <UserStack.Screen name="Search1" component={Search} />
       <UserStack.Screen name={routes.detail} component={DetailScreen} />
       <UserStack.Screen name={routes.video} component={Video} />
+      <UserStack.Screen name={routes.login} component={Login} />
+      <UserStack.Screen name={routes.register} component={Signup} />
     </UserStack.Navigator>
   )
 }

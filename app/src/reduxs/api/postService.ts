@@ -1,5 +1,10 @@
 import { apiService } from './apiService'
-import { Post, QueryArgs, RelatedPostsRequest } from './type'
+import {
+  ResponseGetPostGroupByCategory,
+  Post,
+  QueryArgs,
+  RelatedPostsRequest,
+} from './type'
 import { EndPoint } from './endPoint'
 
 export const postService = apiService.injectEndpoints({
@@ -40,6 +45,35 @@ export const postService = apiService.injectEndpoints({
       },
       keepUnusedDataFor: 10,
     }),
+
+    getAllPostGroupByCategory: builder.query<
+      ResponseGetPostGroupByCategory[],
+      QueryArgs
+    >({
+      query: (args) => {
+        return {
+          url: EndPoint.getAllPost,
+          method: 'GET',
+          params: args,
+        }
+      },
+      keepUnusedDataFor: 10,
+      transformResponse: (response: any) => {
+        let tempResponse: any = {}
+        response.data.posts.forEach((element: any, index: number) => {
+          if (tempResponse[element?.familyName.name]) {
+            tempResponse[element?.familyName.name].subcategory.push(element)
+          } else {
+            tempResponse[element?.familyName.name] = {
+              isExpanded: false,
+              category: element?.familyName,
+              subcategory: [element],
+            }
+          }
+        })
+        return Object.keys(tempResponse).map((value) => tempResponse[value])
+      },
+    }),
   }),
 })
 
@@ -49,4 +83,5 @@ export const {
   useLazyGetPostByIdQuery,
   useLazyGetRelatedPostsQuery,
   useLazyUpdatePostViewByIdQuery,
+  useLazyGetAllPostGroupByCategoryQuery,
 } = postService

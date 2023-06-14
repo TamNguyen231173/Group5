@@ -24,6 +24,12 @@ export interface Post {
   keywords: string[]
 }
 
+export interface ResponseGetPostGroupByCategory {
+  isExpanded: boolean
+  category: Category
+  subcategory: Array<Post>
+}
+
 export interface Video {
   _id: string
   title: string

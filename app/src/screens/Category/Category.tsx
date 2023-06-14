@@ -4,13 +4,19 @@ import { Platform, UIManager, LayoutAnimation, View } from 'react-native'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import { useTheme } from '@themes'
 import { ArrowRightIcon } from '@assets'
+import {
+  ResponseGetPostGroupByCategory,
+  useLazyGetAllPostGroupByCategoryQuery,
+} from '@reduxs'
+import { navigate } from '@navigation/NavigationServices'
+import { routes } from '@navigation'
 interface Category {
   isExpanded: boolean
   category_name: string
   subcategory: Array<{ id: number; val: string }>
 }
 interface ExpandableProps {
-  item: Category
+  item: ResponseGetPostGroupByCategory
   onClickFunction?: () => void
 }
 const ExpandableComponent: React.FC<ExpandableProps> = ({
@@ -39,7 +45,7 @@ const ExpandableComponent: React.FC<ExpandableProps> = ({
       }}
     >
       <Text size={17} fontFamily={'bold'}>
-        {item.category_name}
+        {item.category.name}
       </Text>
       <View style={{ height: layoutHeight, overflow: 'hidden' }}>
         {item.subcategory.map((item, index) => {
@@ -52,14 +58,15 @@ const ExpandableComponent: React.FC<ExpandableProps> = ({
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}
-              onPress={() =>
-                console.log('Id: ' + item.id + ' val: ' + item.val)
-              }
+              onPress={() => {
+                console.log('Id: ' + item.id + ' val: ' + item.title)
+                navigate(routes.detail, { id: item.id })
+              }}
             >
               <Text size={16} lineHeight={18}>
-                {item.val}
+                {item.title}
               </Text>
-              <ArrowRightIcon></ArrowRightIcon>
+              <ArrowRightIcon />
             </TouchableOpacity>
           )
         })}
@@ -69,29 +76,54 @@ const ExpandableComponent: React.FC<ExpandableProps> = ({
 }
 
 export const Category = () => {
-  const [listDataSource, setListDataSource] = useState(data)
-  const [multiSelect, setMultiSelect] = useState(false)
+  const [multiSelect, setMultiSelect] = useState(true)
   const { colors } = useTheme()
+
+  const [getPostGroupByCategory] = useLazyGetAllPostGroupByCategoryQuery()
+  const [listCategory, getListCategory] = React.useState<
+    ResponseGetPostGroupByCategory[]
+  >([])
+
+  const getPost = async () => {
+    try {
+      const result = await getPostGroupByCategory({})
+
+      getListCategory([...(result.data || [])])
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  React.useEffect(() => {
+    getPost()
+  }, [])
+
   if (Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental(true)
   }
 
   const updateLayout = (index: number) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-    const array = [...listDataSource]
+
+    //clone array
+    const array = listCategory.map((value) => {
+      return { ...value }
+    })
+
     if (multiSelect) {
       // If multiple select is enabled
       array[index]['isExpanded'] = !array[index]['isExpanded']
     } else {
       // If single select is enabled
-      array.map((value, placeindex) =>
-        placeindex === index
-          ? (array[placeindex]['isExpanded'] = !array[placeindex]['isExpanded'])
-          : (array[placeindex]['isExpanded'] = false),
+      array.map((_, placeIndex) =>
+        placeIndex === index
+          ? (array[placeIndex]['isExpanded'] = !array[placeIndex]['isExpanded'])
+          : (array[placeIndex]['isExpanded'] = false),
       )
     }
-    setListDataSource(array)
+    getListCategory(array)
   }
+
   return (
     <Container>
       <Block flex backgroundColor="#fff" paddingBottom={90}>
@@ -108,7 +140,7 @@ export const Category = () => {
             style={{}}
             onPress={() => setMultiSelect(!multiSelect)}
           >
-            <Text>{multiSelect ? 'Mode: Single' : 'Mode Multiple'}</Text>
+            <Text>{multiSelect ? 'Mode Multiple' : 'Mode: Single'}</Text>
           </TouchableOpacity>
         </Block>
 
@@ -116,14 +148,14 @@ export const Category = () => {
           showsVerticalScrollIndicator={false}
           style={{ backgroundColor: colors.white }}
         >
-          {listDataSource.map((item, key) => (
+          {listCategory.map((item, key) => (
             <ExpandableComponent
-              key={item.category_name}
+              key={item.category.name}
               onClickFunction={() => {
                 updateLayout(key)
               }}
               item={item}
-            ></ExpandableComponent>
+            />
           ))}
         </ScrollView>
       </Block>

@@ -1,21 +1,15 @@
 import React from 'react'
 import { FlatList, View } from 'react-native'
-import {
-  Container,
-  Block,
-  PostItem,
-  Image,
-  Text,
-  BottomSheet,
-} from '@components'
+import { Container, Block, PostItem, Image, Text } from '@components'
 
 import { useTheme } from '@themes'
 import { HeaderCustom, VideoItem } from './component'
 import { TouchableOpacity, ScrollView } from 'react-native'
-import { Data, VideoData } from './contanst'
+import { Data } from './contanst'
 import { AddVideoIcon } from '@assets'
 import { TopSearchItem } from './component/TopSearchItem'
-import { useGetAllVideoQuery } from '@reduxs/api/videoService'
+import { useLazyGeVideoPaginationQuery } from '@reduxs/api/videoService'
+import { Post, Video, useLazyGetAllPostQuery } from '@reduxs'
 
 interface Props {
   avatar: string
@@ -23,6 +17,7 @@ interface Props {
 
 const CreateVideo = ({ avatar }: Props) => {
   const { colors } = useTheme()
+
   return (
     <TouchableOpacity
       activeOpacity={0.8}
@@ -77,6 +72,52 @@ const CreateVideo = ({ avatar }: Props) => {
 
 export const Home = () => {
   const { colors } = useTheme()
+
+  const [getVideoPagination] = useLazyGeVideoPaginationQuery()
+  const [listVideo, setListVideo] = React.useState<Video[]>([])
+
+  const [getAllPost] = useLazyGetAllPostQuery()
+  const [listPost, setListPost] = React.useState<Post[]>([])
+  const [listTopPost, setListTopPost] = React.useState<Post[]>([])
+
+  const getPosts = async () => {
+    try {
+      const result = await getAllPost({})
+
+      setListPost((prev) => [...prev, ...(result.data || [])])
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getTopPost = async () => {
+    try {
+      const result = await getAllPost({ sort: 'des', per_page: 10, page: 1 })
+
+      setListTopPost((prev) => [...prev, ...(result.data || [])])
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getVideos = async () => {
+    try {
+      const result = await getVideoPagination({ page: 1, per_page: 10 })
+
+      if (result?.data?.status != 'fail') {
+        setListVideo((prev) => [...prev, ...(result.data?.data || [])])
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  React.useEffect(() => {
+    getVideos()
+    getPosts()
+    getTopPost()
+  }, [])
+
   return (
     <Container
       statusColor={colors.greenDark}
@@ -94,12 +135,12 @@ export const Home = () => {
               pagingEnabled
             >
               <CreateVideo avatar="https://plus.unsplash.com/premium_photo-1684952848654-1171ca8988ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=627&q=80" />
-              {VideoData.map((item) => {
+              {listVideo.map((item) => {
                 return (
                   <VideoItem
                     thumbnail={item.thumbnail}
-                    avatar={item.avatar}
-                    name={item.name}
+                    avatar={item.author.photo}
+                    name={item.title}
                     key={item.id}
                   />
                 )
@@ -118,29 +159,31 @@ export const Home = () => {
           </Text>
           <Block>
             <FlatList
-              data={Data}
+              data={listPost}
               renderItem={(item) => {
                 return (
                   <View>
                     {item.index == 0 ? (
                       <Block marginLeft={20}>
                         <PostItem
-                          name={item.item.name}
-                          familyName={item.item.familyName}
+                          id={item.item.id}
+                          name={item.item.title}
+                          familyName={item.item.familyName.name}
                           image={item.item.image}
                         />
                       </Block>
                     ) : (
                       <PostItem
-                        name={item.item.name}
-                        familyName={item.item.familyName}
+                        id={item.item.id}
+                        name={item.item.title}
+                        familyName={item.item.familyName.name}
                         image={item.item.image}
                       />
                     )}
                   </View>
                 )
               }}
-              keyExtractor={(item) => item._id}
+              keyExtractor={(item) => item.id}
               horizontal={true}
               showsHorizontalScrollIndicator={false}
               pagingEnabled={true}
@@ -158,12 +201,13 @@ export const Home = () => {
             Được xem nhiều nhất
           </Text>
           <Block paddingLeft={20} paddingRight={20}>
-            {Data.map((item) => (
+            {listTopPost.map((item) => (
               <TopSearchItem
+                id={item.id}
                 image={item.image}
-                familiName={item.familyName}
-                name={item.name}
-                key={item._id}
+                familyName={item.familyName.name}
+                name={item.title}
+                key={item.id}
               />
             ))}
           </Block>

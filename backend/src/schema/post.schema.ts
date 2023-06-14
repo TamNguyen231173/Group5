@@ -1,6 +1,5 @@
-import { bool } from "sharp";
 import { array, boolean, object, string, TypeOf, z } from "zod";
-import { User } from "../models/user.model";
+import { SortEnum } from "../utils/type";
 
 export const createPostSchema = object({
   body: object({
@@ -61,6 +60,9 @@ const query = {
         (value) => z.string().parse(value).split(","),
         z.array(z.string({ invalid_type_error: "Keywords must be a string" }))
       ),
+      sort: z.nativeEnum(SortEnum, {
+        invalid_type_error: "Sort must be 'des' or 'asc'",
+      }),
     })
     .partial(),
 };

@@ -14,7 +14,7 @@ export const createPost = async ({
 export const findPostById = async (id: string) => {
   return postModel
     .findById(id)
-    .populate("author")
+    .populate("author", "_id name photo")
     .populate("familyName")
     .populate("habitat")
     .populate("region")
@@ -44,7 +44,7 @@ export const findAllPosts = async (
       {},
       options
     )
-    .populate("author")
+    .populate("author", "_id name photo")
     .populate("familyName")
     .populate("habitat")
     .populate("region")
@@ -57,7 +57,7 @@ export const findPost = async (
 ) => {
   return await postModel
     .findOne(query, {}, options)
-    .populate("author")
+    .populate("author", "_id name photo")
     .populate("familyName")
     .populate("habitat")
     .populate("region")
@@ -71,7 +71,7 @@ export const findAndUpdatePost = async (
 ) => {
   return await postModel
     .findOneAndUpdate(query, update, options)
-    .populate("author")
+    .populate("author", "_id name photo")
     .populate("familyName")
     .populate("habitat")
     .populate("region")

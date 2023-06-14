@@ -30,7 +30,12 @@ export const videoService = apiService.injectEndpoints({
     }),
 
     geVideoPagination: builder.query<GetAllVideoResponse, QueryArgs>({
-      query: (args) => EndPoint.getVideoPagination(args.page, args.per_page),
+      query: (args) => {
+        return {
+          url: EndPoint.getAllVideo,
+          params: args,
+        }
+      },
       keepUnusedDataFor: 10,
     }),
   }),
@@ -40,4 +45,6 @@ export const {
   useGetAllVideoQuery,
   useGetVideoQuery,
   useLazyGetRelatedVideosQuery,
+  useLazyGeVideoPaginationQuery,
+  useGeVideoPaginationQuery,
 } = videoService

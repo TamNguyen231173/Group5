@@ -20,6 +20,8 @@ import {
 } from '@reduxs'
 interface DetailScreenProps {
   id?: string
+  route?: any
+  navigation?: any
 }
 
 export const DetailScreen = (props: DetailScreenProps) => {
@@ -41,8 +43,12 @@ export const DetailScreen = (props: DetailScreenProps) => {
 
   // Fetch data from API
   const getAPI = async () => {
-    const { data: responseData } = await getPostById(props.id!)
-    setData(responseData)
+    try {
+      const { data: responseData } = await getPostById(props.route.params.id!)
+      setData(responseData)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const callRelatedPosts = async () => {
@@ -224,7 +230,7 @@ export const DetailScreen = (props: DetailScreenProps) => {
                   return (
                     <VideoItem
                       thumbnail={item.thumbnail}
-                      avatar={item.author.avatar}
+                      avatar={item.author.photo}
                       name={item.author.name}
                     />
                   )

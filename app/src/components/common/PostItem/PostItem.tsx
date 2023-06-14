@@ -5,6 +5,7 @@ import { BookmarkIcon } from '@assets'
 import { useTheme } from '@themes'
 import { navigate } from '@navigation/NavigationServices'
 import { routes } from '@navigation'
+import { useLazyUpdatePostViewByIdQuery } from '@reduxs'
 
 interface PostItemProps {
   onPress?: () => void
@@ -15,12 +16,24 @@ interface PostItemProps {
   saveToBookmark?: () => void
 }
 
-export const PostItem = (props: PostItemProps) => {
+export const PostItem = React.memo((props: PostItemProps) => {
   const { colors } = useTheme()
   const [bookmark, setBookmark] = React.useState(false)
 
+  const [updatePostView] = useLazyUpdatePostViewByIdQuery()
+
+  const handleUpdatePostView = (id: string) => {
+    updatePostView(id)
+      .then((value) => {
+        // console.log(value)
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+  }
+
   // Random color for background of post item
-  const randomColor = () => {
+  const randomColor = React.useCallback(() => {
     const colorArray = [
       colors.greenDark,
       colors.redPrimary,
@@ -29,13 +42,14 @@ export const PostItem = (props: PostItemProps) => {
       colors.greyPrimary,
     ]
     return colorArray[Math.floor(Math.random() * colorArray.length)] + '85'
-  }
+  }, [])
 
   return (
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() => {
         navigate(routes.detail, { id: props.id })
+        handleUpdatePostView(props.id)
       }}
     >
       <Block width={194} height={197} radius={8} marginRight={16}>
@@ -104,4 +118,4 @@ export const PostItem = (props: PostItemProps) => {
       </Block>
     </TouchableOpacity>
   )
-}
+})

@@ -37,7 +37,7 @@ export const findAllVideos = async (
     )
     .populate("familyName")
     .populate("habitat")
-    .populate("author", "_id name");
+    .populate("author", "_id name photo");
 };
 
 export const findVideo = async (

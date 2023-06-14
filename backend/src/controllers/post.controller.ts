@@ -16,6 +16,7 @@ import {
 } from "../services/post.service";
 import { findUserById } from "../services/user.service";
 import AppError from "../utils/appError";
+import { SortEnum } from "../utils/type";
 
 export const createPostHandler = async (
   req: Request<{}, {}, CreatePostInput>,
@@ -80,6 +81,7 @@ export const getPostsHandler = async (
     const habitat = req.query.habitat as string;
     const region = req.query.region as string;
     const keywords = req.query.keywords as string[];
+    const sort = req.query.sort as SortEnum;
 
     const amountOfRecord = await getAmountOfPosts();
 
@@ -88,11 +90,14 @@ export const getPostsHandler = async (
       ? 1
       : Math.floor(amountOfRecord / perPage);
 
+    console.log(sort);
+
     const posts = await findAllPosts(
       { familyName, habitat, region, keywords },
       {
         skip: (page - 1) * perPage,
         limit: perPage,
+        sort: { views: !!sort ? (sort == SortEnum.ascending ? 1 : -1) : 0 },
       }
     );
 
@@ -152,6 +157,29 @@ export const deletePostHandler = async (
     });
   } catch (err: any) {
     next(err);
+  }
+};
+
+export const updatePostViewHandler = async (
+  req: Request<GetPostInput>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const result = await findAndUpdatePost(
+      { _id: req.params.postId },
+      { $inc: { views: 1 } },
+      { returnDocument: "after" }
+    );
+
+    if (result) {
+      res.status(200).json({
+        status: "success",
+        data: result,
+      });
+    }
+  } catch (error: any) {
+    next(error);
   }
 };
 

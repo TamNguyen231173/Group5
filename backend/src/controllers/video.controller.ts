@@ -77,8 +77,6 @@ export const getVideosHandler = async (
     const habitat = req.query.habitat as string;
     const keywords = req.query.keywords as string[];
 
-    console.log("familyName", familyName);
-
     const amountOfRecord = await getAmountOfRecord();
 
     //for case (amountOfRecord / perPage = 0)

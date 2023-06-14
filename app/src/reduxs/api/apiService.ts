@@ -9,7 +9,7 @@ import {
 } from '@reduxjs/toolkit/query/react'
 import { Mutex } from 'async-mutex'
 
-const BASE_URL = 'http://192.168.1.3:8000/api'
+const BASE_URL = 'http://192.168.1.3:8000/'
 const END_POINT_REFRESH_TOKEN = '/refresh'
 
 // create a new mutex

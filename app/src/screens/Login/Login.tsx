@@ -1,19 +1,38 @@
 import React, { useState } from 'react'
+import { ToastAndroid } from 'react-native'
 import { TextInputApp } from '@components/common/TextInputApp'
 import { Text, Container, Block, ButtonApp } from '@components'
-import styles from '@components/base/Block/styles'
-import { fontFamily } from '@assets/fonts'
-import { fontFamilySetup, normalize, useTheme } from '@themes'
+import { normalize, useTheme } from '@themes'
 import { Image } from '@components'
-import { FacebookIcon } from '@assets/icons/FacebookIcon'
-import { GoogleIcon } from '@assets/icons/GoogleIcon'
 import { images } from '@assets/images'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { useNavigation } from '@react-navigation/native'
+import { routes } from '@navigation'
+import { LoginBody, useLoginMutation } from '@reduxs'
+import { navigate } from '@navigation/NavigationServices'
+
 export const Login = () => {
   const [email, setemail] = useState('')
   const [password, setpassword] = useState('')
   const { colors } = useTheme()
-  const handleLogin = () => {
+  const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+  const [login] = useLoginMutation()
+  const handleLogin = async () => {
+    const loginObject: LoginBody = {
+      email,
+      password,
+    }
+    const response = await login(loginObject)
+    const dataResponse: any = response
+    if (dataResponse.error) {
+      ToastAndroid.show(dataResponse.error.data.message, ToastAndroid.LONG)
+    } else {
+      const token = dataResponse.data.access_token
+      const user = dataResponse.data.user
+      console.log(token)
+      console.log(user)
+      navigate(routes.main, { token: token, user: user })
+    }
     console.log(email)
     console.log(password)
   }
@@ -159,9 +178,16 @@ export const Login = () => {
             <Text size={16} fontFamily="bold" color={'rgba(85, 90, 119, 1)'}>
               Don't have an account?{' '}
             </Text>
-            <Text size={16} fontFamily="bold">
-              Sign up{' '}
-            </Text>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() => {
+                navigate(routes.register)
+              }}
+            >
+              <Text size={16} fontFamily="bold">
+                Sign up{' '}
+              </Text>
+            </TouchableOpacity>
           </Block>
         </Block>
       </Block>

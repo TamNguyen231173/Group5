@@ -18,7 +18,7 @@ export interface User {
   id: string
 }
 export interface LoginBody{
-  name: string
+  email: string
   password: string
 }
 export interface RegisterBody{
@@ -26,11 +26,12 @@ export interface RegisterBody{
   email: string
   password: string
   passwordConfirm: string
-  photo: string
+  photo?: string
 }
 export interface GetRegisterResponse{
   status: string
   message: string
+  error: Array<object>
 }
 export interface GetLoginResponse{
   status: string

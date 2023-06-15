@@ -1,7 +1,8 @@
 export class EndPoint {
   // login
   static login = '/api/auth/login'
-
+  // verify email
+  static verify = (code: string) => `/api/auth/verifyemail/${code}`
   // resgister
   static register = '/api/auth/register'
 

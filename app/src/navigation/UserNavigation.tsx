@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { BottomBar } from './components'
 import { routes } from './utils'
 import {
@@ -10,18 +10,20 @@ import {
   DetailScreen,
   Login,
   Video,
+  Signup,
+  Verification,
 } from '@screens'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {
   CardStyleInterpolators,
   createStackNavigator,
 } from '@react-navigation/stack'
+
 //
 
 const BottomTabs = createBottomTabNavigator()
 const UserStack = createStackNavigator()
-
-const BottomTabsNavigation: FC<{}> = () => {
+const BottomTabsNavigation: FC<{}> = ({}) => {
   return (
     <BottomTabs.Navigator
       initialRouteName={routes.home}
@@ -76,7 +78,9 @@ export const UserNavigation = () => {
       <UserStack.Screen name="Search1" component={Search} />
       <UserStack.Screen name={routes.detail} component={DetailScreen} />
       <UserStack.Screen name={routes.video} component={Video} />
-      <UserStack.Screen name={routes.login} component={Login}/>
+      <UserStack.Screen name={routes.login} component={Login} />
+      <UserStack.Screen name={routes.register} component={Signup} />
+      <UserStack.Screen name={routes.verification} component={Verification} />
     </UserStack.Navigator>
   )
 }

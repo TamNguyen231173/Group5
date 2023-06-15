@@ -4,10 +4,44 @@ export interface Pokemon {
 }
 
 export interface User {
-  id: string
+  _id: string
   name: string
+  email: string
+  password: string
+  role: string
+  photo: string
+  verified: boolean
+  posts_saved: Array<Post>
+  video_saved: Array<Video>
+  createdAt?: Date
+  updateAt?: Date
+  id: string
 }
-
+export interface LoginBody{
+  email: string
+  password: string
+}
+export interface RegisterBody{
+  name: string
+  email: string
+  password: string
+  passwordConfirm: string
+  photo?: string
+}
+export interface GetRegisterResponse{
+  status: string
+  message: string
+  error: Array<object>
+}
+export interface GetLoginResponse{
+  status: string
+  access_token: string
+  user: User
+}
+export interface GetVerifyResponse{
+  status: string
+  message: string
+}
 export interface Post {
   id: string
   title: string

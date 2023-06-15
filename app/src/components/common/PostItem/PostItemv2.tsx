@@ -1,7 +1,7 @@
 import { Text, Block, Image } from '@components'
-import {  useTheme } from '@themes'
+import { useTheme } from '@themes'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-
+import { Dimensions } from 'react-native'
 interface PostItemProps {
   onPress?: () => void
   image?: string
@@ -12,6 +12,8 @@ interface AnimalData {
   imgURL: string
   name: string
 }
+const { width } = Dimensions.get('screen')
+
 export const PostItemv2: React.FC<{ item: AnimalData }> = ({ item }) => {
   const { colors, font } = useTheme()
   const handleClick = () => {
@@ -34,9 +36,9 @@ export const PostItemv2: React.FC<{ item: AnimalData }> = ({ item }) => {
     <TouchableOpacity
       activeOpacity={0.9}
       onPress={handleClick}
-      style={{ width: 155, height: randomHeight(), marginTop: 13}}
+      style={{ width: width / 2 - 18, height: randomHeight(), marginTop: 13 }}
     >
-      <Block radius={0.5} >
+      <Block radius={0.5}>
         <Image
           source={{
             uri: item.imgURL,

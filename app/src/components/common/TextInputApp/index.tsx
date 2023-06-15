@@ -7,7 +7,6 @@ import { EmailIcon } from '@assets/icons/EmailIcon'
 import { EyeOff, EyeOn } from '@assets'
 import { PadLock } from '@assets/icons/PadLock'
 import { UsernameIcon } from '@assets/icons/UsernameIcon'
-
 type inputType = 'password' | 'user' | 'email'
 interface Props {
   onChangeText: (value: string) => void

@@ -49,8 +49,7 @@ export const DetailScreen = (props: DetailScreenProps) => {
     } catch (error) {
       console.log(error)
     }
-    // const { data: responseData } = await getPostById(props.id!)
-    const { data: responseData } = await getPostById("64818d852c98691b5e9257ea");
+    const { data: responseData } = await getPostById(props.id!)
     setData(responseData)
   }
 

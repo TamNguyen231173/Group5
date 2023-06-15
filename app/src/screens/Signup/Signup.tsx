@@ -19,7 +19,7 @@ export const Signup = () => {
   const [emailError, setemailError] = useState('')
   const [passWordError, setpassWordError] = useState('')
   const [passwordConfirmError, setpasswordConfirmError] = useState('')
-  const [handleButtonType, sethandleButtonType] = useState('outline')
+  const [handleButtonType, sethandleButtonType] = useState<string>('outline')
   const [handleDisabled, sethandleDisabled] = useState(true)
   const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
   let formError = false
@@ -63,8 +63,6 @@ export const Signup = () => {
       sethandleButtonType('outline')
       sethandleDisabled(true)
     }
-    console.log(password)
-    console.log(passwordConfirm)
   }, [name, email, password, passwordConfirm])
 
   const [register] = useRegisterMutation()
@@ -85,7 +83,6 @@ export const Signup = () => {
     }
   }
   const { colors } = useTheme()
-  const navigation = useNavigation()
   return (
     <Container backgroundColor="#fff">
       <Block
@@ -111,7 +108,6 @@ export const Signup = () => {
                 }}
                 value={name}
                 type="user"
-                errorText=""
               />
               {nameError.length > 0 && (
                 <Text

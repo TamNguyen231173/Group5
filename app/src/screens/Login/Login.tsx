@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ToastAndroid } from 'react-native'
 import { TextInputApp } from '@components/common/TextInputApp'
 import { Text, Container, Block, ButtonApp } from '@components'
@@ -6,17 +6,57 @@ import { normalize, useTheme } from '@themes'
 import { Image } from '@components'
 import { images } from '@assets/images'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { useNavigation } from '@react-navigation/native'
 import { routes } from '@navigation'
-import { LoginBody, useLoginMutation } from '@reduxs'
+import { LoginBody, User, authToken, useLoginMutation, userData } from '@reduxs'
 import { navigate } from '@navigation/NavigationServices'
+import { useDispatch } from 'react-redux'
 
 export const Login = () => {
   const [email, setemail] = useState('')
   const [password, setpassword] = useState('')
+  const [emailError, setemailError] = useState('')
+  const [passwordError, setpasswordError] = useState('')
+  let formError = false
+  const validate = () => {
+    console.log('aloooo111')
+    if (email.length == 0) {
+      setemailError('Email không được để trống')
+      formError = true
+    } else if (!emailRegex.test(email)) {
+      setemailError('Email không đúng định dạng')
+      formError = true
+    } else {
+      setemailError('')
+      formError = false
+    }
+    if (password.length < 8) {
+      setpasswordError('Password phải đủ 8 ký tự')
+      formError = true
+    } else {
+      setpasswordError('')
+      formError = false
+    }
+  }
+  useEffect(() => {
+    setemailError('')
+    formError = false
+  }, [email])
+  useEffect(() => {
+    setpasswordError('')
+    formError = false
+  }, [password])
+
   const { colors } = useTheme()
   const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
   const [login] = useLoginMutation()
+  const dispatch = useDispatch()
+  const ValidateFunc = () => {
+    console.log('aloooo1112')
+    validate()
+    if (!formError) {
+      handleLogin()
+    }
+  }
   const handleLogin = async () => {
     const loginObject: LoginBody = {
       email,
@@ -28,13 +68,11 @@ export const Login = () => {
       ToastAndroid.show(dataResponse.error.data.message, ToastAndroid.LONG)
     } else {
       const token = dataResponse.data.access_token
-      const user = dataResponse.data.user
-      console.log(token)
-      console.log(user)
-      navigate(routes.main, { token: token, user: user })
+      const user: User = dataResponse.data.user
+      dispatch(authToken(token))
+      dispatch(userData(user))
+      navigate(routes.main)
     }
-    console.log(email)
-    console.log(password)
   }
   const handleLoginGG = () => {}
   const handleLoginFB = () => {}
@@ -71,6 +109,15 @@ export const Login = () => {
                 value={email}
                 type="email"
               />
+              {emailError.length > 0 && (
+                <Text
+                  paddingHorizontal={10}
+                  color={colors.redLight}
+                  marginTop={5}
+                >
+                  {emailError}
+                </Text>
+              )}
             </Block>
             <Block marginTop={10}>
               <TextInputApp
@@ -79,6 +126,15 @@ export const Login = () => {
                 value={password}
                 type="password"
               />
+              {passwordError.length > 0 && (
+                <Text
+                  paddingHorizontal={10}
+                  color={colors.redLight}
+                  marginTop={5}
+                >
+                  {passwordError}
+                </Text>
+              )}
             </Block>
             <TouchableOpacity
               activeOpacity={0.8}
@@ -100,7 +156,7 @@ export const Login = () => {
               <ButtonApp
                 type={'primary'}
                 title={'Login'}
-                onClick={handleLogin}
+                onClick={ValidateFunc}
               />
             </Block>
           </Block>

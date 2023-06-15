@@ -11,10 +11,10 @@ export interface User {
   role: string
   photo: string
   verified: boolean
-  posts_saved: Array<object>
-  video_saved: Array<object>
-  createdAt: Date
-  updateAt: Date
+  posts_saved: Array<Post>
+  video_saved: Array<Video>
+  createdAt?: Date
+  updateAt?: Date
   id: string
 }
 export interface LoginBody{

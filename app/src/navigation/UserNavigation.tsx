@@ -14,12 +14,11 @@ import {
   Verification,
 } from '@screens'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { User as UserType, authToken } from '@reduxs'
 import {
   CardStyleInterpolators,
   createStackNavigator,
 } from '@react-navigation/stack'
-import { useDispatch } from 'react-redux'
+
 //
 
 const BottomTabs = createBottomTabNavigator()

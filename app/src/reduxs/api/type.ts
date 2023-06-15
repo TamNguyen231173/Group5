@@ -58,6 +58,12 @@ export interface Post {
   keywords: string[]
 }
 
+export interface ResponseGetPostGroupByCategory {
+  isExpanded: boolean
+  category: Category
+  subcategory: Array<Post>
+}
+
 export interface Video {
   _id: string
   title: string
@@ -87,7 +93,7 @@ export interface Category {
 export interface Author {
   _id: string
   name: string
-  avatar: string
+  photo: string
 }
 
 export interface RelatedPostsRequest {
@@ -123,4 +129,11 @@ export type GetVideoResponse = {
 export type QueryArgs = {
   page?: number
   per_page?: number
+  sort?: ViewSort
 }
+
+/**
+ * @enum: asc: sắp xếp tăng dần
+ * @enum: des: sắp xếp giảm dần
+ */
+export type ViewSort = 'asc' | 'des'

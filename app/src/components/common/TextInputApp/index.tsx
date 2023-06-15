@@ -7,21 +7,18 @@ import { EmailIcon } from '@assets/icons/EmailIcon'
 import { EyeOff, EyeOn } from '@assets'
 import { PadLock } from '@assets/icons/PadLock'
 import { UsernameIcon } from '@assets/icons/UsernameIcon'
-import { Text } from 'react-native'
 type inputType = 'password' | 'user' | 'email'
 interface Props {
   onChangeText: (value: string) => void
   value: string
   type: inputType
   placeholder: string
-  errorText?: string
 }
 export const TextInputApp: React.FC<Props> = ({
   onChangeText,
   value,
   type,
   placeholder,
-  errorText,
 }) => {
   const { colors } = useTheme()
   const [showPass, setshowPass] = useState(true)
@@ -40,6 +37,15 @@ export const TextInputApp: React.FC<Props> = ({
         placeholder={placeholder}
         onChangeText={onChangeText}
         value={value}
+        keyboardType={
+          type === 'password'
+            ? 'visible-password'
+            : type === 'user'
+            ? 'default'
+            : type === 'email'
+            ? 'email-address'
+            : 'default'
+        }
         containerStyle={{
           width: Dimensions.get('window').width - 40,
           backgroundColor: colors.white,

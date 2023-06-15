@@ -6,6 +6,7 @@ import {
   getPostsHandler,
   parsePostFormData,
   updatePostHandler,
+  updatePostViewHandler,
 } from "../controllers/post.controller";
 import { deserializeUser } from "../middleware/deserializeUser";
 import { requireAdmin, requireUser } from "../middleware/requireUser";
@@ -23,7 +24,10 @@ const router = express.Router();
 // route for public
 router.route("/").get(validate(getPaginationPostSchema), getPostsHandler);
 
-router.route("/:postId").get(validate(getPostSchema), getPostHandler);
+router
+  .route("/:postId")
+  .get(validate(getPostSchema), getPostHandler)
+  .patch(validate(getPostSchema), updatePostViewHandler);
 
 // route for user
 router.use(deserializeUser, requireUser);

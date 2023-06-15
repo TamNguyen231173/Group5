@@ -24,15 +24,7 @@ import { useDispatch } from 'react-redux'
 
 const BottomTabs = createBottomTabNavigator()
 const UserStack = createStackNavigator()
-const BottomTabsNavigation: FC<{ token: string; user: UserType }> = ({
-  token,
-  user,
-}) => {
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(authToken(token))
-  }, [])
-
+const BottomTabsNavigation: FC<{}> = ({}) => {
   return (
     <BottomTabs.Navigator
       initialRouteName={routes.home}
@@ -75,7 +67,7 @@ const BottomTabsNavigation: FC<{ token: string; user: UserType }> = ({
 export const UserNavigation = () => {
   return (
     <UserStack.Navigator
-      initialRouteName={routes.register}
+      initialRouteName={routes.home}
       detachInactiveScreens={true}
       screenOptions={{
         headerShown: false,

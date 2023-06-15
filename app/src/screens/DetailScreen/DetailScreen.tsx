@@ -18,6 +18,8 @@ import {
   useLazyGetRelatedVideosQuery,
   Video,
 } from '@reduxs'
+import { Loading } from '@components'
+
 interface DetailScreenProps {
   id?: string
   route?: any
@@ -49,8 +51,6 @@ export const DetailScreen = (props: DetailScreenProps) => {
     } catch (error) {
       console.log(error)
     }
-    const { data: responseData } = await getPostById(props.id!)
-    setData(responseData)
   }
 
   const callRelatedPosts = async () => {
@@ -63,7 +63,7 @@ export const DetailScreen = (props: DetailScreenProps) => {
       per_page: 6,
     })
 
-    setRelatedPosts([...relatedPosts, ...responseData!])
+    setRelatedPosts((prev) => [...prev, ...responseData!])
   }
 
   const callRelatedVideos = async () => {
@@ -75,13 +75,11 @@ export const DetailScreen = (props: DetailScreenProps) => {
       per_page: 6,
     })
 
-    setRelatedVideos([...relatedVideos, ...responseData!])
+    setRelatedVideos((prev) => [...prev, ...responseData!])
   }
 
   useEffect(() => {
     getAPI()
-
-    callRelatedVideos()
   }, [])
 
   useEffect(() => {
@@ -213,7 +211,7 @@ export const DetailScreen = (props: DetailScreenProps) => {
       <StatusBar hidden />
       <Block flex backgroundColor="#fff">
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Block padding={20} backgroundColor="#fff" marginBottom={100}>
+          <Block padding={20} backgroundColor="#fff">
             {/* Header section */}
             <Header />
 
@@ -227,6 +225,7 @@ export const DetailScreen = (props: DetailScreenProps) => {
             {Related(
               'Video liên quan',
               <FlatList
+                style={{ marginHorizontal: -20 }}
                 data={relatedVideos}
                 renderItem={({ item }) => {
                   return (
@@ -251,6 +250,7 @@ export const DetailScreen = (props: DetailScreenProps) => {
             {Related(
               'Bài viết liên quan',
               <FlatList
+                style={{ marginHorizontal: -20 }}
                 data={relatedPosts}
                 renderItem={({ item }) => {
                   return (

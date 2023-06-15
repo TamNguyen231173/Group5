@@ -52,7 +52,7 @@ export const PostItem = React.memo((props: PostItemProps) => {
         handleUpdatePostView(props.id)
       }}
     >
-      <Block width={194} height={197} radius={8} marginRight={16}>
+      <Block width={194} height={197} radius={8} marginLeft={16}>
         <Image
           source={{
             uri: props.image,

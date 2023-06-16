@@ -164,7 +164,7 @@ export const Home = () => {
                 return (
                   <View>
                     {item.index == 0 ? (
-                      <Block marginLeft={20}>
+                      <Block>
                         <PostItem
                           id={item.item.id}
                           name={item.item.title}

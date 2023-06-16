@@ -8,10 +8,11 @@ import { useSelector } from 'react-redux'
 import { navigate } from '@navigation/NavigationServices'
 import { routes } from '@navigation'
 import { listTempAvatar } from '@utils/helper'
+import { getUserData } from '@reduxs/selectors'
 
 export const User: React.FC = () => {
   //get current user
-  const currentUser = useSelector((state: any) => state.root.auth.user)
+  const currentUser = useSelector(getUserData)
 
   //init state lấy từ store
   const [isNotify, setIsNotify] = React.useState<boolean>(false)
@@ -44,14 +45,14 @@ export const User: React.FC = () => {
           height={66}
           radius={33}
           source={{
-            uri: !!currentUser ? currentUser.photo : getTempAvatar(),
+            uri: currentUser._id != '' ? currentUser.photo : getTempAvatar(),
           }}
         />
         <Block marginLeft={7}>
           <Text fontFamily="bold" size={16} lineHeight={18}>
-            {!!currentUser ? currentUser.name : '@User'}
+            {currentUser._id != '' ? currentUser.name : '@User'}
           </Text>
-          {!!currentUser && (
+          {currentUser._id != '' && (
             <Text
               fontFamily="regular"
               size={14}
@@ -75,7 +76,7 @@ export const User: React.FC = () => {
         </Text>
         <Block marginTop={10}>
           <ItemOption title="Cài đặt thông báo" leftIcon={<BellIcon />} />
-          {!!currentUser ? (
+          {currentUser._id != '' ? (
             <>
               <ItemOption title="Xóa tài khoản" leftIcon={<GarbageIcon />} />
               <ItemOption title="Thay đổi mật khẩu" leftIcon={<KeyIcon />} />

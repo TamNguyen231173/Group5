@@ -4,8 +4,14 @@ interface Props {
   onClick: (params: any) => void
   title: string
   type: 'primary' | 'outline'
+  disabled?: boolean
 }
-export const ButtonApp: React.FC<Props> = ({ onClick, title, type }) => {
+export const ButtonApp: React.FC<Props> = ({
+  onClick,
+  title,
+  type,
+  disabled,
+}) => {
   const { colors } = useTheme()
   return (
     <Block>
@@ -15,7 +21,7 @@ export const ButtonApp: React.FC<Props> = ({ onClick, title, type }) => {
         titleProps={{
           size: 18,
           lineHeight: 18.5,
-          fontFamily:'bold'
+          fontFamily: 'bold',
         }}
         radius={82}
         paddingHorizontal={68}
@@ -23,6 +29,7 @@ export const ButtonApp: React.FC<Props> = ({ onClick, title, type }) => {
         pressedBackground={
           type === 'primary' ? colors.greenPrimary : colors.white
         }
+        disabled={disabled}
       ></Button>
     </Block>
   )

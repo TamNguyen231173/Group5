@@ -3,4 +3,5 @@ export enum RootReducerName {
   loading = 'loading',
   common = 'common',
   modalPending = 'modalPending',
+  user = 'user'
 }

@@ -1,1 +1,1 @@
-export * from './VerificationScreen'
+export * from './Verification'

@@ -9,4 +9,5 @@ export const routes = {
   user: 'USER',
   video: 'VIDEO',
   detail: 'DETAIL',
+  verification: 'VERIFICATION'
 }

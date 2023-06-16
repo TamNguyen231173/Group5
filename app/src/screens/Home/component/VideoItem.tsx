@@ -3,7 +3,8 @@ import { Block, Image, Text } from '@components'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import LinearGradient from 'react-native-linear-gradient'
 import { useTheme } from '@themes'
-
+import { navigate } from '@navigation/NavigationServices'
+import { routes } from '@navigation'
 interface VideoItemProps {
     onPress?: () => void
     thumbnail: string
@@ -14,9 +15,9 @@ interface VideoItemProps {
 export const VideoItem = (props: VideoItemProps) => {
 
     const { colors } = useTheme();
-
+    
     return (
-        <TouchableOpacity activeOpacity={0.8}>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => {navigate(routes.video)}}>
             <Block width={96} height={141} radius={8} marginRight={16}>
                 <Image
                     source={{

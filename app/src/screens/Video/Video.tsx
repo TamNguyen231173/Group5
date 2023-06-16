@@ -1,11 +1,12 @@
 import { BackIcon, BlackSearchIcon } from '@assets'
 import { Block, Container, Text, TextInput } from '@components'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FollowingTab, ForYouTab } from './components'
 import { TopTabV2 } from '@navigation/components/TopTab'
 import { fontFamilySetup, normalize, useTheme } from '@themes'
 import { goBack } from '@navigation/NavigationServices'
+import { useGeVideoPaginationQuery } from '@reduxs'
 
 export interface DimensionLayout {
   width: number

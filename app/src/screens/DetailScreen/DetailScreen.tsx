@@ -49,8 +49,6 @@ export const DetailScreen = (props: DetailScreenProps) => {
     } catch (error) {
       console.log(error)
     }
-    const { data: responseData } = await getPostById(props.id!)
-    setData(responseData)
   }
 
   const callRelatedPosts = async () => {

@@ -9,10 +9,10 @@ interface VideoItemProps {
   avatar: string
 }
 
-export const VideoItem = (props: VideoItemProps) => {
+export const VideoItem = React.memo((props: VideoItemProps) => {
   return (
     <TouchableOpacity activeOpacity={0.8}>
-      <Block width={96} height={141} radius={8} marginRight={16}>
+      <Block width={96} height={141} radius={8} marginLeft={16}>
         <Image
           source={{
             uri: props.thumbnail,
@@ -65,4 +65,4 @@ export const VideoItem = (props: VideoItemProps) => {
       </Block>
     </TouchableOpacity>
   )
-}
+})

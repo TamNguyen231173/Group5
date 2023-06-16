@@ -46,5 +46,5 @@ export const {
   useGetVideoQuery,
   useLazyGetRelatedVideosQuery,
   useLazyGeVideoPaginationQuery,
-  useGeVideoPaginationQuery,
+  useGeVideoPaginationQuery
 } = videoService

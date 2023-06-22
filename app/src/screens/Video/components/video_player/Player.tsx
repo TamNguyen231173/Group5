@@ -357,7 +357,7 @@ const Player = React.forwardRef((props: IPlayerProps, ref) => {
         left={0}
         right={0}
         justifyEnd
-        bottom={15}
+        bottom={20}
         flex
         padding={10}
         alignStart
@@ -389,20 +389,20 @@ const Player = React.forwardRef((props: IPlayerProps, ref) => {
             {props.description}
           </Text>
         </ScrollView>
-        {numberLineDescription > 1 ||
-          (numberLineTitle > 1 && (
-            <Text
-              onPress={() => {
-                setShowMoreInfo(!showMoreInfo)
-              }}
-              size={13}
-              lineHeight={24}
-              color="#fff"
-              alignSelf="flex-end"
-            >
+        {numberLineDescription > 1 || numberLineTitle > 1 ? (
+          <Pressable
+            onPress={() => {
+              setShowMoreInfo(!showMoreInfo)
+              console.log('a')
+            }}
+          >
+            <Text size={13} lineHeight={24} color="#fff" alignSelf="flex-end">
               {showMoreInfo ? 'Ẩn bớt' : 'Xem thêm'}
             </Text>
-          ))}
+          </Pressable>
+        ) : (
+          <></>
+        )}
       </Block>
     )
   }
